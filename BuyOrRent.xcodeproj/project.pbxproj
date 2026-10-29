@@ -1,0 +1,580 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B00000000000000000000001 /* BuyOrRentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000001 /* BuyOrRentApp.swift */; };
+		B00000000000000000000002 /* Assumptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000002 /* Assumptions.swift */; };
+		B00000000000000000000004 /* PlannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000004 /* PlannerModel.swift */; };
+		B00000000000000000000005 /* Amortization.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000005 /* Amortization.swift */; };
+		B00000000000000000000006 /* MonthlySimulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000006 /* MonthlySimulation.swift */; };
+		B00000000000000000000007 /* NetWorthCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000007 /* NetWorthCalculator.swift */; };
+		B00000000000000000000008 /* Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000008 /* Formatting.swift */; };
+		B00000000000000000000013 /* ParameterHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000013 /* ParameterHelp.swift */; };
+		B00000000000000000000009 /* Editors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000009 /* Editors.swift */; };
+		B0000000000000000000000A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000A /* ContentView.swift */; };
+		B0000000000000000000000B /* InputsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000B /* InputsFormView.swift */; };
+		B0000000000000000000000C /* ResultSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000C /* ResultSummaryView.swift */; };
+		B0000000000000000000000D /* AdvantageChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000D /* AdvantageChartView.swift */; };
+		B00000000000000000000014 /* AdvantageFormulaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000014 /* AdvantageFormulaView.swift */; };
+		B0000000000000000000000F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000F /* Assets.xcassets */; };
+		B00000000000000000000010 /* AmortizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000010 /* AmortizationTests.swift */; };
+		B00000000000000000000011 /* NetWorthCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000011 /* NetWorthCalculatorTests.swift */; };
+		B00000000000000000000012 /* PlannerModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000012 /* PlannerModelTests.swift */; };
+		B00000000000000000000015 /* MarketPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000015 /* MarketPreset.swift */; };
+		B00000000000000000000016 /* MortgageRateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000016 /* MortgageRateService.swift */; };
+		B00000000000000000000017 /* MortgageRateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000017 /* MortgageRateServiceTests.swift */; };
+		B0000000000000000000001A /* RemoteFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000001A /* RemoteFetch.swift */; };
+		B0000000000000000000001C /* PropertyCostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000001C /* PropertyCostService.swift */; };
+		B0000000000000000000001D /* PropertyCostServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000001D /* PropertyCostServiceTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E10000000000000000000041 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E10000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E10000000000000000000020;
+			remoteInfo = BuyOrRent;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F00000000000000000000001 /* BuyOrRentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyOrRentApp.swift; sourceTree = "<group>"; };
+		F00000000000000000000002 /* Assumptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assumptions.swift; sourceTree = "<group>"; };
+		F00000000000000000000004 /* PlannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerModel.swift; sourceTree = "<group>"; };
+		F00000000000000000000005 /* Amortization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Amortization.swift; sourceTree = "<group>"; };
+		F00000000000000000000006 /* MonthlySimulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlySimulation.swift; sourceTree = "<group>"; };
+		F00000000000000000000007 /* NetWorthCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorthCalculator.swift; sourceTree = "<group>"; };
+		F00000000000000000000008 /* Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatting.swift; sourceTree = "<group>"; };
+		F00000000000000000000013 /* ParameterHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterHelp.swift; sourceTree = "<group>"; };
+		F00000000000000000000009 /* Editors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editors.swift; sourceTree = "<group>"; };
+		F0000000000000000000000A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F0000000000000000000000B /* InputsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputsFormView.swift; sourceTree = "<group>"; };
+		F0000000000000000000000C /* ResultSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultSummaryView.swift; sourceTree = "<group>"; };
+		F0000000000000000000000D /* AdvantageChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvantageChartView.swift; sourceTree = "<group>"; };
+		F00000000000000000000014 /* AdvantageFormulaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvantageFormulaView.swift; sourceTree = "<group>"; };
+		F0000000000000000000000F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F00000000000000000000010 /* AmortizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmortizationTests.swift; sourceTree = "<group>"; };
+		F00000000000000000000011 /* NetWorthCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorthCalculatorTests.swift; sourceTree = "<group>"; };
+		F00000000000000000000012 /* PlannerModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerModelTests.swift; sourceTree = "<group>"; };
+		F00000000000000000000015 /* MarketPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPreset.swift; sourceTree = "<group>"; };
+		F00000000000000000000016 /* MortgageRateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MortgageRateService.swift; sourceTree = "<group>"; };
+		F00000000000000000000017 /* MortgageRateServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MortgageRateServiceTests.swift; sourceTree = "<group>"; };
+		F0000000000000000000001A /* RemoteFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFetch.swift; sourceTree = "<group>"; };
+		F0000000000000000000001C /* PropertyCostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyCostService.swift; sourceTree = "<group>"; };
+		F0000000000000000000001D /* PropertyCostServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyCostServiceTests.swift; sourceTree = "<group>"; };
+		F00000000000000000000018 /* BuyOrRent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BuyOrRent.entitlements; sourceTree = "<group>"; };
+		F00000000000000000000020 /* BuyOrRent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuyOrRent.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F00000000000000000000021 /* BuyOrRentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BuyOrRentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E10000000000000000000031 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E10000000000000000000034 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E10000000000000000000002 = {
+			isa = PBXGroup;
+			children = (
+				E10000000000000000000004 /* BuyOrRent */,
+				E10000000000000000000008 /* BuyOrRentTests */,
+				E10000000000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E10000000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F00000000000000000000020 /* BuyOrRent.app */,
+				F00000000000000000000021 /* BuyOrRentTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E10000000000000000000004 /* BuyOrRent */ = {
+			isa = PBXGroup;
+			children = (
+				F00000000000000000000001 /* BuyOrRentApp.swift */,
+				F00000000000000000000018 /* BuyOrRent.entitlements */,
+				E10000000000000000000005 /* Models */,
+				E10000000000000000000006 /* Engine */,
+				E10000000000000000000009 /* Services */,
+				E10000000000000000000007 /* Views */,
+				F0000000000000000000000F /* Assets.xcassets */,
+			);
+			path = BuyOrRent;
+			sourceTree = "<group>";
+		};
+		E10000000000000000000005 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F00000000000000000000002 /* Assumptions.swift */,
+				F00000000000000000000015 /* MarketPreset.swift */,
+				F00000000000000000000004 /* PlannerModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E10000000000000000000006 /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				F00000000000000000000005 /* Amortization.swift */,
+				F00000000000000000000006 /* MonthlySimulation.swift */,
+				F00000000000000000000007 /* NetWorthCalculator.swift */,
+			);
+			path = Engine;
+			sourceTree = "<group>";
+		};
+		E10000000000000000000009 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F0000000000000000000001A /* RemoteFetch.swift */,
+				F00000000000000000000016 /* MortgageRateService.swift */,
+				F0000000000000000000001C /* PropertyCostService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E10000000000000000000007 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F00000000000000000000008 /* Formatting.swift */,
+				F00000000000000000000013 /* ParameterHelp.swift */,
+				F00000000000000000000009 /* Editors.swift */,
+				F0000000000000000000000A /* ContentView.swift */,
+				F0000000000000000000000B /* InputsFormView.swift */,
+				F0000000000000000000000C /* ResultSummaryView.swift */,
+				F0000000000000000000000D /* AdvantageChartView.swift */,
+				F00000000000000000000014 /* AdvantageFormulaView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E10000000000000000000008 /* BuyOrRentTests */ = {
+			isa = PBXGroup;
+			children = (
+				F00000000000000000000010 /* AmortizationTests.swift */,
+				F00000000000000000000011 /* NetWorthCalculatorTests.swift */,
+				F00000000000000000000012 /* PlannerModelTests.swift */,
+				F00000000000000000000017 /* MortgageRateServiceTests.swift */,
+				F0000000000000000000001D /* PropertyCostServiceTests.swift */,
+			);
+			path = BuyOrRentTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E10000000000000000000020 /* BuyOrRent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E10000000000000000000061 /* Build configuration list for PBXNativeTarget "BuyOrRent" */;
+			buildPhases = (
+				E10000000000000000000030 /* Sources */,
+				E10000000000000000000031 /* Frameworks */,
+				E10000000000000000000032 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BuyOrRent;
+			productName = BuyOrRent;
+			productReference = F00000000000000000000020 /* BuyOrRent.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E10000000000000000000021 /* BuyOrRentTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E10000000000000000000062 /* Build configuration list for PBXNativeTarget "BuyOrRentTests" */;
+			buildPhases = (
+				E10000000000000000000033 /* Sources */,
+				E10000000000000000000034 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E10000000000000000000040 /* PBXTargetDependency */,
+			);
+			name = BuyOrRentTests;
+			productName = BuyOrRentTests;
+			productReference = F00000000000000000000021 /* BuyOrRentTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E10000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					E10000000000000000000020 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					E10000000000000000000021 = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = E10000000000000000000020;
+					};
+				};
+			};
+			buildConfigurationList = E10000000000000000000060 /* Build configuration list for PBXProject "BuyOrRent" */;
+			developmentRegion = "zh-Hans";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = E10000000000000000000002;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = E10000000000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E10000000000000000000020 /* BuyOrRent */,
+				E10000000000000000000021 /* BuyOrRentTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E10000000000000000000032 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0000000000000000000000F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E10000000000000000000030 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B00000000000000000000001 /* BuyOrRentApp.swift in Sources */,
+				B00000000000000000000002 /* Assumptions.swift in Sources */,
+				B00000000000000000000004 /* PlannerModel.swift in Sources */,
+				B00000000000000000000005 /* Amortization.swift in Sources */,
+				B00000000000000000000006 /* MonthlySimulation.swift in Sources */,
+				B00000000000000000000007 /* NetWorthCalculator.swift in Sources */,
+				B00000000000000000000008 /* Formatting.swift in Sources */,
+				B00000000000000000000013 /* ParameterHelp.swift in Sources */,
+				B00000000000000000000009 /* Editors.swift in Sources */,
+				B0000000000000000000000A /* ContentView.swift in Sources */,
+				B0000000000000000000000B /* InputsFormView.swift in Sources */,
+				B0000000000000000000000C /* ResultSummaryView.swift in Sources */,
+				B0000000000000000000000D /* AdvantageChartView.swift in Sources */,
+				B00000000000000000000014 /* AdvantageFormulaView.swift in Sources */,
+				B00000000000000000000015 /* MarketPreset.swift in Sources */,
+				B00000000000000000000016 /* MortgageRateService.swift in Sources */,
+				B0000000000000000000001C /* PropertyCostService.swift in Sources */,
+				B0000000000000000000001A /* RemoteFetch.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E10000000000000000000033 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B00000000000000000000010 /* AmortizationTests.swift in Sources */,
+				B00000000000000000000011 /* NetWorthCalculatorTests.swift in Sources */,
+				B00000000000000000000012 /* PlannerModelTests.swift in Sources */,
+				B00000000000000000000017 /* MortgageRateServiceTests.swift in Sources */,
+				B0000000000000000000001D /* PropertyCostServiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E10000000000000000000040 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E10000000000000000000020 /* BuyOrRent */;
+			targetProxy = E10000000000000000000041 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		E10000000000000000000050 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = auto;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		E10000000000000000000051 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = auto;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E10000000000000000000052 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BuyOrRent/BuyOrRent.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Buy or Rent";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.buyorrent.BuyOrRent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E10000000000000000000053 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BuyOrRent/BuyOrRent.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Buy or Rent";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.buyorrent.BuyOrRent;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E10000000000000000000054 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.buyorrent.BuyOrRentTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BuyOrRent.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BuyOrRent";
+			};
+			name = Debug;
+		};
+		E10000000000000000000055 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.buyorrent.BuyOrRentTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BuyOrRent.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BuyOrRent";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E10000000000000000000060 /* Build configuration list for PBXProject "BuyOrRent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E10000000000000000000050 /* Debug */,
+				E10000000000000000000051 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E10000000000000000000061 /* Build configuration list for PBXNativeTarget "BuyOrRent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E10000000000000000000052 /* Debug */,
+				E10000000000000000000053 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E10000000000000000000062 /* Build configuration list for PBXNativeTarget "BuyOrRentTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E10000000000000000000054 /* Debug */,
+				E10000000000000000000055 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E10000000000000000000001 /* Project object */;
+}

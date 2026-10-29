@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qwanfan.github.io/BuyOrRent/v1/property-costs-v1.schema.json",
+  "title": "BuyOrRent owner-occupied property cost catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "datasetVersion",
+    "publishedAt",
+    "checkedAt",
+    "nextReviewAt",
+    "methodology",
+    "contentDigest",
+    "countries"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "datasetVersion": {
+      "type": "string",
+      "pattern": "^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}(\\.[0-9]+)?$"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "checkedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "nextReviewAt": {
+      "type": "string",
+      "format": "date"
+    },
+    "methodology": {
+      "type": "string",
+      "minLength": 20
+    },
+    "contentDigest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "countries": {
+      "type": "object",
+      "minProperties": 14,
+      "maxProperties": 14,
+      "additionalProperties": {
+        "$ref": "#/$defs/countryCost"
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "url"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        }
+      }
+    },
+    "countryCost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "propertyTaxRate",
+        "buyingCostRate",
+        "sellingCostRate",
+        "verifiedAt",
+        "confidence",
+        "methodologyNote",
+        "sources"
+      ],
+      "properties": {
+        "propertyTaxRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.06
+        },
+        "buyingCostRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.8
+        },
+        "sellingCostRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.3
+        },
+        "verifiedAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "confidence": {
+          "enum": ["high", "medium", "low"]
+        },
+        "methodologyNote": {
+          "type": "string",
+          "minLength": 10
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/source"
+          }
+        }
+      }
+    }
+  }
+}
