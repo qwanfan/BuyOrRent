@@ -16,7 +16,8 @@
         },
         {
           "name": "国家税务总局深圳市税务局：个人自住房屋房产税",
-          "url": "https://shenzhen.chinatax.gov.cn/sztax/zcwj/rdwd/202412/0630f87cd1d64dc99421230628cf48eb.shtml"
+          "url": "https://shenzhen.chinatax.gov.cn/sztax/zcwj/rdwd/202412/0630f87cd1d64dc99421230628cf48eb.shtml",
+          "availabilityCheck": false
         }
       ]
     },

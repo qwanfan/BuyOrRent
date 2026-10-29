@@ -177,7 +177,7 @@ def check_url(url: str) -> None:
 def comparable_payload(document: dict[str, Any]) -> dict[str, Any]:
     return {
         "methodology": document["methodology"],
-        "countries": document["countries"],
+        "countries": public_countries(document["countries"]),
     }
 
 

@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-10-29T07:30:47Z",
-  "contentDigest": "21db6429f1dcadf1602668427229a2263011f308beedfc3e0be771a6b919be0b",
+  "checkedAt": "2026-10-29T07:37:32Z",
+  "contentDigest": "f2dbc16f4b2352390e86d543c971c3d33859fca818af06505e644045d1947b72",
   "countries": {
     "australia": {
       "buyingCostRate": 0.05,
@@ -247,9 +247,9 @@
       "verifiedAt": "2026-10-29"
     }
   },
-  "datasetVersion": "2026.10.29.2",
+  "datasetVersion": "2026.10.29.3",
   "methodology": "Representative country-level defaults for an individual buying and occupying an ordinary primary residence. Recurring taxes are converted to an annual share of market value where the official base is assessed value, annual rental value, a band, or a local formula. Buying and selling rates combine official transfer taxes with conservative representative allowances for unavoidable registration, legal, and typical transaction services. Local rules and the user's actual quote take precedence.",
   "nextReviewAt": "2027-01-29",
-  "publishedAt": "2026-10-29T07:28:14Z",
+  "publishedAt": "2026-10-29T07:37:32Z",
   "schemaVersion": 1
 }
