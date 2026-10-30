@@ -2,7 +2,7 @@ name: Update property costs
 
 on:
   schedule:
-    - cron: "17 3 1 1,4,7,10 *"
+    - cron: "17 3 1 * *"
   workflow_dispatch:
 
 permissions:
@@ -30,9 +30,9 @@ jobs:
         run: python -m pip install --requirement Scripts/requirements.txt
 
       - name: Run generator tests
-        run: python -m unittest Scripts/test_update_property_costs.py
+        run: python -m unittest discover -s Scripts -p 'test_*.py'
 
-      - name: Generate quarterly catalog
+      - name: Generate monthly catalog
         run: python Scripts/update_property_costs.py --check-urls
 
       - name: Validate public catalog
