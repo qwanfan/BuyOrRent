@@ -46,6 +46,7 @@ struct YearStepper: View {
     let help: String
     @Binding var years: Int
     var range: ClosedRange<Int>
+    @Environment(\.appLanguage) private var appLanguage
 
     private var yearsBinding: Binding<Int> {
         Binding(
@@ -55,12 +56,61 @@ struct YearStepper: View {
     }
 
     var body: some View {
-        LabeledContent {
-            HStack(spacing: 8) {
+        HStack(alignment: .center, spacing: 8) {
+            ParameterLabel(title: title, help: help)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            TextField(
+                "",
+                value: yearsBinding,
+                format: .number.precision(.fractionLength(0))
+            )
+            .labelsHidden()
+            .multilineTextAlignment(.trailing)
+            .monospacedDigit()
+            #if os(iOS)
+            .keyboardType(.numberPad)
+            #endif
+            .frame(width: 44)
+            .accessibilityLabel(title)
+            Text(L10n(language: appLanguage).yearUnit)
+                .foregroundStyle(.secondary)
+            Stepper("", value: yearsBinding, in: range)
+                .labelsHidden()
+                .fixedSize()
+                .accessibilityLabel(title)
+        }
+    }
+}
+
+/// 紧凑金额控件：标签在上，金额与步进器在下。数值未变时不回调，避免焦点离开被当成手动修改。
+struct CompactMoneyStepper: View {
+    let title: String
+    @Binding var value: Double
+    var suffix: String
+    var range: ClosedRange<Double> = 0...1_000_000
+    var step: Double = 100
+    var onChange: ((Double) -> Void)?
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
+    private var amountBinding: Binding<Double> {
+        Binding(
+            get: { value.rounded() },
+            set: { apply($0) }
+        )
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+            HStack(spacing: 4) {
                 TextField(
                     "",
-                    value: yearsBinding,
-                    format: .number.precision(.fractionLength(0))
+                    value: amountBinding,
+                    format: .number.precision(.fractionLength(0)).grouping(.automatic)
                 )
                 .labelsHidden()
                 .multilineTextAlignment(.trailing)
@@ -68,16 +118,33 @@ struct YearStepper: View {
                 #if os(iOS)
                 .keyboardType(.numberPad)
                 #endif
-                .frame(width: 44)
+                .frame(minWidth: 52, maxWidth: 88)
                 .accessibilityLabel(title)
-                Text("年")
+                Text(suffix)
+                    .font(.caption)
                     .foregroundStyle(.secondary)
-                Stepper("", value: yearsBinding, in: range)
+                    .lineLimit(1)
+                if horizontalSizeClass == .compact {
+                    Spacer(minLength: 4)
+                }
+                Stepper("", value: amountBinding, in: range, step: step)
                     .labelsHidden()
+                    .fixedSize()
                     .accessibilityLabel(title)
             }
-        } label: {
-            ParameterLabel(title: title, help: help)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func apply(_ newValue: Double) {
+        let finite = newValue.isFinite ? newValue : 0
+        let clamped = min(max(finite, range.lowerBound), range.upperBound)
+        guard abs(clamped - value) >= 0.5 else { return }
+        if let onChange {
+            onChange(clamped)
+        } else {
+            value = clamped
         }
     }
 }
@@ -87,6 +154,8 @@ struct CompactYearStepper: View {
     let title: String
     @Binding var years: Int
     var range: ClosedRange<Int>
+    @Environment(\.appLanguage) private var appLanguage
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     private var yearsBinding: Binding<Int> {
         Binding(
@@ -116,13 +185,18 @@ struct CompactYearStepper: View {
                 #endif
                 .frame(minWidth: 28, maxWidth: 40)
                 .accessibilityLabel(title)
-                Text("年")
+                Text(L10n(language: appLanguage).yearUnit)
                     .font(.caption)
                     .foregroundStyle(.secondary)
+                if horizontalSizeClass == .compact {
+                    Spacer(minLength: 4)
+                }
                 Stepper("", value: yearsBinding, in: range)
                     .labelsHidden()
+                    .fixedSize()
                     .accessibilityLabel(title)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -135,6 +209,7 @@ struct CompactPercentStepper: View {
     var stepPercent: Double = 1
     var onStepperChange: ((Double) -> Void)?
     var onManualChange: ((Double) -> Void)?
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     private static let inputPrecision = 0.1
 
@@ -162,10 +237,15 @@ struct CompactPercentStepper: View {
                 Text("%")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+                if horizontalSizeClass == .compact {
+                    Spacer(minLength: 4)
+                }
                 Stepper("", value: stepperBinding, in: percentRange, step: stepPercent)
                     .labelsHidden()
+                    .fixedSize()
                     .accessibilityLabel(title)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -192,6 +272,9 @@ struct CompactPercentStepper: View {
 
     private func apply(_ percentPoints: Double, source: RateEditSource) {
         let snapped = Self.snap(percentPoints, to: Self.inputPrecision)
+        let displayed = Self.snap(fraction * 100, to: Self.inputPrecision)
+        // 焦点离开时输入框会交回当前显示值。数字没变就不记成手动修改。
+        guard snapped != displayed else { return }
         let clamped = min(max(snapped / 100, range.lowerBound), range.upperBound)
         let fractionValue = Self.snap(clamped * 100, to: Self.inputPrecision) / 100
         switch source {
@@ -231,29 +314,28 @@ struct PercentStepper: View {
     private static let inputPrecision = 0.1
 
     var body: some View {
-        LabeledContent {
-            HStack(spacing: 8) {
-                TextField(
-                    "",
-                    value: manualBinding,
-                    format: .number.precision(.fractionLength(0...1))
-                )
-                .labelsHidden()
-                .multilineTextAlignment(.trailing)
-                .monospacedDigit()
-                #if os(iOS)
-                .keyboardType(.decimalPad)
-                #endif
-                .frame(width: 56)
-                .accessibilityLabel(title)
-                Text("%")
-                    .foregroundStyle(.secondary)
-                Stepper("", value: stepperBinding, in: percentRange, step: stepPercent)
-                    .labelsHidden()
-                    .accessibilityLabel(title)
-            }
-        } label: {
+        HStack(alignment: .center, spacing: 8) {
             ParameterLabel(title: title, help: help)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            TextField(
+                "",
+                value: manualBinding,
+                format: .number.precision(.fractionLength(0...1))
+            )
+            .labelsHidden()
+            .multilineTextAlignment(.trailing)
+            .monospacedDigit()
+            #if os(iOS)
+            .keyboardType(.decimalPad)
+            #endif
+            .frame(width: 56)
+            .accessibilityLabel(title)
+            Text("%")
+                .foregroundStyle(.secondary)
+            Stepper("", value: stepperBinding, in: percentRange, step: stepPercent)
+                .labelsHidden()
+                .fixedSize()
+                .accessibilityLabel(title)
         }
     }
 
@@ -279,6 +361,9 @@ struct PercentStepper: View {
 
     private func apply(_ percentPoints: Double, source: RateEditSource) {
         let snapped = Self.snap(percentPoints, to: Self.inputPrecision)
+        let displayed = Self.snap(fraction * 100, to: Self.inputPrecision)
+        // 焦点离开时输入框会交回当前显示值。数字没变就不记成手动修改。
+        guard snapped != displayed else { return }
         let clamped = min(max(snapped / 100, range.lowerBound), range.upperBound)
         let fractionValue = Self.snap(clamped * 100, to: Self.inputPrecision) / 100
         switch source {

@@ -6,37 +6,9 @@ enum RateEditSource {
     case manual
 }
 
-/// 贷款利率的联网状态。
-enum MortgageRateState: Equatable {
-    /// 尚未切换过国家（初始默认值）。
-    case idle
-    /// 已套用内置缺省利率（未联网或等待联网）。
-    case usingDefault
-    case fetching
-    /// 已用联网（或缓存）利率，附带报价信息。
-    case updated(MortgageRateQuote)
-    /// 联网失败，继续使用缺省利率。
-    case failedUsingDefault
-
-    var statusText: String? {
-        switch self {
-        case .idle:
-            nil
-        case .usingDefault:
-            "利率为内置缺省值，可点「更新利率」联网获取最新官方数据。"
-        case .fetching:
-            "正在联网更新利率…"
-        case let .updated(quote):
-            "来源：\(quote.sourceName) · \(quote.periodLabel)"
-        case .failedUsingDefault:
-            "联网失败，已使用缺省利率。可点「更新利率」重试。"
-        }
-    }
-}
-
 enum PropertyCostState: Equatable {
     case idle
-    case usingSeed
+    case usingSeed(PropertyCostResolution)
     case fetching
     case updated(PropertyCostResolution)
     case failedUsingFallback(PropertyCostResolution)
@@ -45,27 +17,29 @@ enum PropertyCostState: Equatable {
         switch self {
         case .idle:
             return nil
-        case .usingSeed:
-            return "房产成本为内置自住代表值；本地无新数据时会联网检查。"
+        case let .usingSeed(resolution):
+            return "房产成本：内置数据\(Self.detail(resolution))"
         case .fetching:
             return "正在检查房产成本数据…"
         case let .updated(resolution):
-            let version = resolution.datasetVersion.map { " · v\($0)" } ?? ""
-            let date = resolution.publishedAt.map { " · 数据 \($0.prefix(10))" } ?? ""
-            let source: String
-            if let first = resolution.sourceNames.first {
-                source = resolution.sourceNames.count > 1
-                    ? " · 来源：\(first) 等"
-                    : " · 来源：\(first)"
-            } else {
-                source = ""
-            }
             let origin = resolution.origin == .remote ? "刚刚更新" : "本地缓存"
-            return "房产成本：\(origin)\(version)\(date)\(source)"
+            return "房产成本：\(origin)\(Self.detail(resolution))"
         case let .failedUsingFallback(resolution):
-            let fallback = resolution.origin == .seed ? "内置值" : "上次缓存"
-            return "联网检查失败，继续使用\(fallback)。"
+            let fallback = resolution.origin == .seed ? "内置数据" : "上次缓存"
+            return "联网检查失败，继续使用\(fallback)\(Self.detail(resolution))。"
         }
+    }
+
+    private static func detail(_ resolution: PropertyCostResolution) -> String {
+        let version = resolution.datasetVersion.map { " · v\($0)" } ?? ""
+        let date = resolution.publishedAt.map { " · 数据 \($0.prefix(10))" } ?? ""
+        let source: String
+        if let first = resolution.sourceNames.first {
+            source = resolution.sourceNames.count > 1 ? " · 来源：\(first) 等" : " · 来源：\(first)"
+        } else {
+            source = ""
+        }
+        return "\(version)\(date)\(source)"
     }
 }
 
@@ -74,99 +48,121 @@ enum PropertyCostState: Equatable {
 final class PlannerModel {
     var assumptions = Assumptions()
 
-    /// 该侧被手动改成与另一侧不同后，步进另一侧时不再覆盖本侧。
-    private(set) var appreciationDetached = false
-    private(set) var rentGrowthDetached = false
-
-    private(set) var mortgageRateState: MortgageRateState = .idle
     private(set) var propertyCostState: PropertyCostState = .idle
-    /// 用户在当前国家下手动改过贷款利率后，自动联网结果不再覆盖。
+    /// 用户在当前国家下手动改过贷款利率后，自动更新不再覆盖。
     private(set) var mortgageRateManuallyEdited = false
-    /// 用户手动改过月租后，改房价不再覆盖。切换国家或恢复默认会重新按种子计算。
+    /// 用户在当前国家下手动改过房价涨跌后，自动更新不再覆盖。
+    private(set) var appreciationManuallyEdited = false
+    /// 用户在当前国家下手动改过租金升值后，自动更新不再覆盖。
+    private(set) var rentGrowthManuallyEdited = false
+    /// 用户手动改过月租后，自动重算不再覆盖。切换国家或恢复默认会重新按租售比计算。
     private(set) var monthlyRentManuallyEdited = false
     private(set) var propertyTaxManuallyEdited = false
     private(set) var buyingCostManuallyEdited = false
     private(set) var sellingCostManuallyEdited = false
-    @ObservationIgnored
-    private var rateService: MortgageRateService
+    private(set) var investmentReturnManuallyEdited = false
+    /// 本次运行里房产成本表已从 GitHub 取到。手改或联网失败后不显示来源。
+    private(set) var propertyCostsFetchedFromNetwork = false
+    /// 本次运行里已从 Numbeo 取到租售比。手改月租或抓取失败后不显示来源。
+    private(set) var priceToRentFetchedFromNetwork = false
     @ObservationIgnored
     private var propertyCostService: PropertyCostService
     @ObservationIgnored
-    private let autoFetchRates: Bool
+    private var priceToRentService: PriceToRentService
+    private var priceToRentTable: PriceToRentTable?
     @ObservationIgnored
     private let autoFetchPropertyCosts: Bool
+    /// 首次打开和恢复默认时使用的国家，按系统地区匹配。
     @ObservationIgnored
-    private var rateFetchTask: Task<Void, Never>?
+    private let defaultCountry: Country
+    /// 恢复默认参数正在联网刷新房产成本表。
+    private(set) var isRestoringDefaults = false
+
     @ObservationIgnored
     private var propertyCostFetchTask: Task<Void, Never>?
 
     init(
-        rateService: MortgageRateService = MortgageRateService(),
         propertyCostService: PropertyCostService = PropertyCostService(),
-        autoFetchRates: Bool = true,
-        autoFetchPropertyCosts: Bool = true
+        priceToRentService: PriceToRentService = PriceToRentService(),
+        autoFetchPropertyCosts: Bool = true,
+        regionCode: String? = Locale.current.region?.identifier
     ) {
-        self.rateService = rateService
         self.propertyCostService = propertyCostService
-        self.autoFetchRates = autoFetchRates
+        self.priceToRentService = priceToRentService
+        self.priceToRentTable = priceToRentService.cachedTable()
         self.autoFetchPropertyCosts = autoFetchPropertyCosts
-        // 首屏同步使用缓存或内置值；联网更新不会阻塞计算。
+        let country = Country.matching(regionCode: regionCode)
+        self.defaultCountry = country
+        assumptions.country = country
+        // 首屏同步使用缓存、安装包里的表或出厂种子；联网更新不会阻塞计算。
         assumptions.monthlyRent = suggestedMonthlyRent
-        assumptions.annualInterestRate = Country.chinaMainland.preset.defaultMortgageRate
+        assumptions.annualInterestRate = country.preset.defaultMortgageRate
+        assumptions.rentGrowthRate = country.preset.defaultRentGrowth
+        assumptions.appreciationRate = country.preset.defaultAppreciation
         applyResolvedPropertyCosts()
+        applyResolvedMarketSeries(preservingManualEdits: false)
+        applyResolvedInvestmentReturn(preservingManualEdits: false)
     }
 
     var analysis: Analysis {
         NetWorthCalculator.analyze(assumptions: assumptions)
     }
 
+    /// 房价、年限回到出厂值。房贷利率、房价涨跌、租金升值、房产税和买卖成本先用本机已有的表，再强制刷新这张表。
     func resetAssumptions() {
-        rateFetchTask?.cancel()
         propertyCostFetchTask?.cancel()
+        isRestoringDefaults = false
+        propertyCostsFetchedFromNetwork = false
+        priceToRentFetchedFromNetwork = false
         assumptions = Assumptions()
-        appreciationDetached = false
-        rentGrowthDetached = false
-        mortgageRateState = .idle
+        assumptions.country = defaultCountry
         mortgageRateManuallyEdited = false
+        rentGrowthManuallyEdited = false
+        appreciationManuallyEdited = false
         monthlyRentManuallyEdited = false
         clearPropertyCostManualFlags()
+        investmentReturnManuallyEdited = false
         assumptions.monthlyRent = suggestedMonthlyRent
         assumptions.annualInterestRate = assumptions.country.preset.defaultMortgageRate
+        assumptions.rentGrowthRate = assumptions.country.preset.defaultRentGrowth
+        assumptions.appreciationRate = assumptions.country.preset.defaultAppreciation
         applyResolvedPropertyCosts()
+        applyResolvedMarketSeries(preservingManualEdits: false)
+        applyResolvedInvestmentReturn(preservingManualEdits: false)
+
+        guard autoFetchPropertyCosts else { return }
+        isRestoringDefaults = true
+        propertyCostFetchTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+            await self.refreshPropertyCosts(force: true)
+            await self.refreshPriceToRent()
+            if !Task.isCancelled {
+                self.isRestoringDefaults = false
+            }
+        }
     }
 
     // MARK: - 国别与房型
 
-    /// 切换国家：立即套用该国预设（利率先用缺省值），地税和买卖费率用出厂种子，随后异步联网更新利率。
-    /// 不改变房价、首付、房产增值、租金升值与投资回报。月租按该国租售比种子重算。
+    /// 切换国家：利率、租金升值、房价涨跌、地税和买卖费率改用该国成本表，没有可用值时用出厂种子。
+    /// 不改变房价、首付与投资回报。月租按该国租售比重算。
     func applyCountry(_ country: Country) {
-        rateFetchTask?.cancel()
         propertyCostFetchTask?.cancel()
+        isRestoringDefaults = false
         assumptions.country = country
         let preset = country.preset
         assumptions.loanYears = preset.loanYears
         assumptions.pmiRate = preset.pmiRate
         clearPropertyCostManualFlags()
-        applyResolvedPropertyCosts()
-        applyHousingPreset(preset.housingPreset(for: assumptions.housingType))
-        applyMortgageRate(preset.defaultMortgageRate)
         mortgageRateManuallyEdited = false
+        rentGrowthManuallyEdited = false
+        appreciationManuallyEdited = false
         monthlyRentManuallyEdited = false
+        applyResolvedPropertyCosts()
+        applyResolvedMarketSeries(preservingManualEdits: false)
+        applyHousingPreset(preset.housingPreset(for: assumptions.housingType))
         assumptions.monthlyRent = suggestedMonthlyRent
 
-        // 有新鲜缓存先用缓存显示，并后台刷新。
-        if let cached = rateService.cachedQuote(for: country), cached.isCacheFresh(now: rateService.now()) {
-            applyMortgageRate(cached.rate)
-            mortgageRateState = .updated(cached)
-        } else {
-            mortgageRateState = .usingDefault
-        }
-
-        if autoFetchRates {
-            rateFetchTask = Task { [weak self] in
-                await self?.refreshMortgageRate(force: false)
-            }
-        }
         if autoFetchPropertyCosts {
             propertyCostFetchTask = Task { [weak self] in
                 await self?.refreshPropertyCosts(force: false)
@@ -188,9 +184,10 @@ final class PlannerModel {
 
     // MARK: - 月租与租售比
 
-    /// 当前国家的租售比种子（年）。
+    /// 当前国家的租售比（年）：本次或上次从 Numbeo 取到的值，没有时用出厂种子。
     var currentPriceToRentYears: Double {
-        assumptions.country.preset.priceToRentYears
+        priceToRentTable?.years[assumptions.country.rawValue]
+            ?? assumptions.country.preset.priceToRentYears
     }
 
     /// 按当前房价与租售比估算的月租：房价 ÷ (租售比 × 12)，取整到整数金额。
@@ -234,39 +231,143 @@ final class PlannerModel {
         sellingCostManuallyEdited = true
     }
 
-    func refreshPropertyCosts(force: Bool) async {
+    func setInvestmentReturn(_ fraction: Double) {
+        assumptions.investmentReturn = Self.clampInvestment(fraction)
+        investmentReturnManuallyEdited = true
+    }
+
+    /// - Parameter attemptNetwork: 开机时为 true，即使本地数据未过期也访问 GitHub，用来判断能否标注来源。
+    func refreshPropertyCosts(force: Bool, attemptNetwork: Bool = false) async {
         let country = assumptions.country
-        if !force, !propertyCostService.isCheckDue(for: country) {
+        if !force, !attemptNetwork, !propertyCostService.isCheckDue(for: country) {
             let resolution = propertyCostService.resolvedRates(for: country)
-            propertyCostState = resolution.origin == .seed ? .usingSeed : .updated(resolution)
+            propertyCostState = resolution.origin == .seed ? .usingSeed(resolution) : .updated(resolution)
             return
         }
 
         propertyCostState = .fetching
         do {
             let catalog = try await propertyCostService.fetchCatalog()
-            guard assumptions.country == country,
-                  let resolution = PropertyCostService.resolution(
-                      for: country,
-                      in: catalog,
-                      origin: .remote
-                  ) else { return }
+            guard assumptions.country == country else { return }
+            propertyCostsFetchedFromNetwork = true
+            guard let resolution = PropertyCostService.resolution(
+                for: country,
+                in: catalog,
+                origin: .remote
+            ) else { return }
             if force {
                 clearPropertyCostManualFlags()
+                investmentReturnManuallyEdited = false
+                mortgageRateManuallyEdited = false
+                rentGrowthManuallyEdited = false
+                appreciationManuallyEdited = false
             }
             applyPropertyCosts(resolution.rates, preservingManualEdits: !force)
+            applyResolvedInvestmentReturn(preservingManualEdits: !force)
+            applyResolvedMarketSeries(preservingManualEdits: !force)
+            if force {
+                monthlyRentManuallyEdited = false
+            }
+            applyResolvedMonthlyRent(preservingManualEdits: !force)
             propertyCostState = .updated(resolution)
         } catch {
             guard assumptions.country == country else { return }
+            propertyCostsFetchedFromNetwork = false
             let fallback = propertyCostService.resolvedRates(for: country)
             propertyCostState = .failedUsingFallback(fallback)
+            applyResolvedInvestmentReturn(preservingManualEdits: !force)
+            applyResolvedMarketSeries(preservingManualEdits: !force)
+            applyResolvedMonthlyRent(preservingManualEdits: !force)
         }
+    }
+
+    func refreshPriceToRent() async {
+        do {
+            let table = try await priceToRentService.fetchTable()
+            priceToRentTable = table
+            priceToRentFetchedFromNetwork = true
+            applyResolvedMonthlyRent(preservingManualEdits: true)
+        } catch {
+            priceToRentFetchedFromNetwork = false
+            if priceToRentTable == nil {
+                priceToRentTable = priceToRentService.cachedTable()
+            }
+        }
+    }
+
+    var monthlyRentSourceText: String? {
+        guard priceToRentFetchedFromNetwork, !monthlyRentManuallyEdited,
+              let period = priceToRentTable?.periodLabel, !period.isEmpty else {
+            return nil
+        }
+        return L10n(assumptions.country).source(PriceToRentParser.sourceName, period: period)
+    }
+
+    var mortgageRateSourceText: String? {
+        marketSourceText(
+            edited: mortgageRateManuallyEdited,
+            resolution: propertyCostService.resolvedMortgageRate(for: assumptions.country)
+        )
+    }
+
+    var rentGrowthSourceText: String? {
+        marketSourceText(
+            edited: rentGrowthManuallyEdited,
+            resolution: propertyCostService.resolvedRentGrowth(for: assumptions.country)
+        )
+    }
+
+    var appreciationSourceText: String? {
+        marketSourceText(
+            edited: appreciationManuallyEdited,
+            resolution: propertyCostService.resolvedAppreciation(for: assumptions.country)
+        )
+    }
+
+    var investmentReturnSourceText: String? {
+        guard propertyCostsFetchedFromNetwork, !investmentReturnManuallyEdited else { return nil }
+        let resolution = propertyCostService.resolvedInvestmentReturn()
+        guard !resolution.sourceName.isEmpty else { return nil }
+        let copy = L10n(assumptions.country)
+        if let start = resolution.startDate, let end = resolution.endDate {
+            return copy.source(resolution.sourceName, from: start, to: end)
+        }
+        return copy.source(resolution.sourceName)
+    }
+
+    var propertyTaxSourceText: String? {
+        fieldSourceText(edited: propertyTaxManuallyEdited)
+    }
+
+    var buyingCostSourceText: String? {
+        fieldSourceText(edited: buyingCostManuallyEdited)
+    }
+
+    var sellingCostSourceText: String? {
+        fieldSourceText(edited: sellingCostManuallyEdited)
+    }
+
+    private func marketSourceText(edited: Bool, resolution: MarketObservationResolution?) -> String? {
+        guard propertyCostsFetchedFromNetwork, !edited,
+              let resolution, !resolution.sourceName.isEmpty else {
+            return nil
+        }
+        return L10n(assumptions.country).source(resolution.sourceName, period: resolution.periodLabel)
+    }
+
+    private func fieldSourceText(edited: Bool) -> String? {
+        guard propertyCostsFetchedFromNetwork, !edited else { return nil }
+        let names = propertyCostService.resolvedRates(for: assumptions.country).sourceNames
+        guard let first = names.first, !first.isEmpty else { return nil }
+        let copy = L10n(assumptions.country)
+        if names.count == 1 { return copy.source(first) }
+        return copy.sourceAndOthers(first)
     }
 
     private func applyResolvedPropertyCosts() {
         let resolution = propertyCostService.resolvedRates(for: assumptions.country)
         applyPropertyCosts(resolution.rates, preservingManualEdits: false)
-        propertyCostState = resolution.origin == .seed ? .usingSeed : .updated(resolution)
+        propertyCostState = resolution.origin == .seed ? .usingSeed(resolution) : .updated(resolution)
     }
 
     private func applyPropertyCosts(_ rates: PropertyCostRates, preservingManualEdits: Bool) {
@@ -281,6 +382,36 @@ final class PlannerModel {
         }
     }
 
+    private func applyResolvedMonthlyRent(preservingManualEdits: Bool) {
+        guard !preservingManualEdits || !monthlyRentManuallyEdited else { return }
+        assumptions.monthlyRent = suggestedMonthlyRent
+    }
+
+    private func applyResolvedMarketSeries(preservingManualEdits: Bool) {
+        let country = assumptions.country
+        if !preservingManualEdits || !mortgageRateManuallyEdited {
+            let rate = propertyCostService.resolvedMortgageRate(for: country)?.rate
+                ?? country.preset.defaultMortgageRate
+            applyMortgageRate(rate)
+        }
+        if !preservingManualEdits || !rentGrowthManuallyEdited {
+            let rate = propertyCostService.resolvedRentGrowth(for: country)?.rate
+                ?? country.preset.defaultRentGrowth
+            applyRentGrowth(rate)
+        }
+        if !preservingManualEdits || !appreciationManuallyEdited {
+            let rate = propertyCostService.resolvedAppreciation(for: country)?.rate
+                ?? country.preset.defaultAppreciation
+            applyAppreciation(rate)
+        }
+    }
+
+    private func applyResolvedInvestmentReturn(preservingManualEdits: Bool) {
+        guard !preservingManualEdits || !investmentReturnManuallyEdited else { return }
+        let resolution = propertyCostService.resolvedInvestmentReturn()
+        assumptions.investmentReturn = Self.clampInvestment(resolution.rate)
+    }
+
     private func clearPropertyCostManualFlags() {
         propertyTaxManuallyEdited = false
         buyingCostManuallyEdited = false
@@ -292,46 +423,19 @@ final class PlannerModel {
         return min(max(snapped, range.lowerBound), range.upperBound)
     }
 
+    /// 投资回报保留 1 个基点，和远程表的标普 500 年化回报一致。
+    private static func clampInvestment(_ fraction: Double) -> Double {
+        let snapped = (fraction * 10_000).rounded() / 10_000
+        return min(max(snapped, AssumptionBounds.investment.lowerBound), AssumptionBounds.investment.upperBound)
+    }
+
     // MARK: - 贷款利率
 
-    /// 用户手动/步进修改贷款利率：此后自动联网结果不再覆盖。
+    /// 用户手动/步进修改贷款利率：此后自动更新不再覆盖。
     func setMortgageRate(_ fraction: Double, source: RateEditSource) {
         let snapped = (fraction * 1000).rounded() / 1000
         assumptions.annualInterestRate = min(max(snapped, AssumptionBounds.interest.lowerBound), AssumptionBounds.interest.upperBound)
         mortgageRateManuallyEdited = true
-    }
-
-    /// 联网更新当前国家的贷款利率。
-    /// - Parameter force: 为 true（用户点「更新利率」）时覆盖手动修改；为 false 时尊重手动修改。
-    func refreshMortgageRate(force: Bool) async {
-        let country = assumptions.country
-        if !force {
-            if mortgageRateManuallyEdited { return }
-            mortgageRateState = .fetching
-            do {
-                let quote = try await rateService.fetchQuote(for: country)
-                // 等待期间用户可能切了国家或手动改了利率。
-                guard assumptions.country == country, !mortgageRateManuallyEdited else { return }
-                applyMortgageRate(quote.rate)
-                mortgageRateState = .updated(quote)
-            } catch {
-                guard assumptions.country == country else { return }
-                mortgageRateState = .failedUsingDefault
-            }
-            return
-        }
-
-        mortgageRateState = .fetching
-        do {
-            let quote = try await rateService.fetchQuote(for: country)
-            guard assumptions.country == country else { return }
-            applyMortgageRate(quote.rate)
-            mortgageRateManuallyEdited = false
-            mortgageRateState = .updated(quote)
-        } catch {
-            guard assumptions.country == country else { return }
-            mortgageRateState = .failedUsingDefault
-        }
     }
 
     /// 内部写入利率并按 0.1 个百分点对齐显示，不触碰手动标记。
@@ -340,45 +444,31 @@ final class PlannerModel {
         assumptions.annualInterestRate = min(max(snapped, AssumptionBounds.interest.lowerBound), AssumptionBounds.interest.upperBound)
     }
 
-    // MARK: - 房产增值 / 租金升值联动
+    /// 内部写入房租年涨幅并按 0.1 个百分点对齐显示，不触碰手动标记。
+    private func applyRentGrowth(_ fraction: Double) {
+        assumptions.rentGrowthRate = Self.clampRentGrowth(fraction)
+    }
+
+    /// 内部写入房价涨跌并按 0.1 个百分点对齐显示，不触碰手动标记。
+    private func applyAppreciation(_ fraction: Double) {
+        assumptions.appreciationRate = Self.clampAppreciation(fraction)
+    }
+
+    // MARK: - 房产增值 / 租金升值
 
     func setAppreciationRate(_ fraction: Double, source: RateEditSource) {
-        let value = Self.clampAppreciation(fraction)
-        assumptions.appreciationRate = value
-
         switch source {
-        case .stepper:
-            appreciationDetached = false
-            if !rentGrowthDetached {
-                assumptions.rentGrowthRate = Self.clampRentGrowth(value)
-            }
-        case .manual:
-            if Self.nearlyEqual(value, assumptions.rentGrowthRate) {
-                appreciationDetached = false
-                rentGrowthDetached = false
-            } else {
-                appreciationDetached = true
-            }
+        case .stepper, .manual:
+            assumptions.appreciationRate = Self.clampAppreciation(fraction)
+            appreciationManuallyEdited = true
         }
     }
 
     func setRentGrowthRate(_ fraction: Double, source: RateEditSource) {
-        let value = Self.clampRentGrowth(fraction)
-        assumptions.rentGrowthRate = value
-
         switch source {
-        case .stepper:
-            rentGrowthDetached = false
-            if !appreciationDetached {
-                assumptions.appreciationRate = Self.clampAppreciation(value)
-            }
-        case .manual:
-            if Self.nearlyEqual(value, assumptions.appreciationRate) {
-                appreciationDetached = false
-                rentGrowthDetached = false
-            } else {
-                rentGrowthDetached = true
-            }
+        case .stepper, .manual:
+            assumptions.rentGrowthRate = Self.clampRentGrowth(fraction)
+            rentGrowthManuallyEdited = true
         }
     }
 
@@ -392,7 +482,4 @@ final class PlannerModel {
         return min(max(snapped, AssumptionBounds.rentGrowth.lowerBound), AssumptionBounds.rentGrowth.upperBound)
     }
 
-    private static func nearlyEqual(_ lhs: Double, _ rhs: Double) -> Bool {
-        abs(lhs - rhs) < 0.000_5
-    }
 }

@@ -15,22 +15,6 @@ enum Verdict: Equatable {
         }
     }
 
-    var word: String {
-        switch self {
-        case .buy: "Buy"
-        case .rent: "Rent"
-        case .tie: "Tie"
-        }
-    }
-
-    var detail: String {
-        switch self {
-        case .buy: "买房更划算"
-        case .rent: "租房更划算"
-        case .tie: "两边大致持平"
-        }
-    }
-
     var tint: Color {
         switch self {
         case .buy: .green
@@ -44,6 +28,11 @@ struct ResultSummaryView: View {
     let breakdown: HorizonBreakdown
     let crossover: Crossover
     var currencySymbol: String = "¥"
+    var language: AppLanguage = .zhHans
+    var pageSwitchTitle: String? = nil
+    var onPageSwitch: (() -> Void)? = nil
+
+    private var copy: L10n { L10n(language: language) }
 
     private var verdict: Verdict {
         Verdict(advantage: breakdown.advantageFutureValue)
@@ -51,27 +40,29 @@ struct ResultSummaryView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(verdict.word)
-                    .font(.system(size: 52, weight: .bold, design: .rounded))
-                    .foregroundStyle(verdict.tint)
-                    .minimumScaleFactor(0.5)
-                    .lineLimit(1)
-                Text(verdict.detail)
-                    .font(.title3.weight(.semibold))
+            HStack(alignment: .center, spacing: 12) {
+                HStack(alignment: .lastTextBaseline, spacing: 8) {
+                    Text(copy.verdictWord(verdict))
+                        .font(.system(size: 52, weight: .bold, design: .rounded))
+                        .foregroundStyle(verdict.tint)
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
+                    Text(copy.verdictDetail(verdict))
+                        .font(.title3.weight(.semibold))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("\(copy.verdictWord(verdict))，\(copy.verdictDetail(verdict))")
+                Spacer(minLength: 8)
+                if let pageSwitchTitle, let onPageSwitch {
+                    PageSwitchButton(title: pageSwitchTitle, action: onPageSwitch)
+                }
             }
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel("\(verdict.word)，\(verdict.detail)")
 
-            metricRow(
-                title: "期末净财富差额",
-                value: breakdown.advantageFutureValue,
-                caption: "买房比租房多出的期末财富。正数表示买房更优。"
-            )
+            AdvantageFormulaView(breakdown: breakdown, currencySymbol: currencySymbol, language: language)
 
-            AdvantageFormulaView(breakdown: breakdown, currencySymbol: currencySymbol)
-
-            Text(CrossoverCopy.text(crossover))
+            Text("\(copy.endingGapCaption) \(copy.crossover(crossover))")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
@@ -81,25 +72,10 @@ struct ResultSummaryView: View {
                 alignment: .leading,
                 spacing: 12
             ) {
-                stat("月供", breakdown.monthlyPayment)
-                stat("期末房价", breakdown.homeValue)
-                stat("贷款余额", breakdown.loanBalance)
+                stat(copy.monthlyPayment, breakdown.monthlyPayment)
+                stat(copy.endingHomeValue, breakdown.homeValue)
+                stat(copy.loanBalance, breakdown.loanBalance)
             }
-        }
-    }
-
-    private func metricRow(title: String, value: Double, caption: String) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            LabeledContent(title) {
-                Text(MoneyFormat.money(value, symbol: currencySymbol))
-                    .monospacedDigit()
-                    .fontWeight(.semibold)
-                    .foregroundStyle(value >= 0 ? Color.green : Color.orange)
-            }
-            Text(caption)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
@@ -108,7 +84,7 @@ struct ResultSummaryView: View {
             Text(title)
                 .font(.caption)
                 .foregroundStyle(.secondary)
-            Text(MoneyFormat.money(value, symbol: currencySymbol))
+            Text(MoneyFormat.money(value, symbol: currencySymbol, language: language))
                 .font(.subheadline.weight(.medium))
                 .monospacedDigit()
                 .minimumScaleFactor(0.7)

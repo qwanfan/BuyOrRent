@@ -8,9 +8,10 @@ struct Assumptions: Equatable {
     var country: Country = .chinaMainland
     var housingType: HousingType = .apartment
     var homePrice: Double = 600_000
-    var downPaymentRatio: Double = 0.10
+    var downPaymentRatio: Double = 0.20
     var loanYears: Int = 30
     var annualInterestRate: Double = 0.03
+    /// 仅作结构体初值。界面使用标普 500 过去 10 年价格年化回报，恢复默认时会重算。
     var investmentReturn: Double = 0.04
     var appreciationRate: Double = 0.01
     var maintenanceRate: Double = 0.01
@@ -19,7 +20,7 @@ struct Assumptions: Equatable {
     var rentGrowthRate: Double = 0.01
     /// 仅作结构体初值。界面上的月租由租售比和房价算出，恢复默认时也会重算，不把 2,500 当作默认月租。
     var monthlyRent: Double = 2_500
-    var horizonYears: Int = 10
+    var horizonYears: Int = 20
 
     /// 仅作结构体初值。界面上的买入、卖出费率来自远程缓存或内置自住代表值。
     var buyingCostRate: Double = 0.02
@@ -57,7 +58,11 @@ struct Assumptions: Equatable {
         copy.horizonYears = Assumptions.clamp(horizonYears, 1, 30)
         copy.annualInterestRate = Assumptions.clamp(Assumptions.finite(annualInterestRate, fallback: 0), 0, 0.5)
         copy.investmentReturn = Assumptions.clamp(Assumptions.finite(investmentReturn, fallback: 0), -0.9, 1)
-        copy.appreciationRate = Assumptions.clamp(Assumptions.finite(appreciationRate, fallback: 0), 0, 1)
+        copy.appreciationRate = Assumptions.clamp(
+            Assumptions.finite(appreciationRate, fallback: 0),
+            AssumptionBounds.appreciation.lowerBound,
+            AssumptionBounds.appreciation.upperBound
+        )
         copy.maintenanceRate = Assumptions.clamp(Assumptions.finite(maintenanceRate, fallback: 0), 0, 1)
         copy.propertyTaxRate = Assumptions.clamp(Assumptions.finite(propertyTaxRate, fallback: 0), 0, 1)
         copy.rentGrowthRate = Assumptions.clamp(Assumptions.finite(rentGrowthRate, fallback: 0), -0.9, 1)
@@ -87,7 +92,7 @@ enum AssumptionBounds {
     static let downPayment = 0.0...1.0
     static let interest = 0.0...0.15
     static let investment = 0.0...0.20
-    static let appreciation = 0.0...0.20
+    static let appreciation = -0.20...0.20
     static let maintenance = 0.0...0.05
     static let propertyTax = 0.0...0.06
     static let rentGrowth = -0.05...0.15

@@ -2,7 +2,7 @@ import XCTest
 @testable import BuyOrRent
 
 final class PropertyCostServiceTests: XCTestCase {
-    private let now = ISO8601DateFormatter().date(from: "2026-10-29T05:00:00Z")!
+    private let now = ISO8601DateFormatter().date(from: "2026-10-31T00:00:00Z")!
 
     func testSeedCoversEveryCountry() {
         for country in Country.allCases {
@@ -23,6 +23,7 @@ final class PropertyCostServiceTests: XCTestCase {
         let service = PropertyCostService(
             now: { self.now },
             fetchData: { _ in data },
+            bundledData: { nil },
             cacheDefaults: defaults
         )
 
@@ -45,18 +46,21 @@ final class PropertyCostServiceTests: XCTestCase {
         let initial = PropertyCostService(
             now: { self.now },
             fetchData: { _ in data },
+            bundledData: { nil },
             cacheDefaults: defaults
         )
         _ = try await initial.fetchCatalog()
 
         let beforeBoundary = PropertyCostService(
             now: { self.now.addingTimeInterval(30 * 24 * 3600 - 1) },
+            bundledData: { nil },
             cacheDefaults: defaults
         )
         XCTAssertFalse(beforeBoundary.isCheckDue(for: .canada))
 
         let atBoundary = PropertyCostService(
             now: { self.now.addingTimeInterval(30 * 24 * 3600) },
+            bundledData: { nil },
             cacheDefaults: defaults
         )
         XCTAssertTrue(atBoundary.isCheckDue(for: .canada))
@@ -71,6 +75,7 @@ final class PropertyCostServiceTests: XCTestCase {
                     "unitedStates": self.record(propertyTax: 0.012, buying: 0.03, selling: 0.05)
                 ])
             },
+            bundledData: { nil },
             cacheDefaults: defaults
         )
         _ = try await service.fetchCatalog()
@@ -79,6 +84,59 @@ final class PropertyCostServiceTests: XCTestCase {
         XCTAssertEqual(canada.origin, .seed)
         XCTAssertEqual(canada.rates, PropertyCostService.seedRates(for: .canada))
         XCTAssertTrue(service.isCheckDue(for: .canada))
+    }
+
+    func testBundledCatalogMatchesSeedAndDefersNetwork() throws {
+        let resource = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("BuyOrRent/Resources/property-costs.json")
+        let data = try Data(contentsOf: resource)
+        let catalog = try PropertyCostService.parse(data)
+        try PropertyCostService.validate(catalog, now: now.addingTimeInterval(24 * 3600))
+        XCTAssertFalse(catalog.datasetVersion.isEmpty)
+        XCTAssertEqual(catalog.countries.count, Country.allCases.count)
+        let investment = try XCTUnwrap(catalog.investmentReturn)
+        XCTAssertEqual(investment.method, "spxPriceCagr10Y")
+        XCTAssertEqual(investment.rate, PropertyCostService.seedInvestmentReturn, accuracy: 0.000_000_1)
+
+        for country in Country.allCases {
+            let record = try XCTUnwrap(catalog.countries[country.rawValue])
+            let seed = PropertyCostService.seedRates(for: country)
+            XCTAssertEqual(record.propertyTaxRate, seed.propertyTaxRate, accuracy: 0.000_000_1, country.rawValue)
+            XCTAssertEqual(record.buyingCostRate, seed.buyingCostRate, accuracy: 0.000_000_1, country.rawValue)
+            XCTAssertEqual(record.sellingCostRate, seed.sellingCostRate, accuracy: 0.000_000_1, country.rawValue)
+            XCTAssertFalse(record.sources.isEmpty, country.rawValue)
+            XCTAssertNotNil(record.mortgageRate, country.rawValue)
+            XCTAssertNotNil(record.rentGrowth, country.rawValue)
+            XCTAssertNotNil(record.appreciation, country.rawValue)
+        }
+
+        let service = PropertyCostService(
+            now: { self.now.addingTimeInterval(24 * 3600) },
+            bundledData: { data },
+            cacheDefaults: isolatedDefaults()
+        )
+        let china = service.resolvedRates(for: .chinaMainland)
+        XCTAssertEqual(china.origin, .seed)
+        XCTAssertFalse(china.datasetVersion?.isEmpty ?? true)
+        XCTAssertEqual(china.rates.propertyTaxRate, 0, accuracy: 0.000_000_1)
+        XCTAssertEqual(
+            service.resolvedInvestmentReturn().rate,
+            PropertyCostService.seedInvestmentReturn,
+            accuracy: 0.000_000_1
+        )
+        XCTAssertFalse(china.sourceNames.isEmpty)
+        XCTAssertFalse(service.isCheckDue(for: .chinaMainland))
+        XCTAssertFalse(service.isCheckDue(for: .italy))
+
+        let stale = PropertyCostService(
+            now: { ISO8601DateFormatter().date(from: "2026-12-01T00:00:00Z")! },
+            bundledData: { data },
+            cacheDefaults: isolatedDefaults()
+        )
+        XCTAssertTrue(stale.isCheckDue(for: .chinaMainland))
+        XCTAssertEqual(stale.resolvedRates(for: .chinaMainland).origin, .seed)
     }
 
     func testRejectsMalformedAndOutOfRangeCatalogs() {

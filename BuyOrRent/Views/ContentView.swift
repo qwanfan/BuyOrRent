@@ -11,11 +11,11 @@ struct ContentView: View {
             AdaptivePlannerView(model: model)
             #endif
         }
-        // 两类数据独立刷新；房产成本只有在缓存缺失或距上次成功检查满 30 天时才联网。
+        // 开机检查房产成本表，并向 Numbeo 抓取租售比。成功且用户未手改时，才显示来源。
+        .environment(\.appLanguage, model.assumptions.country.appLanguage)
         .task {
-            async let mortgage: Void = model.refreshMortgageRate(force: false)
-            async let propertyCosts: Void = model.refreshPropertyCosts(force: false)
-            _ = await (mortgage, propertyCosts)
+            await model.refreshPropertyCosts(force: false, attemptNetwork: true)
+            await model.refreshPriceToRent()
         }
     }
 }
@@ -38,10 +38,12 @@ private struct AdaptivePlannerView: View {
 struct SplitPlannerView: View {
     @Bindable var model: PlannerModel
 
+    private var copy: L10n { L10n(model.assumptions.country) }
+
     var body: some View {
         NavigationSplitView {
             InputsFormView(model: model)
-                .navigationTitle("参数")
+                .navigationTitle(copy.parametersTitle)
         } detail: {
             ResultsPage(model: model)
         }
@@ -49,27 +51,50 @@ struct SplitPlannerView: View {
     }
 }
 
-/// iPhone 单栏：结论、曲线、明细和参数在同一页滚动。
+/// iPhone 紧凑宽度：结论和参数分成两页，用页内右上角按钮切换。
 struct CompactPlannerView: View {
     @Bindable var model: PlannerModel
+    @State private var showsInputs = false
 
     var body: some View {
         NavigationStack {
-            Form {
-                ResultsSections(model: model)
-                InputSections(model: model)
+            Group {
+                if showsInputs {
+                    parameterForm
+                } else {
+                    resultsForm
+                }
             }
-            .formStyle(.grouped)
-            .navigationTitle("Buy or Rent")
             #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.hidden, for: .navigationBar)
             #endif
         }
+    }
+
+    private var parameterForm: some View {
+        Form {
+            InputSections(model: model, onShowResults: { showsInputs = false })
+        }
+        .formStyle(.grouped)
+    }
+
+    private var resultsForm: some View {
+        Form {
+            ResultsSections(model: model, onShowInputs: { showsInputs = true })
+        }
+        .formStyle(.grouped)
+        #if os(iOS)
+        // 分组列表默认段间距大约 35，顶部内容边距大约 16。这里都收到一半。
+        .listSectionSpacing(18)
+        .contentMargins(.top, 8, for: .scrollContent)
+        #endif
     }
 }
 
 private struct ResultsPage: View {
     @Bindable var model: PlannerModel
+
+    private var copy: L10n { L10n(model.assumptions.country) }
 
     var body: some View {
         let analysis = model.analysis
@@ -80,7 +105,8 @@ private struct ResultsPage: View {
                         ResultSummaryView(
                             breakdown: breakdown,
                             crossover: analysis.crossover,
-                            currencySymbol: model.assumptions.country.currencySymbol
+                            currencySymbol: model.assumptions.country.currencySymbol,
+                            language: model.assumptions.country.appLanguage
                         )
                     }
                     card {
@@ -88,9 +114,9 @@ private struct ResultsPage: View {
                     }
                 } else {
                     ContentUnavailableView(
-                        "无法计算",
+                        copy.cannotCalculate,
                         systemImage: "house",
-                        description: Text("请输入大于 0 的买房款。")
+                        description: Text(copy.enterPurchasePrice)
                     )
                     .frame(maxWidth: .infinity, minHeight: 240)
                 }
@@ -99,7 +125,7 @@ private struct ResultsPage: View {
             .frame(maxWidth: 880, alignment: .leading)
             .frame(maxWidth: .infinity)
         }
-        .navigationTitle("Buy or Rent")
+        .modifier(HiddenPageTitle())
         .background(Color.platformGroupedBackground)
     }
 
@@ -118,6 +144,9 @@ private struct ResultsPage: View {
 
 struct ResultsSections: View {
     @Bindable var model: PlannerModel
+    var onShowInputs: (() -> Void)? = nil
+
+    private var copy: L10n { L10n(model.assumptions.country) }
 
     var body: some View {
         let analysis = model.analysis
@@ -127,7 +156,10 @@ struct ResultsSections: View {
                 ResultSummaryView(
                     breakdown: breakdown,
                     crossover: analysis.crossover,
-                    currencySymbol: model.assumptions.country.currencySymbol
+                    currencySymbol: model.assumptions.country.currencySymbol,
+                    language: model.assumptions.country.appLanguage,
+                    pageSwitchTitle: onShowInputs == nil ? nil : copy.parametersTitle,
+                    onPageSwitch: onShowInputs
                 )
             }
             Section {
@@ -135,10 +167,16 @@ struct ResultsSections: View {
             }
         } else {
             Section {
+                if let onShowInputs {
+                    HStack {
+                        Spacer(minLength: 0)
+                        PageSwitchButton(title: copy.parametersTitle, action: onShowInputs)
+                    }
+                }
                 ContentUnavailableView(
-                    "无法计算",
+                    copy.cannotCalculate,
                     systemImage: "house",
-                    description: Text("请输入大于 0 的买房款。")
+                    description: Text(copy.enterPurchasePrice)
                 )
             }
         }
@@ -147,6 +185,30 @@ struct ResultsSections: View {
     private func selectedBreakdown(in analysis: Analysis) -> HorizonBreakdown? {
         let year = min(max(model.assumptions.horizonYears, 1), NetWorthCalculator.horizonLimit)
         return analysis.breakdown(for: year)
+    }
+}
+
+struct PageSwitchButton: View {
+    let title: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(verbatim: title)
+        }
+        .buttonStyle(.bordered)
+        .controlSize(.small)
+    }
+}
+
+/// 结果页不显示标题。空的 navigationTitle 仍会在工具栏中间留一块占位。
+private struct HiddenPageTitle: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(macOS 15, iOS 18, *) {
+            content.toolbar(removing: .title)
+        } else {
+            content.navigationTitle("")
+        }
     }
 }
 

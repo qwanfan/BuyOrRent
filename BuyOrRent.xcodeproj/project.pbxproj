@@ -14,23 +14,26 @@
 		B00000000000000000000006 /* MonthlySimulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000006 /* MonthlySimulation.swift */; };
 		B00000000000000000000007 /* NetWorthCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000007 /* NetWorthCalculator.swift */; };
 		B00000000000000000000008 /* Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000008 /* Formatting.swift */; };
-		B00000000000000000000013 /* ParameterHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000013 /* ParameterHelp.swift */; };
 		B00000000000000000000009 /* Editors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000009 /* Editors.swift */; };
 		B0000000000000000000000A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000A /* ContentView.swift */; };
 		B0000000000000000000000B /* InputsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000B /* InputsFormView.swift */; };
 		B0000000000000000000000C /* ResultSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000C /* ResultSummaryView.swift */; };
 		B0000000000000000000000D /* AdvantageChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000D /* AdvantageChartView.swift */; };
-		B00000000000000000000014 /* AdvantageFormulaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000014 /* AdvantageFormulaView.swift */; };
 		B0000000000000000000000F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000000F /* Assets.xcassets */; };
 		B00000000000000000000010 /* AmortizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000010 /* AmortizationTests.swift */; };
 		B00000000000000000000011 /* NetWorthCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000011 /* NetWorthCalculatorTests.swift */; };
 		B00000000000000000000012 /* PlannerModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000012 /* PlannerModelTests.swift */; };
+		B00000000000000000000013 /* ParameterHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000013 /* ParameterHelp.swift */; };
+		B00000000000000000000014 /* AdvantageFormulaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000014 /* AdvantageFormulaView.swift */; };
 		B00000000000000000000015 /* MarketPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000015 /* MarketPreset.swift */; };
-		B00000000000000000000016 /* MortgageRateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000016 /* MortgageRateService.swift */; };
-		B00000000000000000000017 /* MortgageRateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000017 /* MortgageRateServiceTests.swift */; };
 		B0000000000000000000001A /* RemoteFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000001A /* RemoteFetch.swift */; };
 		B0000000000000000000001C /* PropertyCostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000001C /* PropertyCostService.swift */; };
 		B0000000000000000000001D /* PropertyCostServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000001D /* PropertyCostServiceTests.swift */; };
+		B0000000000000000000001E /* property-costs.json in Resources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000001E /* property-costs.json */; };
+		B0000000000000000000001F /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000001F /* L10n.swift */; };
+		B00000000000000000000022 /* L10nHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000022 /* L10nHelp.swift */; };
+		B00000000000000000000027 /* PriceToRentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000027 /* PriceToRentService.swift */; };
+		B00000000000000000000028 /* PriceToRentServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000028 /* PriceToRentServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,26 +54,29 @@
 		F00000000000000000000006 /* MonthlySimulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlySimulation.swift; sourceTree = "<group>"; };
 		F00000000000000000000007 /* NetWorthCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorthCalculator.swift; sourceTree = "<group>"; };
 		F00000000000000000000008 /* Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatting.swift; sourceTree = "<group>"; };
-		F00000000000000000000013 /* ParameterHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterHelp.swift; sourceTree = "<group>"; };
 		F00000000000000000000009 /* Editors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editors.swift; sourceTree = "<group>"; };
 		F0000000000000000000000A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F0000000000000000000000B /* InputsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputsFormView.swift; sourceTree = "<group>"; };
 		F0000000000000000000000C /* ResultSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultSummaryView.swift; sourceTree = "<group>"; };
 		F0000000000000000000000D /* AdvantageChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvantageChartView.swift; sourceTree = "<group>"; };
-		F00000000000000000000014 /* AdvantageFormulaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvantageFormulaView.swift; sourceTree = "<group>"; };
 		F0000000000000000000000F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F00000000000000000000010 /* AmortizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmortizationTests.swift; sourceTree = "<group>"; };
 		F00000000000000000000011 /* NetWorthCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorthCalculatorTests.swift; sourceTree = "<group>"; };
 		F00000000000000000000012 /* PlannerModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerModelTests.swift; sourceTree = "<group>"; };
+		F00000000000000000000013 /* ParameterHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterHelp.swift; sourceTree = "<group>"; };
+		F00000000000000000000014 /* AdvantageFormulaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvantageFormulaView.swift; sourceTree = "<group>"; };
 		F00000000000000000000015 /* MarketPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPreset.swift; sourceTree = "<group>"; };
-		F00000000000000000000016 /* MortgageRateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MortgageRateService.swift; sourceTree = "<group>"; };
-		F00000000000000000000017 /* MortgageRateServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MortgageRateServiceTests.swift; sourceTree = "<group>"; };
+		F00000000000000000000018 /* BuyOrRent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BuyOrRent.entitlements; sourceTree = "<group>"; };
 		F0000000000000000000001A /* RemoteFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFetch.swift; sourceTree = "<group>"; };
 		F0000000000000000000001C /* PropertyCostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyCostService.swift; sourceTree = "<group>"; };
 		F0000000000000000000001D /* PropertyCostServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyCostServiceTests.swift; sourceTree = "<group>"; };
-		F00000000000000000000018 /* BuyOrRent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BuyOrRent.entitlements; sourceTree = "<group>"; };
+		F0000000000000000000001E /* property-costs.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "property-costs.json"; sourceTree = "<group>"; };
+		F0000000000000000000001F /* L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
 		F00000000000000000000020 /* BuyOrRent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuyOrRent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00000000000000000000021 /* BuyOrRentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BuyOrRentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F00000000000000000000022 /* L10nHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10nHelp.swift; sourceTree = "<group>"; };
+		F00000000000000000000027 /* PriceToRentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceToRentService.swift; sourceTree = "<group>"; };
+		F00000000000000000000028 /* PriceToRentServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceToRentServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +124,7 @@
 				E10000000000000000000006 /* Engine */,
 				E10000000000000000000009 /* Services */,
 				E10000000000000000000007 /* Views */,
+				E1000000000000000000000A /* Resources */,
 				F0000000000000000000000F /* Assets.xcassets */,
 			);
 			path = BuyOrRent;
@@ -143,16 +150,6 @@
 			path = Engine;
 			sourceTree = "<group>";
 		};
-		E10000000000000000000009 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				F0000000000000000000001A /* RemoteFetch.swift */,
-				F00000000000000000000016 /* MortgageRateService.swift */,
-				F0000000000000000000001C /* PropertyCostService.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		E10000000000000000000007 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,6 +161,8 @@
 				F0000000000000000000000C /* ResultSummaryView.swift */,
 				F0000000000000000000000D /* AdvantageChartView.swift */,
 				F00000000000000000000014 /* AdvantageFormulaView.swift */,
+				F0000000000000000000001F /* L10n.swift */,
+				F00000000000000000000022 /* L10nHelp.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -174,10 +173,28 @@
 				F00000000000000000000010 /* AmortizationTests.swift */,
 				F00000000000000000000011 /* NetWorthCalculatorTests.swift */,
 				F00000000000000000000012 /* PlannerModelTests.swift */,
-				F00000000000000000000017 /* MortgageRateServiceTests.swift */,
 				F0000000000000000000001D /* PropertyCostServiceTests.swift */,
+				F00000000000000000000028 /* PriceToRentServiceTests.swift */,
 			);
 			path = BuyOrRentTests;
+			sourceTree = "<group>";
+		};
+		E10000000000000000000009 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F0000000000000000000001A /* RemoteFetch.swift */,
+				F0000000000000000000001C /* PropertyCostService.swift */,
+				F00000000000000000000027 /* PriceToRentService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E1000000000000000000000A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F0000000000000000000001E /* property-costs.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B0000000000000000000000F /* Assets.xcassets in Resources */,
+				B0000000000000000000001E /* property-costs.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,9 +305,11 @@
 				B0000000000000000000000C /* ResultSummaryView.swift in Sources */,
 				B0000000000000000000000D /* AdvantageChartView.swift in Sources */,
 				B00000000000000000000014 /* AdvantageFormulaView.swift in Sources */,
+				B0000000000000000000001F /* L10n.swift in Sources */,
+				B00000000000000000000022 /* L10nHelp.swift in Sources */,
 				B00000000000000000000015 /* MarketPreset.swift in Sources */,
-				B00000000000000000000016 /* MortgageRateService.swift in Sources */,
 				B0000000000000000000001C /* PropertyCostService.swift in Sources */,
+				B00000000000000000000027 /* PriceToRentService.swift in Sources */,
 				B0000000000000000000001A /* RemoteFetch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,8 +321,8 @@
 				B00000000000000000000010 /* AmortizationTests.swift in Sources */,
 				B00000000000000000000011 /* NetWorthCalculatorTests.swift in Sources */,
 				B00000000000000000000012 /* PlannerModelTests.swift in Sources */,
-				B00000000000000000000017 /* MortgageRateServiceTests.swift in Sources */,
 				B0000000000000000000001D /* PropertyCostServiceTests.swift in Sources */,
+				B00000000000000000000028 /* PriceToRentServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,9 +457,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BuyOrRent/BuyOrRent.entitlements;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5JLPM2N462;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Buy or Rent";
@@ -455,8 +476,9 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.buyorrent.BuyOrRent;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sailwise.BuyOrRent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
@@ -471,9 +493,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BuyOrRent/BuyOrRent.entitlements;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5JLPM2N462;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Buy or Rent";
@@ -489,8 +512,9 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.buyorrent.BuyOrRent;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sailwise.BuyOrRent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;

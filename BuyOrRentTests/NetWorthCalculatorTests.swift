@@ -15,6 +15,7 @@ final class NetWorthCalculatorTests: XCTestCase {
         assumptions.buyingCostRate = 0.02
         assumptions.sellingCostRate = 0.05
         assumptions.monthlyHOA = 0
+        assumptions.downPaymentRatio = 0.10
         assumptions.monthlyRent = 2_500
 
         let point = breakdown(assumptions, years: 1)

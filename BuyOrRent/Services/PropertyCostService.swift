@@ -20,6 +20,10 @@ struct PropertyCostRecord: Equatable, Codable, Sendable {
     var confidence: String
     var methodologyNote: String
     var sources: [PropertyCostSource]
+    /// 旧缓存没有这三项时仍能解析，调用方回落到出厂种子。
+    var mortgageRate: MarketObservation?
+    var rentGrowth: MarketObservation?
+    var appreciation: MarketObservation?
 
     var rates: PropertyCostRates {
         PropertyCostRates(
@@ -28,6 +32,17 @@ struct PropertyCostRecord: Equatable, Codable, Sendable {
             propertyTaxRate: propertyTaxRate
         )
     }
+}
+
+struct InvestmentReturnRecord: Equatable, Codable, Sendable {
+    var rate: Double
+    var method: String
+    var startDate: String
+    var endDate: String
+    var startLevel: Double
+    var endLevel: Double
+    var sourceName: String
+    var sourceUrl: String
 }
 
 struct PropertyCostCatalog: Equatable, Codable, Sendable {
@@ -39,6 +54,29 @@ struct PropertyCostCatalog: Equatable, Codable, Sendable {
     var methodology: String
     var contentDigest: String
     var countries: [String: PropertyCostRecord]
+    var investmentReturn: InvestmentReturnRecord?
+}
+
+struct MarketObservation: Equatable, Codable, Sendable {
+    var rate: Double
+    var periodLabel: String
+    var sourceName: String
+    var sourceUrl: String
+}
+
+struct MarketObservationResolution: Equatable, Sendable {
+    var rate: Double
+    var origin: PropertyCostDataOrigin
+    var sourceName: String
+    var periodLabel: String
+}
+
+struct InvestmentReturnResolution: Equatable, Sendable {
+    var rate: Double
+    var origin: PropertyCostDataOrigin
+    var sourceName: String
+    var startDate: String?
+    var endDate: String?
 }
 
 enum PropertyCostError: Error, Equatable {
@@ -71,6 +109,7 @@ struct PropertyCostService {
 
     var now: @Sendable () -> Date = { Date() }
     var fetchData: @Sendable (URL) async throws -> Data = { url in try await RemoteFetch.fetch(url) }
+    var bundledData: @Sendable () -> Data? = { Self.loadBundledCatalogData() }
     var cacheDefaults: UserDefaults = .standard
     var remoteURL: URL = Self.catalogURL
 
@@ -91,6 +130,11 @@ struct PropertyCostService {
         .italy: PropertyCostRates(buyingCostRate: 0.060, sellingCostRate: 0.030, propertyTaxRate: 0),
         .switzerland: PropertyCostRates(buyingCostRate: 0.035, sellingCostRate: 0.030, propertyTaxRate: 0.002),
     ]
+
+    /// 标普 500 过去 10 年价格年化回报。远程表缺这一项时使用。
+    /// 2016-10-31 的 2126.15 到 2026-10-29 的 7720.39，年化后保留 1 个基点。
+    static let seedInvestmentReturn = 0.1377
+    static let seedInvestmentReturnSource = "FRED：S&P 500"
 
     static func seedRates(for country: Country) -> PropertyCostRates {
         seed[country] ?? PropertyCostRates(buyingCostRate: 0, sellingCostRate: 0, propertyTaxRate: 0)
@@ -115,22 +159,21 @@ struct PropertyCostService {
     }
 
     func isCheckDue(for country: Country) -> Bool {
-        guard cachedCatalog()?.countries[country.rawValue] != nil,
-              let lastChecked = cacheDefaults.object(forKey: Self.lastCheckedKey) as? Date else {
+        guard localRecord(for: country) != nil else { return true }
+        guard let baseline = lastCheckedAt ?? bundledCatalog().flatMap({ Self.isoDateTime($0.checkedAt) }) else {
             return true
         }
-        let age = now().timeIntervalSince(lastChecked)
-        return age < 0 || age >= Self.cacheLifetime
+        return now().timeIntervalSince(baseline) >= Self.cacheLifetime
     }
 
     func resolvedRates(for country: Country) -> PropertyCostResolution {
         if let catalog = cachedCatalog(),
            let record = catalog.countries[country.rawValue] {
-            return Self.resolution(
-                record: record,
-                catalog: catalog,
-                origin: .cache
-            )
+            return Self.resolution(record: record, catalog: catalog, origin: .cache)
+        }
+        if let catalog = bundledCatalog(),
+           let record = catalog.countries[country.rawValue] {
+            return Self.resolution(record: record, catalog: catalog, origin: .seed)
         }
         return PropertyCostResolution(
             rates: Self.seedRates(for: country),
@@ -139,6 +182,44 @@ struct PropertyCostService {
             publishedAt: nil,
             sourceNames: []
         )
+    }
+
+    /// 远程缓存优先，其次安装包里的表。缺字段、越界或来源不是 https 时返回 nil。
+    func resolvedMortgageRate(for country: Country) -> MarketObservationResolution? {
+        resolvedObservation(\.mortgageRate, for: country, allowsZero: false, bounds: 0...0.20)
+    }
+
+    func resolvedRentGrowth(for country: Country) -> MarketObservationResolution? {
+        resolvedObservation(\.rentGrowth, for: country, allowsZero: true, bounds: -0.05...0.15)
+    }
+
+    func resolvedAppreciation(for country: Country) -> MarketObservationResolution? {
+        resolvedObservation(\.appreciation, for: country, allowsZero: true, bounds: -0.20...0.20)
+    }
+
+    func resolvedInvestmentReturn() -> InvestmentReturnResolution {
+        if let record = cachedCatalog()?.investmentReturn {
+            return Self.investmentResolution(record, origin: .cache)
+        }
+        if let record = bundledCatalog()?.investmentReturn {
+            return Self.investmentResolution(record, origin: .seed)
+        }
+        return InvestmentReturnResolution(
+            rate: Self.seedInvestmentReturn,
+            origin: .seed,
+            sourceName: Self.seedInvestmentReturnSource,
+            startDate: nil,
+            endDate: nil
+        )
+    }
+
+    func bundledCatalog() -> PropertyCostCatalog? {
+        guard let data = bundledData(),
+              let catalog = try? Self.parse(data),
+              (try? Self.validate(catalog, now: now())) != nil else {
+            return nil
+        }
+        return catalog
     }
 
     static func resolution(
@@ -196,6 +277,111 @@ struct PropertyCostService {
                 throw PropertyCostError.insecureSource
             }
         }
+        if let investment = catalog.investmentReturn {
+            guard investment.method == "spxPriceCagr10Y",
+                  investment.rate.isFinite,
+                  (-0.5...0.5).contains(investment.rate),
+                  investment.startLevel > 0,
+                  investment.endLevel > 0 else {
+                throw PropertyCostError.invalidRate
+            }
+            guard let start = dateOnly(investment.startDate),
+                  let end = dateOnly(investment.endDate),
+                  start <= end,
+                  end <= now.addingTimeInterval(24 * 3600) else {
+                throw PropertyCostError.invalidDate
+            }
+            guard let url = URL(string: investment.sourceUrl),
+                  url.scheme == "https",
+                  url.host != nil,
+                  !investment.sourceName.isEmpty else {
+                throw PropertyCostError.insecureSource
+            }
+        }
+    }
+
+    private static func investmentResolution(
+        _ record: InvestmentReturnRecord,
+        origin: PropertyCostDataOrigin
+    ) -> InvestmentReturnResolution {
+        InvestmentReturnResolution(
+            rate: record.rate,
+            origin: origin,
+            sourceName: record.sourceName,
+            startDate: record.startDate,
+            endDate: record.endDate
+        )
+    }
+
+    private func resolvedObservation(
+        _ keyPath: KeyPath<PropertyCostRecord, MarketObservation?>,
+        for country: Country,
+        allowsZero: Bool,
+        bounds: ClosedRange<Double>
+    ) -> MarketObservationResolution? {
+        if let catalog = cachedCatalog(),
+           let record = catalog.countries[country.rawValue],
+           let resolution = Self.observationResolution(
+               record[keyPath: keyPath],
+               origin: .cache,
+               allowsZero: allowsZero,
+               bounds: bounds
+           ) {
+            return resolution
+        }
+        if let catalog = bundledCatalog(),
+           let record = catalog.countries[country.rawValue],
+           let resolution = Self.observationResolution(
+               record[keyPath: keyPath],
+               origin: .seed,
+               allowsZero: allowsZero,
+               bounds: bounds
+           ) {
+            return resolution
+        }
+        return nil
+    }
+
+    private static func observationResolution(
+        _ record: MarketObservation?,
+        origin: PropertyCostDataOrigin,
+        allowsZero: Bool,
+        bounds: ClosedRange<Double>
+    ) -> MarketObservationResolution? {
+        guard let record,
+              record.rate.isFinite,
+              bounds.contains(record.rate),
+              allowsZero || record.rate > 0,
+              let url = URL(string: record.sourceUrl),
+              url.scheme == "https",
+              url.host != nil,
+              !record.sourceName.isEmpty,
+              !record.periodLabel.isEmpty else {
+            return nil
+        }
+        return MarketObservationResolution(
+            rate: record.rate,
+            origin: origin,
+            sourceName: record.sourceName,
+            periodLabel: record.periodLabel
+        )
+    }
+
+    private func localRecord(for country: Country) -> PropertyCostRecord? {
+        cachedCatalog()?.countries[country.rawValue] ?? bundledCatalog()?.countries[country.rawValue]
+    }
+
+    private var lastCheckedAt: Date? {
+        cacheDefaults.object(forKey: Self.lastCheckedKey) as? Date
+    }
+
+    static func loadBundledCatalogData() -> Data? {
+        let bundles = [Bundle.main, Bundle(identifier: "app.buyorrent.BuyOrRent")].compactMap { $0 }
+        for bundle in bundles {
+            guard let url = bundle.url(forResource: "property-costs", withExtension: "json") else { continue }
+            if let data = try? Data(contentsOf: url) { return data }
+        }
+        return nil
     }
 
     private func store(_ catalog: PropertyCostCatalog) {

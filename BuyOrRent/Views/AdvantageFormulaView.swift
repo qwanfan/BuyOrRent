@@ -4,32 +4,69 @@ import SwiftUI
 struct AdvantageFormulaView: View {
     let breakdown: HorizonBreakdown
     var currencySymbol: String = "¥"
+    var language: AppLanguage = .zhHans
+
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
+    private var copy: L10n { L10n(language: language) }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            ViewThatFits(in: .horizontal) {
-                formulaGrid(compact: false)
-                ScrollView(.horizontal, showsIndicators: false) {
-                    formulaGrid(compact: true)
+        Group {
+            if horizontalSizeClass == .compact {
+                verticalFormula
+            } else {
+                ViewThatFits(in: .horizontal) {
+                    formulaGrid(compact: false)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        formulaGrid(compact: true)
+                    }
                 }
             }
         }
         .accessibilityElement(children: .contain)
-        .accessibilityLabel("期末净财富差额公式")
+        .accessibilityLabel(copy.formulaAccessibility)
+    }
+
+    private var verticalFormula: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            formulaLine(prefix: "", title: copy.endingGap, help: copy.helpAdvantage, value: breakdown.advantageFutureValue, emphasize: true)
+            formulaLine(prefix: "=", title: copy.saleProceeds, help: copy.helpSaleProceeds, value: breakdown.saleProceeds)
+            formulaLine(prefix: "−", title: copy.initialCashFV, help: copy.helpInitialCashFV, value: breakdown.initialCashFutureValue)
+            formulaLine(prefix: "−", title: copy.holdingCostFV, help: copy.helpHoldingCostFV, value: breakdown.holdingCostFutureValue)
+            formulaLine(prefix: "+", title: copy.savedRentFV, help: copy.helpSavedRentFV, value: breakdown.rentFutureValue)
+        }
+    }
+
+    private func formulaLine(prefix: String, title: String, help: String, value: Double, emphasize: Bool = false) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
+            HStack(alignment: .top, spacing: 2) {
+                Text(prefix.isEmpty ? title : "\(prefix) \(title)")
+                    .font(.subheadline.weight(emphasize ? .semibold : .medium))
+                    .fixedSize(horizontal: false, vertical: true)
+                ParameterHelpButton(title: title, help: help)
+                    .offset(y: -2)
+            }
+            Spacer(minLength: 8)
+            Text(MoneyFormat.money(value, symbol: currencySymbol, language: language))
+                .font(emphasize ? .subheadline.weight(.semibold) : .subheadline.monospacedDigit())
+                .monospacedDigit()
+                .foregroundStyle(emphasize ? (value >= 0 ? Color.green : Color.orange) : Color.primary)
+                .layoutPriority(1)
+        }
     }
 
     private func formulaGrid(compact: Bool) -> some View {
         Grid(alignment: .center, horizontalSpacing: compact ? 4 : 6, verticalSpacing: 6) {
             GridRow(alignment: .firstTextBaseline) {
-                termHeader("期末净财富差额", help: ParameterHelp.advantage)
+                termHeader(copy.endingGap, help: copy.helpAdvantage)
                 operatorText("=")
-                termHeader("卖出净得", help: ParameterHelp.saleProceeds)
+                termHeader(copy.saleProceeds, help: copy.helpSaleProceeds)
                 operatorText("−")
-                termHeader("买入现金的终值", help: ParameterHelp.initialCashFV)
+                termHeader(copy.initialCashFV, help: copy.helpInitialCashFV)
                 operatorText("−")
-                termHeader("持有成本的终值", help: ParameterHelp.holdingCostFV)
+                termHeader(copy.holdingCostFV, help: copy.helpHoldingCostFV)
                 operatorText("+")
-                termHeader("省下房租的终值", help: ParameterHelp.savedRentFV)
+                termHeader(copy.savedRentFV, help: copy.helpSavedRentFV)
             }
 
             GridRow(alignment: .firstTextBaseline) {
@@ -59,7 +96,7 @@ struct AdvantageFormulaView: View {
     }
 
     private func termValue(_ value: Double, emphasize: Bool = false) -> some View {
-        Text(MoneyFormat.money(value, symbol: currencySymbol))
+        Text(MoneyFormat.money(value, symbol: currencySymbol, language: language))
             .font(emphasize ? .subheadline.weight(.semibold) : .subheadline.monospacedDigit())
             .monospacedDigit()
             .foregroundStyle(emphasize ? (value >= 0 ? Color.green : Color.orange) : Color.primary)

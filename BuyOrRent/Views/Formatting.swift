@@ -5,19 +5,17 @@ enum MoneyFormat {
         .precision(.fractionLength(0))
         .locale(Locale(identifier: "zh_CN"))
 
-    private static let compactNumber = FloatingPointFormatStyle<Double>.number
-        .precision(.fractionLength(1))
-        .locale(Locale(identifier: "zh_CN"))
-
     static func yuan(_ value: Double) -> String {
         value.formatted(yuanStyle)
     }
 
-    /// 以指定货币符号显示金额。金额不做汇率换算，只换符号。
-    static func money(_ value: Double, symbol: String) -> String {
-        if symbol == "¥" { return yuan(value) }
+    /// 以指定货币符号显示金额。金额不做汇率换算，只换符号。分组方式跟着界面语言。
+    static func money(_ value: Double, symbol: String, language: AppLanguage = .zhHans) -> String {
+        if language == .zhHans && symbol == "¥" { return yuan(value) }
         let sign = value < 0 ? "-" : ""
-        let grouped = abs(value).formatted(.number.precision(.fractionLength(0)).grouping(.automatic).locale(Locale(identifier: "zh_CN")))
+        let grouped = abs(value).formatted(
+            .number.precision(.fractionLength(0)).grouping(.automatic).locale(L10n(language: language).locale)
+        )
         return sign + symbol + grouped
     }
 
@@ -26,32 +24,22 @@ enum MoneyFormat {
         yuanCompact(value, symbol: "¥")
     }
 
-    static func yuanCompact(_ value: Double, symbol: String) -> String {
+    static func yuanCompact(_ value: Double, symbol: String, language: AppLanguage = .zhHans) -> String {
+        let copy = L10n(language: language)
         let sign = value < 0 ? "-" : ""
         let magnitude = abs(value)
-        if magnitude >= 100_000_000 {
-            return sign + symbol + (magnitude / 100_000_000).formatted(compactNumber) + "亿"
+        if let scale = copy.compactScale(for: magnitude) {
+            let number = (magnitude / scale.divisor).formatted(
+                .number.precision(.fractionLength(1)).locale(copy.locale)
+            )
+            return sign + symbol + number + scale.suffix
         }
-        if magnitude >= 10_000 {
-            return sign + symbol + (magnitude / 10_000).formatted(compactNumber) + "万"
-        }
-        return money(value, symbol: symbol)
+        return money(value, symbol: symbol, language: language)
     }
 }
 
 enum CrossoverCopy {
-    static func text(_ crossover: Crossover) -> String {
-        switch (crossover.favorableFromYear, crossover.unfavorableFromYear) {
-        case (nil, _):
-            return "在 1–30 年内，买房的期末净财富都没有超过租房。"
-        case (1, nil):
-            return "从第 1 年起，买房的期末净财富就更高。"
-        case (let year?, nil):
-            return "大约从第 \(year) 年起，买房转为更划算。"
-        case (1, let later?):
-            return "第 1 年买房更优，但从第 \(later) 年起转为租房更划算。"
-        case (let year?, let later?):
-            return "大约从第 \(year) 年到第 \(later - 1) 年，买房更划算；第 \(later) 年起转为租房。"
-        }
+    static func text(_ crossover: Crossover, language: AppLanguage = .zhHans) -> String {
+        L10n(language: language).crossover(crossover)
     }
 }
