@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-10-30T17:43:35Z",
-  "contentDigest": "6b02cefffa4b3616c7cca11f94b77dfad975cb145c00a5dfb3eb8cc91e3dacc4",
+  "checkedAt": "2026-10-30T19:15:38Z",
+  "contentDigest": "e61aded62241e7135b76ac71f0ad72453291d1bad8fa110b8eb34ed2457e792c",
   "countries": {
     "australia": {
       "appreciation": {
@@ -499,7 +499,7 @@
       "verifiedAt": "2026-10-29"
     }
   },
-  "datasetVersion": "2026.10.31.3",
+  "datasetVersion": "2026.10.31.4",
   "investmentReturn": {
     "endDate": "2026-10-29",
     "endLevel": 7720.39,
@@ -512,27 +512,6 @@
   },
   "methodology": "Representative country-level defaults for an individual buying and occupying an ordinary primary residence. Recurring taxes are converted to an annual share of market value where the official base is assessed value, annual rental value, a band, or a local formula. Buying and selling rates combine official transfer taxes with conservative representative allowances for unavoidable registration, legal, and typical transaction services. Local rules and the user's actual quote take precedence.",
   "nextReviewAt": "2026-11-30",
-  "priceToRent": {
-    "periodLabel": "2026 Mid-Year",
-    "sourceName": "Numbeo",
-    "sourceUrl": "https://www.numbeo.com/property-investment/rankings_by_country.jsp",
-    "years": {
-      "australia": 23.0,
-      "canada": 17.0,
-      "chinaMainland": 47.8,
-      "france": 27.0,
-      "germany": 28.1,
-      "hongKong": 47.4,
-      "italy": 19.0,
-      "japan": 39.2,
-      "netherlands": 19.2,
-      "singapore": 36.0,
-      "spain": 18.2,
-      "switzerland": 41.8,
-      "unitedKingdom": 19.7,
-      "unitedStates": 9.6
-    }
-  },
-  "publishedAt": "2026-10-30T17:43:35Z",
+  "publishedAt": "2026-10-30T19:15:38Z",
   "schemaVersion": 1
 }

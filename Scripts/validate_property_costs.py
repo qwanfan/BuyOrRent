@@ -51,9 +51,9 @@ def main() -> int:
             print(f"{location}: {error.message}")
         return 1
 
-    years = catalog.get("priceToRent", {}).get("years")
-    if not isinstance(years, dict) or set(years) != EXPECTED_COUNTRIES:
-        print("priceToRent.years country coverage mismatch")
+    countries = catalog.get("countries")
+    if not isinstance(countries, dict) or set(countries) != EXPECTED_COUNTRIES:
+        print("country coverage mismatch")
         return 1
 
     print(

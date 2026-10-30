@@ -13,8 +13,7 @@
     "methodology",
     "contentDigest",
     "countries",
-    "investmentReturn",
-    "priceToRent"
+    "investmentReturn"
   ],
   "properties": {
     "schemaVersion": {
@@ -54,9 +53,6 @@
     },
     "investmentReturn": {
       "$ref": "#/$defs/investmentReturn"
-    },
-    "priceToRent": {
-      "$ref": "#/$defs/priceToRent"
     }
   },
   "$defs": {
@@ -105,33 +101,6 @@
         "sourceUrl": {
           "type": "string",
           "pattern": "^https://"
-        }
-      }
-    },
-    "priceToRent": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["sourceName", "sourceUrl", "periodLabel", "years"],
-      "properties": {
-        "sourceName": {
-          "const": "Numbeo"
-        },
-        "sourceUrl": {
-          "const": "https://www.numbeo.com/property-investment/rankings_by_country.jsp"
-        },
-        "periodLabel": {
-          "type": "string",
-          "minLength": 4
-        },
-        "years": {
-          "type": "object",
-          "minProperties": 14,
-          "maxProperties": 14,
-          "additionalProperties": {
-            "type": "number",
-            "minimum": 5,
-            "maximum": 80
-          }
         }
       }
     },
