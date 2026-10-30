@@ -9,6 +9,23 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator, FormatChecker
 
+EXPECTED_COUNTRIES = {
+    "chinaMainland",
+    "hongKong",
+    "unitedStates",
+    "canada",
+    "singapore",
+    "australia",
+    "japan",
+    "unitedKingdom",
+    "germany",
+    "france",
+    "netherlands",
+    "spain",
+    "italy",
+    "switzerland",
+}
+
 
 def main() -> int:
     parser = argparse.ArgumentParser()
@@ -32,6 +49,11 @@ def main() -> int:
         for error in errors:
             location = ".".join(str(piece) for piece in error.path) or "<root>"
             print(f"{location}: {error.message}")
+        return 1
+
+    years = catalog.get("priceToRent", {}).get("years")
+    if not isinstance(years, dict) or set(years) != EXPECTED_COUNTRIES:
+        print("priceToRent.years country coverage mismatch")
         return 1
 
     print(

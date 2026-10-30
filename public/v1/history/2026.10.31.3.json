@@ -1,0 +1,538 @@
+{
+  "checkedAt": "2026-10-30T17:43:35Z",
+  "contentDigest": "6b02cefffa4b3616c7cca11f94b77dfad975cb145c00a5dfb3eb8cc91e3dacc4",
+  "countries": {
+    "australia": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0533,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.AU.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.05,
+      "confidence": "low",
+      "methodologyNote": "地方 council rates 与州级转让税采用全国代表值；自住房通常可享州土地税豁免，州和价格区间差异很大。",
+      "mortgageRate": {
+        "periodLabel": "31/08/2026",
+        "rate": 0.062,
+        "sourceName": "澳洲央行新发放自住房贷利率",
+        "sourceUrl": "https://www.rba.gov.au/statistics/tables/csv/f6-data.csv"
+      },
+      "propertyTaxRate": 0.006,
+      "rentGrowth": {
+        "periodLabel": "2024",
+        "rate": 0.0707,
+        "sourceName": "OECD 实际房租",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/AUS.A.N.CPI.PA.CP041.N.GY"
+      },
+      "sellingCostRate": 0.03,
+      "sources": [
+        {
+          "name": "Australian Taxation Office：Property",
+          "url": "https://www.ato.gov.au/individuals-and-families/investments-and-assets/property"
+        },
+        {
+          "name": "Revenue NSW：Transfer duty",
+          "url": "https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    },
+    "canada": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0319,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CA.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.03,
+      "confidence": "low",
+      "methodologyNote": "采用加拿大城市住宅的代表性有效地税及成交成本；省、市土地转让税和代理费用差异显著。",
+      "mortgageRate": {
+        "periodLabel": "2026-10-07",
+        "rate": 0.0619,
+        "sourceName": "加拿大央行 5 年期按揭挂牌利率",
+        "sourceUrl": "https://www.bankofcanada.ca/valet/observations/V80691335/json?recent=4"
+      },
+      "propertyTaxRate": 0.01,
+      "rentGrowth": {
+        "periodLabel": "2024",
+        "rate": 0.0792,
+        "sourceName": "OECD 实际房租",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CAN.A.N.CPI.PA.CP041.N.GY"
+      },
+      "sellingCostRate": 0.05,
+      "sources": [
+        {
+          "name": "Statistics Canada：Property taxes and other special charges",
+          "url": "https://www.statcan.gc.ca/en/subjects-start/housing"
+        },
+        {
+          "name": "Government of Canada：Buying a home",
+          "url": "https://www.canada.ca/en/financial-consumer-agency/services/buying-home.html"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    },
+    "chinaMainland": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": -0.0008,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CN.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.025,
+      "confidence": "medium",
+      "methodologyNote": "普通个人非经营自住房按全国通常免征年度房产税；买入采用首套契税及代表性登记、服务成本，上海和重庆试点等特殊情形应手动调整。",
+      "mortgageRate": {
+        "periodLabel": "2026-10-20",
+        "rate": 0.035,
+        "sourceName": "5 年期以上 LPR",
+        "sourceUrl": "https://www.chinamoney.com.cn/dqs/rest/cm-u-bk-currency/LprHis"
+      },
+      "propertyTaxRate": 0.0,
+      "rentGrowth": {
+        "periodLabel": "2026-09",
+        "rate": -0.006,
+        "sourceName": "国家统计局租赁房房租",
+        "sourceUrl": "https://www.stats.gov.cn/sj/zxfb/202610/t20261014_1965477.html"
+      },
+      "sellingCostRate": 0.025,
+      "sources": [
+        {
+          "name": "中国政府网：住房交易契税政策",
+          "url": "https://www.gov.cn/zhengce/zhengceku/202411/content_6986750.htm"
+        },
+        {
+          "name": "国家税务总局深圳市税务局：个人自住房屋房产税",
+          "url": "https://shenzhen.chinatax.gov.cn/sztax/zcwj/rdwd/202412/0630f87cd1d64dc99421230628cf48eb.shtml"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    },
+    "france": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0228,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.FR.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.075,
+      "confidence": "medium",
+      "methodologyNote": "Taxe foncière 由地方决定，采用全国代表性市值有效率；买入按普通二手住宅 mutation、登记和公证成本估算。",
+      "mortgageRate": {
+        "periodLabel": "2026-08",
+        "rate": 0.032,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.FR.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "propertyTaxRate": 0.01,
+      "rentGrowth": {
+        "periodLabel": "2025",
+        "rate": 0.0232,
+        "sourceName": "OECD 实际房租",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/FRA.A.N.CPI.PA.CP041.N.GY"
+      },
+      "sellingCostRate": 0.05,
+      "sources": [
+        {
+          "name": "Service-Public：Taxe foncière",
+          "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F59"
+        },
+        {
+          "name": "impots.gouv.fr：Achat immobilier",
+          "url": "https://www.impots.gouv.fr/particulier/achat-dans-le-neuf"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    },
+    "germany": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0369,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.DE.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.08,
+      "confidence": "low",
+      "methodologyNote": "2025 改革后的 Grundsteuer 仍受州模型和市镇乘数影响；买入采用州转让税、登记、公证和代表性服务费中值。",
+      "mortgageRate": {
+        "periodLabel": "2026-08",
+        "rate": 0.04,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.DE.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "propertyTaxRate": 0.0035,
+      "rentGrowth": {
+        "periodLabel": "2025",
+        "rate": 0.0211,
+        "sourceName": "OECD 实际房租",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/DEU.A.N.CPI.PA.CP041.N.GY"
+      },
+      "sellingCostRate": 0.03,
+      "sources": [
+        {
+          "name": "Bundesfinanzministerium：Grundsteuerreform",
+          "url": "https://www.bundesfinanzministerium.de/Content/DE/FAQ/faq-die-neue-grundsteuer.html"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    },
+    "hongKong": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0156,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.HK.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0325,
+      "confidence": "medium",
+      "methodologyNote": "以普通住宅的差饷及适用政府地租折算为市值有效率；买入以中档住宅从价印花税加代表性法律及代理成本估算。",
+      "mortgageRate": {
+        "periodLabel": "2026-09-30",
+        "rate": 0.0431,
+        "sourceName": "1 个月 HIBOR + 预设利差估算",
+        "sourceUrl": "https://api.hkma.gov.hk/public/market-data-and-statistics/monthly-statistical-bulletin/er-ir/hk-interbank-ir-daily"
+      },
+      "propertyTaxRate": 0.003,
+      "rentGrowth": {
+        "periodLabel": "2026-09",
+        "rate": 0.004,
+        "sourceName": "统计处私人住宅租金",
+        "sourceUrl": "https://www.censtatd.gov.hk/wbr/B1060001/B10600012026MM09/att/en/B10600012026MM09.pdf"
+      },
+      "sellingCostRate": 0.012,
+      "sources": [
+        {
+          "name": "香港差饷物业估价署：差饷",
+          "url": "https://www.rvd.gov.hk/en/our_services/rates.html"
+        },
+        {
+          "name": "香港政府一站通：印花税收费",
+          "url": "https://www.gov.hk/tc/residents/taxes/stamp/stamp_duty_rates.htm"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    },
+    "italy": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0188,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.IT.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.06,
+      "confidence": "medium",
+      "methodologyNote": "普通非豪宅主要自住房通常免 IMU；买入采用 prima casa 税收优惠及代表性公证、登记和服务成本。",
+      "mortgageRate": {
+        "periodLabel": "2026-08",
+        "rate": 0.0358,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.IT.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "propertyTaxRate": 0.0,
+      "rentGrowth": {
+        "periodLabel": "2025",
+        "rate": 0.0382,
+        "sourceName": "OECD 实际房租",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ITA.A.N.CPI.PA.CP041.N.GY"
+      },
+      "sellingCostRate": 0.03,
+      "sources": [
+        {
+          "name": "Dipartimento Finanze：Abitazione principale",
+          "url": "https://www.finanze.gov.it/it/fiscalita/fiscalita-regionale-e-locale/Imposta-municipale-propria-IMU/disciplina-del-tributo/abitazione-principale/"
+        },
+        {
+          "name": "Agenzia Entrate：Guida acquisto casa",
+          "url": "https://www.agenziaentrate.gov.it/portale/web/english/nse/individuals/property"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    },
+    "japan": {
+      "appreciation": {
+        "periodLabel": "2015-Q4–2025-Q4",
+        "rate": 0.0334,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.JP.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.06,
+      "confidence": "medium",
+      "methodologyNote": "固定资产税和都市计划税按评估值及住宅用地减免折算为市值有效率；交易成本含登记、取得税及代表性服务费。",
+      "mortgageRate": {
+        "periodLabel": "2026-10",
+        "rate": 0.0383,
+        "sourceName": "Flat 35 当月利率",
+        "sourceUrl": "https://www.flat35.com/loan/lineup/flat35/index.html"
+      },
+      "propertyTaxRate": 0.007,
+      "rentGrowth": {
+        "periodLabel": "2025",
+        "rate": 0.0047,
+        "sourceName": "总务省民营房租",
+        "sourceUrl": "https://www.stat.go.jp/data/cpi/2020/csv/zmi2020aa.csv"
+      },
+      "sellingCostRate": 0.035,
+      "sources": [
+        {
+          "name": "国土交通省：土地保有相关税制",
+          "url": "https://www.mlit.go.jp/totikensangyo/totikensangyo_tk5_000073.html"
+        },
+        {
+          "name": "国土交通省：不动产交易相关税制",
+          "url": "https://www.mlit.go.jp/totikensangyo/totikensangyo_tk5_000074.html"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    },
+    "netherlands": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.079,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.NL.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.025,
+      "confidence": "medium",
+      "methodologyNote": "OZB 采用市镇住宅代表性有效率；买入包含自住住宅 2% 转让税及代表性登记、公证费用。",
+      "mortgageRate": {
+        "periodLabel": "2026-08",
+        "rate": 0.0391,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.NL.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "propertyTaxRate": 0.001,
+      "rentGrowth": {
+        "periodLabel": "2025",
+        "rate": 0.0515,
+        "sourceName": "OECD 实际房租",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/NLD.A.N.CPI.PA.CP041.N.GY"
+      },
+      "sellingCostRate": 0.02,
+      "sources": [
+        {
+          "name": "Government.nl：Real estate transfer tax rates",
+          "url": "https://www.government.nl/topics/taxation-and-businesses/real-estate-transfer-tax"
+        },
+        {
+          "name": "Belastingdienst：Overdrachtsbelasting",
+          "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/content/overdrachtsbelasting-betalen-bij-koop-huis"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    },
+    "singapore": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0459,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.SG.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.04,
+      "confidence": "medium",
+      "methodologyNote": "自住住宅按 Annual Value 累进税率折算为市值有效率；买入默认公民首套普通住宅，不包含外国买家或多套房附加印花税。",
+      "mortgageRate": {
+        "periodLabel": "2026Aug",
+        "rate": 0.0219,
+        "sourceName": "3 个月 SORA + 预设利差估算",
+        "sourceUrl": "https://data.gov.sg/api/action/datastore_search?resource_id=d_5fe5a4bb4a1ecc4d8a56a095832e2b24"
+      },
+      "propertyTaxRate": 0.003,
+      "rentGrowth": {
+        "periodLabel": "2026-Q2",
+        "rate": 0.0169,
+        "sourceName": "市区重建局私人住宅租金指数",
+        "sourceUrl": "https://data.gov.sg/api/action/datastore_search?resource_id=d_647dabde09e726b9eeb75e4d9cd96699"
+      },
+      "sellingCostRate": 0.02,
+      "sources": [
+        {
+          "name": "IRAS：Property Tax Rates",
+          "url": "https://www.iras.gov.sg/taxes/property-tax/property-owners/property-tax-rates"
+        },
+        {
+          "name": "IRAS：Buyer's Stamp Duty",
+          "url": "https://www.iras.gov.sg/taxes/stamp-duty/for-property/buying-or-acquiring-property/buyer's-stamp-duty-(bsd)"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    },
+    "spain": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0673,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.ES.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.1,
+      "confidence": "low",
+      "methodologyNote": "IBI 和二手住宅 ITP 均由地方或自治区决定；采用普通城市住宅和二手房交易的代表值。",
+      "mortgageRate": {
+        "periodLabel": "2026-08",
+        "rate": 0.0304,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.ES.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "propertyTaxRate": 0.006,
+      "rentGrowth": {
+        "periodLabel": "2025",
+        "rate": 0.0241,
+        "sourceName": "OECD 实际房租",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ESP.A.N.CPI.PA.CP041.N.GY"
+      },
+      "sellingCostRate": 0.05,
+      "sources": [
+        {
+          "name": "Administracion.gob.es：Buying and selling property taxes",
+          "url": "https://administracion.gob.es/en/tu-espacio-europeo/derechos-obligaciones/ciudadanos/residencia/compraventa-bienes-inmuebles/impuestos"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    },
+    "switzerland": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0337,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CH.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.035,
+      "confidence": "low",
+      "methodologyNote": "无全国统一房产税或转让税，采用州级代表值；实际税费必须按 canton 和 commune 调整。",
+      "mortgageRate": {
+        "periodLabel": "2026-08",
+        "rate": 0.03,
+        "sourceName": "瑞士央行公布的新业务房贷利率",
+        "sourceUrl": "https://data.snb.ch/api/cube/zikrepro/data/csv/en?D1=MV"
+      },
+      "propertyTaxRate": 0.002,
+      "rentGrowth": {
+        "periodLabel": "2025",
+        "rate": 0.0243,
+        "sourceName": "OECD 实际房租",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CHE.A.N.CPI.PA.CP041.N.GY"
+      },
+      "sellingCostRate": 0.03,
+      "sources": [
+        {
+          "name": "Swiss Federal Tax Administration：Residential property taxation",
+          "url": "https://www.estv.admin.ch/en/system-change-in-the-taxation-of-residential-property-ownership"
+        },
+        {
+          "name": "État de Vaud：Transferts immobiliers",
+          "url": "https://www.vd.ch/etat-droit-finances/impots/impots-pour-les-individus/les-impots-les-differents-types-dimpots/transferts-immobiliers"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    },
+    "unitedKingdom": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.034,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.GB.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.04,
+      "confidence": "low",
+      "methodologyNote": "Council Tax 按普通住宅档位折算为市值有效率；买入采用英格兰和北爱尔兰自住换房的代表性 SDLT 及法律费用。",
+      "mortgageRate": {
+        "periodLabel": "30 Sep 2026",
+        "rate": 0.0513,
+        "sourceName": "英格兰银行房贷报价利率",
+        "sourceUrl": "https://www.bankofengland.co.uk/boeapps/iadb/fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/2020&Dateto=now&SeriesCodes=IUMBV34&CSVF=TN&UsingCodes=Y&VPD=Y&VFD=N"
+      },
+      "propertyTaxRate": 0.006,
+      "rentGrowth": {
+        "periodLabel": "2025",
+        "rate": 0.054,
+        "sourceName": "OECD 实际房租",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/GBR.A.N.CPI.PA.CP041.N.GY"
+      },
+      "sellingCostRate": 0.02,
+      "sources": [
+        {
+          "name": "GOV.UK：Council Tax bands",
+          "url": "https://www.gov.uk/council-tax-bands"
+        },
+        {
+          "name": "GOV.UK：Stamp Duty Land Tax",
+          "url": "https://www.gov.uk/stamp-duty-land-tax"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    },
+    "unitedStates": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0609,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.US.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.03,
+      "confidence": "low",
+      "methodologyNote": "采用全国代表性有效地税率及常见买卖成交成本；州、县和城市差异很大，实际报价应优先。",
+      "mortgageRate": {
+        "periodLabel": "2026-10-29",
+        "rate": 0.0724,
+        "sourceName": "Freddie Mac 30 年固定房贷利率",
+        "sourceUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US"
+      },
+      "propertyTaxRate": 0.011,
+      "rentGrowth": {
+        "periodLabel": "2024",
+        "rate": 0.0511,
+        "sourceName": "OECD 实际房租",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/USA.A.N.CPI.PA.CP041.N.GY"
+      },
+      "sellingCostRate": 0.055,
+      "sources": [
+        {
+          "name": "US Census Bureau：American Community Survey",
+          "url": "https://www.census.gov/programs-surveys/acs"
+        },
+        {
+          "name": "Consumer Financial Protection Bureau：Closing costs",
+          "url": "https://www.consumerfinance.gov/ask-cfpb/what-are-closing-costs-en-194/"
+        }
+      ],
+      "verifiedAt": "2026-10-29"
+    }
+  },
+  "datasetVersion": "2026.10.31.3",
+  "investmentReturn": {
+    "endDate": "2026-10-29",
+    "endLevel": 7720.39,
+    "method": "spxPriceCagr10Y",
+    "rate": 0.1377,
+    "sourceName": "FRED：S&P 500",
+    "sourceUrl": "https://fred.stlouisfed.org/series/SP500",
+    "startDate": "2016-10-31",
+    "startLevel": 2126.15
+  },
+  "methodology": "Representative country-level defaults for an individual buying and occupying an ordinary primary residence. Recurring taxes are converted to an annual share of market value where the official base is assessed value, annual rental value, a band, or a local formula. Buying and selling rates combine official transfer taxes with conservative representative allowances for unavoidable registration, legal, and typical transaction services. Local rules and the user's actual quote take precedence.",
+  "nextReviewAt": "2026-11-30",
+  "priceToRent": {
+    "periodLabel": "2026 Mid-Year",
+    "sourceName": "Numbeo",
+    "sourceUrl": "https://www.numbeo.com/property-investment/rankings_by_country.jsp",
+    "years": {
+      "australia": 23.0,
+      "canada": 17.0,
+      "chinaMainland": 47.8,
+      "france": 27.0,
+      "germany": 28.1,
+      "hongKong": 47.4,
+      "italy": 19.0,
+      "japan": 39.2,
+      "netherlands": 19.2,
+      "singapore": 36.0,
+      "spain": 18.2,
+      "switzerland": 41.8,
+      "unitedKingdom": 19.7,
+      "unitedStates": 9.6
+    }
+  },
+  "publishedAt": "2026-10-30T17:43:35Z",
+  "schemaVersion": 1
+}

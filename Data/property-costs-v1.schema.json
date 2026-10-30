@@ -12,7 +12,9 @@
     "nextReviewAt",
     "methodology",
     "contentDigest",
-    "countries"
+    "countries",
+    "investmentReturn",
+    "priceToRent"
   ],
   "properties": {
     "schemaVersion": {
@@ -49,9 +51,90 @@
       "additionalProperties": {
         "$ref": "#/$defs/countryCost"
       }
+    },
+    "investmentReturn": {
+      "$ref": "#/$defs/investmentReturn"
+    },
+    "priceToRent": {
+      "$ref": "#/$defs/priceToRent"
     }
   },
   "$defs": {
+    "investmentReturn": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rate",
+        "method",
+        "startDate",
+        "endDate",
+        "startLevel",
+        "endLevel",
+        "sourceName",
+        "sourceUrl"
+      ],
+      "properties": {
+        "rate": {
+          "type": "number",
+          "minimum": -0.5,
+          "maximum": 0.5
+        },
+        "method": {
+          "const": "spxPriceCagr10Y"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "startLevel": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "endLevel": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "sourceName": {
+          "type": "string",
+          "minLength": 2
+        },
+        "sourceUrl": {
+          "type": "string",
+          "pattern": "^https://"
+        }
+      }
+    },
+    "priceToRent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceName", "sourceUrl", "periodLabel", "years"],
+      "properties": {
+        "sourceName": {
+          "const": "Numbeo"
+        },
+        "sourceUrl": {
+          "const": "https://www.numbeo.com/property-investment/rankings_by_country.jsp"
+        },
+        "periodLabel": {
+          "type": "string",
+          "minLength": 4
+        },
+        "years": {
+          "type": "object",
+          "minProperties": 14,
+          "maxProperties": 14,
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 5,
+            "maximum": 80
+          }
+        }
+      }
+    },
     "source": {
       "type": "object",
       "additionalProperties": false,
@@ -78,7 +161,10 @@
         "verifiedAt",
         "confidence",
         "methodologyNote",
-        "sources"
+        "sources",
+        "mortgageRate",
+        "rentGrowth",
+        "appreciation"
       ],
       "properties": {
         "propertyTaxRate": {
@@ -113,8 +199,72 @@
           "items": {
             "$ref": "#/$defs/source"
           }
+        },
+        "mortgageRate": {
+          "$ref": "#/$defs/mortgageRate"
+        },
+        "rentGrowth": {
+          "$ref": "#/$defs/rentGrowth"
+        },
+        "appreciation": {
+          "$ref": "#/$defs/appreciation"
         }
       }
+    },
+    "seriesObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rate", "periodLabel", "sourceName", "sourceUrl"],
+      "properties": {
+        "rate": {
+          "type": "number"
+        },
+        "periodLabel": {
+          "type": "string",
+          "minLength": 4
+        },
+        "sourceName": {
+          "type": "string",
+          "minLength": 2
+        },
+        "sourceUrl": {
+          "type": "string",
+          "pattern": "^https://"
+        }
+      }
+    },
+    "mortgageRate": {
+      "allOf": [
+        { "$ref": "#/$defs/seriesObservation" },
+        {
+          "type": "object",
+          "properties": {
+            "rate": { "type": "number", "exclusiveMinimum": 0, "maximum": 0.2 }
+          }
+        }
+      ]
+    },
+    "rentGrowth": {
+      "allOf": [
+        { "$ref": "#/$defs/seriesObservation" },
+        {
+          "type": "object",
+          "properties": {
+            "rate": { "type": "number", "minimum": -0.05, "maximum": 0.15 }
+          }
+        }
+      ]
+    },
+    "appreciation": {
+      "allOf": [
+        { "$ref": "#/$defs/seriesObservation" },
+        {
+          "type": "object",
+          "properties": {
+            "rate": { "type": "number", "minimum": -0.2, "maximum": 0.2 }
+          }
+        }
+      ]
     }
   }
 }
