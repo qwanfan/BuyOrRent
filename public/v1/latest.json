@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-10-30T19:15:38Z",
-  "contentDigest": "e61aded62241e7135b76ac71f0ad72453291d1bad8fa110b8eb34ed2457e792c",
+  "checkedAt": "2026-10-31T04:02:53Z",
+  "contentDigest": "c54c72b8d58056f53c869f29dd9d6fb5a21616c9863903d91701a4eed321d4ba",
   "countries": {
     "australia": {
       "appreciation": {
@@ -20,10 +20,10 @@
       },
       "propertyTaxRate": 0.006,
       "rentGrowth": {
-        "periodLabel": "2024",
-        "rate": 0.0707,
-        "sourceName": "OECD 实际房租",
-        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/AUS.A.N.CPI.PA.CP041.N.GY"
+        "periodLabel": "2014–2024",
+        "rate": 0.0186,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/AUS.A.N.CPI.IX.CP041.N._Z"
       },
       "sellingCostRate": 0.03,
       "sources": [
@@ -56,10 +56,10 @@
       },
       "propertyTaxRate": 0.01,
       "rentGrowth": {
-        "periodLabel": "2024",
-        "rate": 0.0792,
-        "sourceName": "OECD 实际房租",
-        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CAN.A.N.CPI.PA.CP041.N.GY"
+        "periodLabel": "2014–2024",
+        "rate": 0.0283,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CAN.A.N.CPI.IX.CP041.N._Z"
       },
       "sellingCostRate": 0.05,
       "sources": [
@@ -94,7 +94,7 @@
       "rentGrowth": {
         "periodLabel": "2026-09",
         "rate": -0.006,
-        "sourceName": "国家统计局租赁房房租",
+        "sourceName": "国家统计局租赁房房租（最近一年）",
         "sourceUrl": "https://www.stats.gov.cn/sj/zxfb/202610/t20261014_1965477.html"
       },
       "sellingCostRate": 0.025,
@@ -128,10 +128,10 @@
       },
       "propertyTaxRate": 0.01,
       "rentGrowth": {
-        "periodLabel": "2025",
-        "rate": 0.0232,
-        "sourceName": "OECD 实际房租",
-        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/FRA.A.N.CPI.PA.CP041.N.GY"
+        "periodLabel": "2015–2025",
+        "rate": 0.0093,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/FRA.A.N.CPI.IX.CP041.N._Z"
       },
       "sellingCostRate": 0.05,
       "sources": [
@@ -164,10 +164,10 @@
       },
       "propertyTaxRate": 0.0035,
       "rentGrowth": {
-        "periodLabel": "2025",
-        "rate": 0.0211,
-        "sourceName": "OECD 实际房租",
-        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/DEU.A.N.CPI.PA.CP041.N.GY"
+        "periodLabel": "2015–2025",
+        "rate": 0.0162,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/DEU.A.N.CPI.IX.CP041.N._Z"
       },
       "sellingCostRate": 0.03,
       "sources": [
@@ -196,10 +196,10 @@
       },
       "propertyTaxRate": 0.003,
       "rentGrowth": {
-        "periodLabel": "2026-09",
-        "rate": 0.004,
-        "sourceName": "统计处私人住宅租金",
-        "sourceUrl": "https://www.censtatd.gov.hk/wbr/B1060001/B10600012026MM09/att/en/B10600012026MM09.pdf"
+        "periodLabel": "2015–2025",
+        "rate": 0.013,
+        "sourceName": "差饷物业估价署私人住宅租金指数（10 年复合）",
+        "sourceUrl": "https://www.rvd.gov.hk/datagovhk/1.3A.csv"
       },
       "sellingCostRate": 0.012,
       "sources": [
@@ -232,10 +232,10 @@
       },
       "propertyTaxRate": 0.0,
       "rentGrowth": {
-        "periodLabel": "2025",
-        "rate": 0.0382,
-        "sourceName": "OECD 实际房租",
-        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ITA.A.N.CPI.PA.CP041.N.GY"
+        "periodLabel": "2015–2025",
+        "rate": 0.0119,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ITA.A.N.CPI.IX.CP041.N._Z"
       },
       "sellingCostRate": 0.03,
       "sources": [
@@ -268,9 +268,9 @@
       },
       "propertyTaxRate": 0.007,
       "rentGrowth": {
-        "periodLabel": "2025",
-        "rate": 0.0047,
-        "sourceName": "总务省民营房租",
+        "periodLabel": "2015–2025",
+        "rate": -0.0001,
+        "sourceName": "总务省民营房租（10 年复合）",
         "sourceUrl": "https://www.stat.go.jp/data/cpi/2020/csv/zmi2020aa.csv"
       },
       "sellingCostRate": 0.035,
@@ -304,10 +304,10 @@
       },
       "propertyTaxRate": 0.001,
       "rentGrowth": {
-        "periodLabel": "2025",
-        "rate": 0.0515,
-        "sourceName": "OECD 实际房租",
-        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/NLD.A.N.CPI.PA.CP041.N.GY"
+        "periodLabel": "2015–2025",
+        "rate": 0.026,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/NLD.A.N.CPI.IX.CP041.N._Z"
       },
       "sellingCostRate": 0.02,
       "sources": [
@@ -340,9 +340,9 @@
       },
       "propertyTaxRate": 0.003,
       "rentGrowth": {
-        "periodLabel": "2026-Q2",
-        "rate": 0.0169,
-        "sourceName": "市区重建局私人住宅租金指数",
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0428,
+        "sourceName": "市区重建局私人住宅租金指数（10 年复合）",
         "sourceUrl": "https://data.gov.sg/api/action/datastore_search?resource_id=d_647dabde09e726b9eeb75e4d9cd96699"
       },
       "sellingCostRate": 0.02,
@@ -376,10 +376,10 @@
       },
       "propertyTaxRate": 0.006,
       "rentGrowth": {
-        "periodLabel": "2025",
-        "rate": 0.0241,
-        "sourceName": "OECD 实际房租",
-        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ESP.A.N.CPI.PA.CP041.N.GY"
+        "periodLabel": "2015–2025",
+        "rate": 0.0128,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ESP.A.N.CPI.IX.CP041.N._Z"
       },
       "sellingCostRate": 0.05,
       "sources": [
@@ -408,10 +408,10 @@
       },
       "propertyTaxRate": 0.002,
       "rentGrowth": {
-        "periodLabel": "2025",
-        "rate": 0.0243,
-        "sourceName": "OECD 实际房租",
-        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CHE.A.N.CPI.PA.CP041.N.GY"
+        "periodLabel": "2015–2025",
+        "rate": 0.0127,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CHE.A.N.CPI.IX.CP041.N._Z"
       },
       "sellingCostRate": 0.03,
       "sources": [
@@ -444,10 +444,10 @@
       },
       "propertyTaxRate": 0.006,
       "rentGrowth": {
-        "periodLabel": "2025",
-        "rate": 0.054,
-        "sourceName": "OECD 实际房租",
-        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/GBR.A.N.CPI.PA.CP041.N.GY"
+        "periodLabel": "2015–2025",
+        "rate": 0.0285,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/GBR.A.N.CPI.IX.CP041.N._Z"
       },
       "sellingCostRate": 0.02,
       "sources": [
@@ -480,10 +480,10 @@
       },
       "propertyTaxRate": 0.011,
       "rentGrowth": {
-        "periodLabel": "2024",
-        "rate": 0.0511,
-        "sourceName": "OECD 实际房租",
-        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/USA.A.N.CPI.PA.CP041.N.GY"
+        "periodLabel": "2014–2024",
+        "rate": 0.0428,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/USA.A.N.CPI.IX.CP041.N._Z"
       },
       "sellingCostRate": 0.055,
       "sources": [
@@ -499,7 +499,7 @@
       "verifiedAt": "2026-10-29"
     }
   },
-  "datasetVersion": "2026.10.31.4",
+  "datasetVersion": "2026.10.31.6",
   "investmentReturn": {
     "endDate": "2026-10-29",
     "endLevel": 7720.39,
@@ -511,7 +511,7 @@
     "startLevel": 2126.15
   },
   "methodology": "Representative country-level defaults for an individual buying and occupying an ordinary primary residence. Recurring taxes are converted to an annual share of market value where the official base is assessed value, annual rental value, a band, or a local formula. Buying and selling rates combine official transfer taxes with conservative representative allowances for unavoidable registration, legal, and typical transaction services. Local rules and the user's actual quote take precedence.",
-  "nextReviewAt": "2026-11-30",
-  "publishedAt": "2026-10-30T19:15:38Z",
+  "nextReviewAt": "2026-12-01",
+  "publishedAt": "2026-10-31T04:02:53Z",
   "schemaVersion": 1
 }

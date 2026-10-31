@@ -50,24 +50,30 @@ class MarketSeriesTests(unittest.TestCase):
 
     def test_rent_parsers_keep_their_own_sources(self) -> None:
         oecd = self.series.parse_oecd_csv(
-            "REF_AREA,TIME_PERIOD,OBS_VALUE\nUSA,2024,5.1\nUSA,2025,4.2\n",
+            "REF_AREA,TIME_PERIOD,OBS_VALUE\nUSA,2014,100\nUSA,2020,120\nUSA,2024,150\n",
             "USA",
-            "OECD 实际房租",
+            "OECD 实际房租（10 年复合）",
             "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0",
         )
-        self.assertEqual(oecd["periodLabel"], "2025")
-        self.assertEqual(oecd["rate"], 0.042)
+        self.assertEqual(oecd["periodLabel"], "2014\u20132024")
+        self.assertAlmostEqual(oecd["rate"], 1.5 ** 0.1 - 1, places=4)
+        self.assertEqual(self.series.period_date(oecd["periodLabel"]), date(2024, 12, 31))
 
-        lines = ["類・品目符号(Group/Item code),0001,3000"]
-        for month in range(1, 13):
-            lines.append(f"2024{month:02d},0,100")
-            lines.append(f"2025{month:02d},0,100.5")
+        def japan_years(pairs: list[tuple[int, float]]) -> str:
+            lines = ["類・品目符号(Group/Item code),0001,3000"]
+            for year, value in pairs:
+                for month in range(1, 13):
+                    lines.append(f"{year}{month:02d},0,{value}")
+            return "\n".join(lines)
+
         japan = self.series.parse_japan_cpi(
-            "\n".join(lines),
-            "总务省民营房租",
+            japan_years([(2020, 100), (2025, 105)]),
+            japan_years([(2015, 100), (2020, 110)]),
+            "总务省民营房租（10 年复合）",
             "https://www.stat.go.jp/data/cpi/2020/csv/zmi2020aa.csv",
         )
-        self.assertAlmostEqual(japan["rate"], 0.005, places=4)
+        self.assertEqual(japan["periodLabel"], "2015\u20132025")
+        self.assertAlmostEqual(japan["rate"], (115.5 / 100) ** 0.1 - 1, places=4)
 
         listing = """<a href="./202610/t20261014_1965477.html" title='2026年9月份居民消费价格同比上涨0.9%'>"""
         self.assertEqual(
@@ -76,38 +82,33 @@ class MarketSeriesTests(unittest.TestCase):
         )
         china = self.series.parse_china_html(
             "<h1>2026年9月份</h1><td>租赁房房租</td><td>-0.1</td><td>-0.6</td><td>-0.6</td>",
-            "国家统计局租赁房房租",
+            "国家统计局租赁房房租（最近一年）",
             "https://www.stats.gov.cn/sj/zxfb/202610/t20261014_1965477.html",
         )
         self.assertEqual(china["rate"], -0.006)
         self.assertEqual(china["periodLabel"], "2026-09")
+        self.assertEqual(china["sourceName"], "国家统计局租赁房房租（最近一年）")
 
-        issue = self.series.hong_kong_issue({
-            "productIndex": [
-                {"Product_Code": "OTHER", "issue": "August 2026"},
-                {"Product_Code": "B1060001", "issue": "September 2026"},
-            ]
-        })
-        self.assertEqual(issue, (2026, 9))
-        hong_kong = self.series.parse_hong_kong_rent_text(
-            "101.9 +0.4 102.5 +0.3 101.8 +0.4 101.2 +0.3 Private housing rent",
-            "2026-09",
-            "统计处私人住宅租金",
-            "https://www.censtatd.gov.hk/wbr/B1060001/example.pdf",
+        hong_kong = self.series.parse_hong_kong_rent_index(
+            "Year,Class A,All Classes\n2015,100,100\n2025,140,150\n",
+            "差饷物业估价署私人住宅租金指数（10 年复合）",
+            "https://www.rvd.gov.hk/datagovhk/1.3A.csv",
         )
-        self.assertEqual(hong_kong["rate"], 0.004)
+        self.assertEqual(hong_kong["periodLabel"], "2015\u20132025")
+        self.assertAlmostEqual(hong_kong["rate"], 1.5 ** 0.1 - 1, places=4)
 
         singapore = self.series.parse_singapore_rent(
             {"result": {"records": [{
                 "DataSeries": "Rental Index Of Residential Properties",
-                "20262Q": 162.5,
-                "20252Q": 159.8,
+                "20162Q": 100,
+                "20252Q": 140,
+                "20262Q": 150,
             }]}},
-            "市区重建局私人住宅租金指数",
+            "市区重建局私人住宅租金指数（10 年复合）",
             "https://data.gov.sg/api/action/datastore_search",
         )
-        self.assertEqual(singapore["periodLabel"], "2026-Q2")
-        self.assertAlmostEqual(singapore["rate"], 162.5 / 159.8 - 1, places=4)
+        self.assertEqual(singapore["periodLabel"], "2016-Q2\u20132026-Q2")
+        self.assertAlmostEqual(singapore["rate"], 1.5 ** 0.1 - 1, places=4)
 
     def test_bis_ten_year_compound_growth(self) -> None:
         quote = self.series.parse_bis_csv(
@@ -213,14 +214,41 @@ class MarketSeriesTests(unittest.TestCase):
         self.assertEqual(quote["rate"], 0.059)
         self.assertEqual(quote["periodLabel"], "31/08/2026")
 
-    def test_hong_kong_rent_text_without_column_spaces(self) -> None:
-        quote = self.series.parse_hong_kong_rent_text(
-            "101.9 +0.4102.5 +0.3101.8 +0.4101.2 +0.3 Private housing rent",
-            "2026-09",
-            "统计处私人住宅租金",
-            "https://www.censtatd.gov.hk/wbr/B1060001/example.pdf",
+    def test_rent_jump_check_skips_switch_to_ten_year_span(self) -> None:
+        as_of = date(2026, 10, 31)
+        span = {
+            "rate": 0.019,
+            "periodLabel": "2014\u20132024",
+            "sourceName": "OECD 实际房租（10 年复合）",
+            "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0",
+        }
+        one_year = dict(span, rate=0.0707, periodLabel="2024")
+        stable = {
+            "rate": 0.05,
+            "periodLabel": "2026-06",
+            "sourceName": "官方来源",
+            "sourceUrl": "https://example.com/source",
+        }
+        others = {
+            "mortgageRate": dict(stable, rate=0.06),
+            "appreciation": dict(stable, rate=0.04, periodLabel="2016-Q2\u20132026-Q2"),
+        }
+        assembled = self.series.assemble_market_series(
+            {"australia": {"rentGrowth": span, **others}},
+            {"countries": {"australia": {"rentGrowth": one_year}}},
+            {"australia"},
+            as_of,
         )
-        self.assertEqual(quote["rate"], 0.004)
+        self.assertEqual(assembled["australia"]["rentGrowth"]["rate"], 0.019)
+
+        later = dict(span, rate=0.08, periodLabel="2015\u20132025")
+        with self.assertRaises(ValueError):
+            self.series.assemble_market_series(
+                {"australia": {"rentGrowth": later, **others}},
+                {"countries": {"australia": {"rentGrowth": span}}},
+                {"australia"},
+                as_of,
+            )
 
 
 if __name__ == "__main__":
