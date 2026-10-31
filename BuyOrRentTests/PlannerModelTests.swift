@@ -23,13 +23,18 @@ final class PlannerModelTests: XCTestCase {
     }
 
     func testAppreciationAndRentGrowthChangeIndependently() {
-        let model = PlannerModel(autoFetchPropertyCosts: false, regionCode: "US")
+        let defaults = UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!
+        let model = PlannerModel(
+            propertyCostService: PropertyCostService(cacheDefaults: defaults),
+            autoFetchPropertyCosts: false,
+            regionCode: "US"
+        )
         XCTAssertEqual(model.assumptions.appreciationRate, 0.061, accuracy: 0.000_1)
-        XCTAssertEqual(model.assumptions.rentGrowthRate, 0.051, accuracy: 0.000_1)
+        XCTAssertEqual(model.assumptions.rentGrowthRate, 0.043, accuracy: 0.000_1)
 
         model.setAppreciationRate(0.08, source: .stepper)
         XCTAssertEqual(model.assumptions.appreciationRate, 0.08, accuracy: 0.000_1)
-        XCTAssertEqual(model.assumptions.rentGrowthRate, 0.051, accuracy: 0.000_1)
+        XCTAssertEqual(model.assumptions.rentGrowthRate, 0.043, accuracy: 0.000_1)
 
         model.setRentGrowthRate(0.03, source: .manual)
         XCTAssertEqual(model.assumptions.rentGrowthRate, 0.03, accuracy: 0.000_1)
@@ -67,7 +72,7 @@ final class PlannerModelTests: XCTestCase {
         XCTAssertEqual(model.assumptions.monthlyRent, 6_944, accuracy: 0.1)
         XCTAssertEqual(model.assumptions.investmentReturn, 0.06, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.appreciationRate, 0.061, accuracy: 0.000_1)
-        XCTAssertEqual(model.assumptions.rentGrowthRate, 0.051, accuracy: 0.000_1)
+        XCTAssertEqual(model.assumptions.rentGrowthRate, 0.043, accuracy: 0.000_1)
     }
 
     func testApplyHousingTypeAdjustsHoldingCostsOnly() {
@@ -128,7 +133,7 @@ final class PlannerModelTests: XCTestCase {
         XCTAssertFalse(model.appreciationManuallyEdited)
     }
 
-    func testMissingMarketSeriesUsesSeed() async {
+    func testMissingMarketSeriesLeavesBlankRates() async {
         let defaults = UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!
         let fetchedAt = ISO8601DateFormatter().date(from: "2026-10-29T05:00:00Z")!
         let data = propertyCostCatalogData(country: "unitedStates")
@@ -145,9 +150,9 @@ final class PlannerModelTests: XCTestCase {
         )
         model.applyCountry(.unitedStates)
         await model.refreshPropertyCosts(force: false)
-        XCTAssertEqual(model.assumptions.annualInterestRate, 0.065, accuracy: 0.000_1)
-        XCTAssertEqual(model.assumptions.rentGrowthRate, 0.051, accuracy: 0.000_1)
-        XCTAssertEqual(model.assumptions.appreciationRate, 0.061, accuracy: 0.000_1)
+        XCTAssertEqual(model.assumptions.annualInterestRate, 0.03, accuracy: 0.000_1)
+        XCTAssertEqual(model.assumptions.rentGrowthRate, 0.01, accuracy: 0.000_1)
+        XCTAssertEqual(model.assumptions.appreciationRate, 0.01, accuracy: 0.000_1)
         XCTAssertNil(model.mortgageRateSourceText)
     }
 
@@ -362,6 +367,15 @@ final class PlannerModelTests: XCTestCase {
         XCTAssertNil(model.investmentReturnSourceText)
     }
 
+    func testSourceCaptionSplitsLabelFromRemainder() {
+        let copy = L10n(language: .zhHans)
+        let text = copy.source("示例来源", period: "2026-10-29")
+        let parts = copy.sourceCaptionParts(in: text)
+        XCTAssertEqual(parts?.label, "来源")
+        XCTAssertEqual(parts?.remainder, "：示例来源 · 2026-10-29")
+        XCTAssertNil(copy.sourceCaptionParts(in: "Source: Numbeo"))
+    }
+
     func testNumbeoPriceToRentRecomputesRentUntilManualEdit() async {
         let model = PlannerModel(
             priceToRentService: priceToRentService(html: numbeoHTML(city: "10.0", outside: "10.0")),
@@ -432,12 +446,17 @@ final class PlannerModelTests: XCTestCase {
     }
 
     func testResetRestoresCountryRentSeed() {
-        let model = PlannerModel(autoFetchPropertyCosts: false, regionCode: "JP")
+        let defaults = UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!
+        let model = PlannerModel(
+            propertyCostService: PropertyCostService(cacheDefaults: defaults),
+            autoFetchPropertyCosts: false,
+            regionCode: "JP"
+        )
         model.setRentGrowthRate(0.02, source: .manual)
         model.setAppreciationRate(0.04, source: .manual)
         model.resetAssumptions()
         XCTAssertEqual(model.assumptions.appreciationRate, 0.033, accuracy: 0.000_1)
-        XCTAssertEqual(model.assumptions.rentGrowthRate, 0.005, accuracy: 0.000_1)
+        XCTAssertEqual(model.assumptions.rentGrowthRate, 0, accuracy: 0.000_1)
         XCTAssertFalse(model.rentGrowthManuallyEdited)
         XCTAssertFalse(model.appreciationManuallyEdited)
     }

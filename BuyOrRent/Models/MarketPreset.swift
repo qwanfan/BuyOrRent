@@ -24,14 +24,10 @@ struct HousingPreset: Equatable {
     var insuranceRate: Double
 }
 
-/// 一个国家的参考参数。贷款年限、缺省利率、保险和物业费仍是内置预设。
-/// 地税与买卖费率不在这里，改由 `PropertyCostService` 的出厂种子提供。
+/// 一个国家的参考参数。贷款年限、贷款保险、维修、房屋保险和物业费是内置预设。
+/// 房贷利率、租金升值、房价涨跌、地税和买卖成本在房产成本表里。
 struct MarketPreset: Equatable {
     var loanYears: Int
-    /// 联网失败时使用的房贷年利率（小数）。
-    var defaultMortgageRate: Double
-    /// 基准定价国家的利差（小数，可为负）；其他国家为 0。
-    var benchmarkSpread: Double
     var pmiRate: Double
     var baseMaintenanceRate: Double
     var baseInsuranceRate: Double
@@ -39,12 +35,6 @@ struct MarketPreset: Equatable {
     var apartmentHOA: Double
     /// 租售比种子：Numbeo 市中心与市郊租售比的平均值（年），四舍五入到 0.1 年。直接抓取失败且没有上次结果时使用。
     var priceToRentYears: Double
-    /// 联网失败时使用的房租年涨幅（小数）。精确到 0.1 个百分点。
-    var defaultRentGrowth: Double
-    /// 联网失败时使用的房价年涨跌（小数，可为负）。精确到 0.1 个百分点。
-    var defaultAppreciation: Double
-    /// 利率来源名称，用于界面标注。
-    var rateSourceName: String
 
     /// 年租金收益率（年租金 ÷ 房价），与租售比互为倒数。
     var grossRentalYield: Double { 1 / priceToRentYears }
@@ -196,89 +186,61 @@ enum Country: String, CaseIterable, Identifiable, Equatable {
     var preset: MarketPreset {
         switch self {
         case .chinaMainland:
-            MarketPreset(loanYears: 30, defaultMortgageRate: 0.035, benchmarkSpread: 0,
-                         pmiRate: 0,
+            MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.004, apartmentHOA: 300,
-                         priceToRentYears: 47.8, defaultRentGrowth: -0.006, defaultAppreciation: -0.001,
-                         rateSourceName: "5 年期以上 LPR")
+                         priceToRentYears: 47.8)
         case .hongKong:
-            MarketPreset(loanYears: 30, defaultMortgageRate: 0.035, benchmarkSpread: 0.013,
-                         pmiRate: 0,
+            MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.008, baseInsuranceRate: 0.003, apartmentHOA: 2_500,
-                         priceToRentYears: 47.4, defaultRentGrowth: 0.004, defaultAppreciation: 0.016,
-                         rateSourceName: "1 个月 HIBOR + 预设利差估算")
+                         priceToRentYears: 47.4)
         case .unitedStates:
-            MarketPreset(loanYears: 30, defaultMortgageRate: 0.065, benchmarkSpread: 0,
-                         pmiRate: 0.005,
+            MarketPreset(loanYears: 30, pmiRate: 0.005,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.005, apartmentHOA: 250,
-                         priceToRentYears: 9.6, defaultRentGrowth: 0.051, defaultAppreciation: 0.061,
-                         rateSourceName: "Freddie Mac 30 年固定房贷利率")
+                         priceToRentYears: 9.6)
         case .canada:
-            MarketPreset(loanYears: 25, defaultMortgageRate: 0.050, benchmarkSpread: 0,
-                         pmiRate: 0,
+            MarketPreset(loanYears: 25, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.004, apartmentHOA: 350,
-                         priceToRentYears: 17.0, defaultRentGrowth: 0.079, defaultAppreciation: 0.032,
-                         rateSourceName: "加拿大央行 5 年期按揭挂牌利率")
+                         priceToRentYears: 17.0)
         case .singapore:
-            MarketPreset(loanYears: 30, defaultMortgageRate: 0.025, benchmarkSpread: 0.010,
-                         pmiRate: 0,
+            MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.008, baseInsuranceRate: 0.003, apartmentHOA: 300,
-                         priceToRentYears: 36.0, defaultRentGrowth: 0.017, defaultAppreciation: 0.046,
-                         rateSourceName: "3 个月 SORA + 预设利差估算")
+                         priceToRentYears: 36.0)
         case .australia:
-            MarketPreset(loanYears: 30, defaultMortgageRate: 0.060, benchmarkSpread: 0,
-                         pmiRate: 0,
+            MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.004, apartmentHOA: 300,
-                         priceToRentYears: 23.0, defaultRentGrowth: 0.071, defaultAppreciation: 0.053,
-                         rateSourceName: "澳洲央行新发放自住房贷利率")
+                         priceToRentYears: 23.0)
         case .japan:
-            MarketPreset(loanYears: 35, defaultMortgageRate: 0.035, benchmarkSpread: 0,
-                         pmiRate: 0,
+            MarketPreset(loanYears: 35, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 15_000,
-                         priceToRentYears: 39.2, defaultRentGrowth: 0.005, defaultAppreciation: 0.033,
-                         rateSourceName: "Flat 35 当月利率")
+                         priceToRentYears: 39.2)
         case .unitedKingdom:
-            MarketPreset(loanYears: 25, defaultMortgageRate: 0.045, benchmarkSpread: 0,
-                         pmiRate: 0,
+            MarketPreset(loanYears: 25, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 150,
-                         priceToRentYears: 19.7, defaultRentGrowth: 0.054, defaultAppreciation: 0.034,
-                         rateSourceName: "英格兰银行房贷报价利率")
+                         priceToRentYears: 19.7)
         case .germany:
-            MarketPreset(loanYears: 30, defaultMortgageRate: 0.038, benchmarkSpread: 0,
-                         pmiRate: 0,
+            MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 200,
-                         priceToRentYears: 28.1, defaultRentGrowth: 0.021, defaultAppreciation: 0.037,
-                         rateSourceName: "ECB 新发放住房贷款利率")
+                         priceToRentYears: 28.1)
         case .france:
-            MarketPreset(loanYears: 25, defaultMortgageRate: 0.034, benchmarkSpread: 0,
-                         pmiRate: 0,
+            MarketPreset(loanYears: 25, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 200,
-                         priceToRentYears: 27.0, defaultRentGrowth: 0.023, defaultAppreciation: 0.023,
-                         rateSourceName: "ECB 新发放住房贷款利率")
+                         priceToRentYears: 27.0)
         case .netherlands:
-            MarketPreset(loanYears: 30, defaultMortgageRate: 0.038, benchmarkSpread: 0,
-                         pmiRate: 0,
+            MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 200,
-                         priceToRentYears: 19.2, defaultRentGrowth: 0.051, defaultAppreciation: 0.079,
-                         rateSourceName: "ECB 新发放住房贷款利率")
+                         priceToRentYears: 19.2)
         case .spain:
-            MarketPreset(loanYears: 30, defaultMortgageRate: 0.035, benchmarkSpread: 0,
-                         pmiRate: 0,
+            MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 150,
-                         priceToRentYears: 18.2, defaultRentGrowth: 0.024, defaultAppreciation: 0.067,
-                         rateSourceName: "ECB 新发放住房贷款利率")
+                         priceToRentYears: 18.2)
         case .italy:
-            MarketPreset(loanYears: 25, defaultMortgageRate: 0.036, benchmarkSpread: 0,
-                         pmiRate: 0,
+            MarketPreset(loanYears: 25, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 150,
-                         priceToRentYears: 19.0, defaultRentGrowth: 0.038, defaultAppreciation: 0.019,
-                         rateSourceName: "ECB 新发放住房贷款利率")
+                         priceToRentYears: 19.0)
         case .switzerland:
-            MarketPreset(loanYears: 25, defaultMortgageRate: 0.018, benchmarkSpread: 0,
-                         pmiRate: 0,
+            MarketPreset(loanYears: 25, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 400,
-                         priceToRentYears: 41.8, defaultRentGrowth: 0.024, defaultAppreciation: 0.034,
-                         rateSourceName: "瑞士央行公布的新业务房贷利率")
+                         priceToRentYears: 41.8)
         }
     }
 }

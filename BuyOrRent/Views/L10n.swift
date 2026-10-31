@@ -42,6 +42,16 @@ extension EnvironmentValues {
     }
 }
 
+struct SourceCaptionParts: Equatable {
+    var label: String
+    var remainder: String
+
+    static func splitting(_ text: String, label: String) -> SourceCaptionParts? {
+        guard text.hasPrefix(label) else { return nil }
+        return SourceCaptionParts(label: label, remainder: String(text.dropFirst(label.count)))
+    }
+}
+
 struct L10n {
     let language: AppLanguage
 
@@ -277,18 +287,33 @@ struct L10n {
     var holdingCostFV: String { t("持有成本的终值", "持有成本的終值", "Future value of holding costs", "保有コストの将来価値", "Endwert der Haltekosten", "Valeur future des coûts de détention", "Toekomstige waarde van bezitkosten", "Valor futuro de los costes de tenencia", "Valore futuro dei costi di possesso") }
     var savedRentFV: String { t("省下房租的终值", "省下租金的終值", "Future value of rent saved", "節約した家賃の将来価値", "Endwert der gesparten Miete", "Valeur future du loyer économisé", "Toekomstige waarde van bespaarde huur", "Valor futuro del alquiler ahorrado", "Valore futuro dell'affitto risparmiato") }
 
-    func source(_ name: String) -> String {
-        let shown = localizedSourceName(name)
+    var sourceLabel: String {
         switch language {
-        case .zhHans: return "来源：\(shown)"
-        case .zhHant: return "來源：\(shown)"
-        case .en: return "Source: \(shown)"
-        case .ja: return "出典：\(shown)"
-        case .de: return "Quelle: \(shown)"
-        case .fr: return "Source : \(shown)"
-        case .nl: return "Bron: \(shown)"
-        case .es: return "Fuente: \(shown)"
-        case .it: return "Fonte: \(shown)"
+        case .zhHans: "来源"
+        case .zhHant: "來源"
+        case .en, .fr: "Source"
+        case .ja: "出典"
+        case .de: "Quelle"
+        case .nl: "Bron"
+        case .es: "Fuente"
+        case .it: "Fonte"
+        }
+    }
+
+    /// 把「来源：机构 · 日期」拆成标签词和其余部分。前缀不是当前语言的标签时返回 nil。
+    func sourceCaptionParts(in text: String) -> SourceCaptionParts? {
+        SourceCaptionParts.splitting(text, label: sourceLabel)
+    }
+
+    func source(_ name: String) -> String {
+        "\(sourceLabel)\(sourceSeparator)\(localizedSourceName(name))"
+    }
+
+    private var sourceSeparator: String {
+        switch language {
+        case .zhHans, .zhHant, .ja: "："
+        case .fr: " : "
+        default: ": "
         }
     }
 
@@ -313,17 +338,18 @@ struct L10n {
 
     func sourceAndOthers(_ name: String) -> String {
         let shown = localizedSourceName(name)
+        let tail: String
         switch language {
-        case .zhHans: return "来源：\(shown) 等"
-        case .zhHant: return "來源：\(shown) 等"
-        case .en: return "Source: \(shown) et al."
-        case .ja: return "出典：\(shown) など"
-        case .de: return "Quelle: \(shown) u. a."
-        case .fr: return "Source : \(shown) et autres"
-        case .nl: return "Bron: \(shown) e.a."
-        case .es: return "Fuente: \(shown) y otros"
-        case .it: return "Fonte: \(shown) e altri"
+        case .zhHans, .zhHant: tail = " 等"
+        case .en: tail = " et al."
+        case .ja: tail = " など"
+        case .de: tail = " u. a."
+        case .fr: tail = " et autres"
+        case .nl: tail = " e.a."
+        case .es: tail = " y otros"
+        case .it: tail = " e altri"
         }
+        return "\(sourceLabel)\(sourceSeparator)\(shown)\(tail)"
     }
 
     struct CompactScale {
@@ -507,6 +533,16 @@ struct L10n {
             .es: "Alquileres efectivos de la OCDE",
             .it: "Affitti effettivi OCSE"
         ],
+        "OECD 实际房租（10 年复合）": [
+            .zhHant: "OECD 實際房租（10 年複合）",
+            .en: "OECD actual rentals (10-year compound)",
+            .ja: "OECD の実際家賃（10 年の複利）",
+            .de: "OECD-Ist-Mieten (10-Jahres-Verzinsung)",
+            .fr: "Loyers effectifs OCDE (composé sur 10 ans)",
+            .nl: "OESO werkelijke huren (10-jaars samengesteld)",
+            .es: "Alquileres efectivos de la OCDE (compuesto a 10 años)",
+            .it: "Affitti effettivi OCSE (composto su 10 anni)"
+        ],
         "国家统计局租赁房房租": [
             .zhHant: "國家統計局租賃房房租",
             .en: "NBS rent of rental housing",
@@ -516,6 +552,16 @@ struct L10n {
             .nl: "Huur van huurwoningen (NBS)",
             .es: "Alquiler de vivienda en alquiler (NBS)",
             .it: "Affitto delle abitazioni in locazione (NBS)"
+        ],
+        "国家统计局租赁房房租（最近一年）": [
+            .zhHant: "國家統計局租賃房房租（最近一年）",
+            .en: "NBS rent of rental housing (latest year)",
+            .ja: "国家統計局の賃貸住宅家賃（直近 1 年）",
+            .de: "Miete für Mietwohnungen (NBS, letztes Jahr)",
+            .fr: "Loyer des logements locatifs (NBS, dernière année)",
+            .nl: "Huur van huurwoningen (NBS, laatste jaar)",
+            .es: "Alquiler de vivienda en alquiler (NBS, último año)",
+            .it: "Affitto delle abitazioni in locazione (NBS, ultimo anno)"
         ],
         "统计处私人住宅租金": [
             .zhHant: "統計處私人住宅租金",
@@ -527,6 +573,16 @@ struct L10n {
             .es: "Alquiler de vivienda privada (C&SD)",
             .it: "Affitto di abitazioni private (C&SD)"
         ],
+        "差饷物业估价署私人住宅租金指数（10 年复合）": [
+            .zhHant: "差餉物業估價署私人住宅租金指數（10 年複合）",
+            .en: "RVD private domestic rental index (10-year compound)",
+            .ja: "差餉物業估價署の民間住宅賃料指数（10 年の複利）",
+            .de: "RVD-Mietindex für Privatwohnungen (10-Jahres-Verzinsung)",
+            .fr: "Indice des loyers résidentiels privés du RVD (composé sur 10 ans)",
+            .nl: "RVD-huurindex voor particuliere woningen (10-jaars samengesteld)",
+            .es: "Índice de alquiler residencial privado del RVD (compuesto a 10 años)",
+            .it: "Indice degli affitti residenziali privati RVD (composto su 10 anni)"
+        ],
         "市区重建局私人住宅租金指数": [
             .zhHant: "市區重建局私人住宅租金指數",
             .en: "URA private residential rental index",
@@ -537,6 +593,16 @@ struct L10n {
             .es: "Índice de alquiler residencial privado de la URA",
             .it: "Indice degli affitti residenziali privati URA"
         ],
+        "市区重建局私人住宅租金指数（10 年复合）": [
+            .zhHant: "市區重建局私人住宅租金指數（10 年複合）",
+            .en: "URA private residential rental index (10-year compound)",
+            .ja: "URA の民間住宅賃料指数（10 年の複利）",
+            .de: "URA-Mietindex für Privatwohnungen (10-Jahres-Verzinsung)",
+            .fr: "Indice des loyers résidentiels privés de l'URA (composé sur 10 ans)",
+            .nl: "URA-huurindex voor particuliere woningen (10-jaars samengesteld)",
+            .es: "Índice de alquiler residencial privado de la URA (compuesto a 10 años)",
+            .it: "Indice degli affitti residenziali privati URA (composto su 10 anni)"
+        ],
         "总务省民营房租": [
             .zhHant: "總務省民營房租",
             .en: "Statistics Bureau private rent",
@@ -546,6 +612,16 @@ struct L10n {
             .nl: "Particuliere huur (statistiekbureau)",
             .es: "Alquiler privado (oficina de estadística)",
             .it: "Affitto privato (ufficio di statistica)"
+        ],
+        "总务省民营房租（10 年复合）": [
+            .zhHant: "總務省民營房租（10 年複合）",
+            .en: "Statistics Bureau private rent (10-year compound)",
+            .ja: "総務省の民営家賃（10 年の複利）",
+            .de: "Private Miete (Statistikamt, 10-Jahres-Verzinsung)",
+            .fr: "Loyer privé (bureau des statistiques, composé sur 10 ans)",
+            .nl: "Particuliere huur (statistiekbureau, 10-jaars samengesteld)",
+            .es: "Alquiler privado (oficina de estadística, compuesto a 10 años)",
+            .it: "Affitto privato (ufficio di statistica, composto su 10 anni)"
         ],
         "国际清算银行选定住宅房价": [
             .zhHant: "國際清算銀行選定住宅樓價",

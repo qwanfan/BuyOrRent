@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import csv
 import json
 import re
 import subprocess
@@ -9,7 +10,6 @@ import sys
 from calendar import monthrange
 from datetime import date
 from decimal import Decimal, ROUND_HALF_UP
-from io import BytesIO
 from typing import Any
 
 USER_AGENT = (
@@ -87,11 +87,11 @@ BIS_CODES = {
     "switzerland": "CH",
 }
 RENT_NAMES = {
-    "oecd": "OECD 实际房租",
-    "japan": "总务省民营房租",
-    "chinaMainland": "国家统计局租赁房房租",
-    "hongKong": "统计处私人住宅租金",
-    "singapore": "市区重建局私人住宅租金指数",
+    "oecd": "OECD 实际房租（10 年复合）",
+    "japan": "总务省民营房租（10 年复合）",
+    "chinaMainland": "国家统计局租赁房房租（最近一年）",
+    "hongKong": "差饷物业估价署私人住宅租金指数（10 年复合）",
+    "singapore": "市区重建局私人住宅租金指数（10 年复合）",
 }
 APPRECIATION_NAME = "国际清算银行选定住宅房价"
 BIS_SOURCE = "https://stats.bis.org/api/v1/data/WS_SPP"
@@ -147,6 +147,9 @@ def period_date(label: str) -> date | None:
     span = re.fullmatch(r"(20\d{2}-Q[1-4])[\u2013-](20\d{2}-Q[1-4])", text)
     if span:
         return period_date(span.group(2))
+    year_span = re.fullmatch(r"(20\d{2})[\u2013-](20\d{2})", text)
+    if year_span:
+        return period_date(year_span.group(2))
     quarter = re.fullmatch(r"(20\d{2})-Q([1-4])", text)
     if quarter:
         month = int(quarter.group(2)) * 3
@@ -420,35 +423,50 @@ def apply_spread(record: dict[str, Any], spread: float, source_name: str) -> dic
     return updated
 
 
+def _ten_year_compound(end_level: float, start_level: float) -> float:
+    if start_level <= 0 or end_level <= 0:
+        raise ValueError("rent index must be positive")
+    return (end_level / start_level) ** 0.1 - 1
+
+
 def parse_oecd_csv(text: str, area_code: str, source_name: str, source_url: str) -> dict[str, Any]:
+    """10-year compound growth of the annual rent index, latest year versus 10 years earlier."""
     rows = [line.split(",") for line in text.splitlines()]
     if not rows:
         raise ValueError("OECD CSV is empty")
-    header = [cell.strip() for cell in rows[0]]
+    header = [cell.strip().strip('"') for cell in rows[0]]
     try:
         area_column = header.index("REF_AREA")
         period_column = header.index("TIME_PERIOD")
         value_column = header.index("OBS_VALUE")
     except ValueError as error:
         raise ValueError("OECD CSV is missing columns") from error
-    best: tuple[int, float] | None = None
+    levels: dict[int, float] = {}
     for row in rows[1:]:
-        cells = [cell.strip() for cell in row]
+        cells = [cell.strip().strip('"') for cell in row]
         if len(cells) <= max(area_column, period_column, value_column) or cells[area_column] != area_code:
+            continue
+        if not re.fullmatch(r"20\d{2}", cells[period_column]):
             continue
         try:
             year = int(cells[period_column])
-            percent = float(cells[value_column])
+            level = float(cells[value_column])
         except ValueError:
             continue
-        if best is None or year > best[0]:
-            best = (year, percent)
-    if best is None:
-        raise ValueError(f"OECD CSV has no rent growth for {area_code}")
-    return observation(best[1] / 100, str(best[0]), source_name, source_url)
+        if level <= 0:
+            continue
+        levels[year] = level
+    if not levels:
+        raise ValueError(f"OECD CSV has no rent index for {area_code}")
+    end_year = max(levels)
+    start_year = end_year - 10
+    if start_year not in levels:
+        raise ValueError(f"OECD CSV is missing the rent index 10 years before {end_year}")
+    rate = _ten_year_compound(levels[end_year], levels[start_year])
+    return observation(rate, f"{start_year}\u2013{end_year}", source_name, source_url)
 
 
-def parse_japan_cpi(text: str, source_name: str, source_url: str) -> dict[str, Any]:
+def _japan_complete_years(text: str) -> dict[int, float]:
     lines = text.splitlines()
     code_line = next((line for line in lines if "Group/Item code" in line or "品目符号" in line), None)
     if code_line is None:
@@ -467,17 +485,34 @@ def parse_japan_cpi(text: str, source_name: str, source_url: str) -> dict[str, A
         except ValueError:
             continue
         by_year.setdefault(int(fields[0][:4]), []).append(index)
-    complete = {year for year, values in by_year.items() if len(values) == 12}
-    if not complete:
+    return {
+        year: sum(values) / len(values)
+        for year, values in by_year.items()
+        if len(values) == 12 and sum(values) > 0
+    }
+
+
+def parse_japan_cpi(
+    current_text: str,
+    linked_text: str,
+    source_name: str,
+    source_url: str,
+) -> dict[str, Any]:
+    """Chain the 2015-base and 2020-base private-rent indexes, then take a 10-year compound rate."""
+    current = _japan_complete_years(current_text)
+    linked = _japan_complete_years(linked_text)
+    if not current:
         raise ValueError("Japan CPI has no complete year")
-    year = max(complete)
-    if year - 1 not in complete:
-        raise ValueError("Japan CPI is missing the prior year")
-    current = sum(by_year[year]) / len(by_year[year])
-    previous = sum(by_year[year - 1]) / len(by_year[year - 1])
-    if previous == 0:
-        raise ValueError("Japan CPI prior year is zero")
-    return observation(current / previous - 1, str(year), source_name, source_url)
+    end_year = max(current)
+    link_year = min(current)
+    start_year = end_year - 10
+    if link_year not in linked or start_year not in linked:
+        raise ValueError("Japan CPI cannot link a 10-year rent index")
+    if current[link_year] == 0:
+        raise ValueError("Japan CPI link year is zero")
+    end_level = current[end_year] / current[link_year] * linked[link_year]
+    rate = _ten_year_compound(end_level, linked[start_year])
+    return observation(rate, f"{start_year}\u2013{end_year}", source_name, source_url)
 
 
 def china_release_url(html: str) -> str | None:
@@ -502,27 +537,38 @@ def parse_china_html(html: str, source_name: str, source_url: str) -> dict[str, 
     return observation(float(numbers.group(3)) / 100, label, source_name, source_url)
 
 
-def hong_kong_issue(payload: dict[str, Any]) -> tuple[int, int]:
-    months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    products = payload.get("productIndex") or []
-    product = next((item for item in products if item.get("Product_Code") == "B1060001"), None)
-    if product is None:
-        raise ValueError("Hong Kong report index has no rent bulletin")
-    parts = str(product.get("issue", "")).split()
-    if len(parts) != 2 or parts[0] not in months:
-        raise ValueError("Hong Kong report issue is not a month")
-    return int(parts[1]), months.index(parts[0]) + 1
-
-
-def parse_hong_kong_rent_text(text: str, period_label: str, source_name: str, source_url: str) -> dict[str, Any]:
-    normalized = re.sub(r"\s+", " ", text.replace("−", "-"))
-    match = re.search(
-        r"(\d{2,3}\.\d)\s*([+-]\d{1,2}\.\d)(?:\s*\d{2,3}\.\d\s*[+-]\d{1,2}\.\d){3}\s*Private housing rent",
-        normalized,
+def parse_hong_kong_rent_index(text: str, source_name: str, source_url: str) -> dict[str, Any]:
+    """10-year compound growth of the annual all-classes private domestic rental index."""
+    rows = list(csv.reader(text.splitlines()))
+    header_index = next(
+        (index for index, row in enumerate(rows) if any(cell.strip() == "All Classes" for cell in row)),
+        None,
     )
-    if not match:
-        raise ValueError("Hong Kong rent bulletin has no private housing rent")
-    return observation(float(match.group(2)) / 100, period_label, source_name, source_url)
+    if header_index is None:
+        raise ValueError("Hong Kong rent index has no All Classes column")
+    header = [cell.strip() for cell in rows[header_index]]
+    year_column = header.index("Year")
+    value_column = header.index("All Classes")
+    levels: dict[int, float] = {}
+    for row in rows[header_index + 1:]:
+        if len(row) <= max(year_column, value_column):
+            continue
+        try:
+            year = int(row[year_column].strip())
+            level = float(row[value_column].strip())
+        except ValueError:
+            continue
+        if level <= 0:
+            continue
+        levels[year] = level
+    if not levels:
+        raise ValueError("Hong Kong rent index has no annual level")
+    end_year = max(levels)
+    start_year = end_year - 10
+    if start_year not in levels:
+        raise ValueError(f"Hong Kong rent index is missing the level 10 years before {end_year}")
+    rate = _ten_year_compound(levels[end_year], levels[start_year])
+    return observation(rate, f"{start_year}\u2013{end_year}", source_name, source_url)
 
 
 def _decode_bytes(raw: bytes) -> str:
@@ -532,13 +578,6 @@ def _decode_bytes(raw: bytes) -> str:
         except UnicodeDecodeError:
             continue
     return raw.decode("utf-8", errors="replace")
-
-
-def pdf_text(data: bytes) -> str:
-    from pypdf import PdfReader
-
-    reader = PdfReader(BytesIO(data))
-    return "\n".join(page.extract_text() or "" for page in reader.pages)
 
 
 def parse_singapore_rent(payload: dict[str, Any], source_name: str, source_url: str) -> dict[str, Any]:
@@ -563,11 +602,12 @@ def parse_singapore_rent(payload: dict[str, Any], source_name: str, source_url: 
     if not quarters:
         raise ValueError("Singapore rent index has no quarter")
     latest = max(quarters, key=lambda item: item[0])
-    prior_key = (latest[0] // 10 - 1) * 10 + latest[0] % 10
-    prior = next((item for item in quarters if item[0] == prior_key), None)
-    if prior is None or prior[2] == 0:
-        raise ValueError("Singapore rent index is missing the quarter one year earlier")
-    return observation(latest[2] / prior[2] - 1, latest[1], source_name, source_url)
+    start_key = latest[0] - 100
+    prior = next((item for item in quarters if item[0] == start_key), None)
+    if prior is None:
+        raise ValueError(f"Singapore rent index is missing the quarter 10 years before {latest[1]}")
+    rate = _ten_year_compound(latest[2], prior[2])
+    return observation(rate, f"{prior[1]}\u2013{latest[1]}", source_name, source_url)
 
 
 def parse_bis_csv(text: str, area_code: str, source_name: str, source_url: str) -> dict[str, Any]:
@@ -663,24 +703,31 @@ def fetch_mortgage(country: str, as_of: date) -> dict[str, Any]:
     return record
 
 
-def _oecd_url(code: str) -> str:
+def _oecd_url(code: str, as_of: date) -> str:
     return (
         "https://sdmx.oecd.org/public/rest/data/"
-        f"OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/{code}.A.N.CPI.PA.CP041.N.GY"
-        "?startPeriod=2020&format=csvfile"
+        f"OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/{code}.A.N.CPI.IX.CP041.N._Z"
+        f"?startPeriod={as_of.year - 13}&format=csvfile"
     )
 
 
-def fetch_rent_growth(country: str) -> dict[str, Any]:
+def fetch_rent_growth(country: str, as_of: date) -> dict[str, Any]:
     if country in OECD_CODES:
         code = OECD_CODES[country]
-        url = _oecd_url(code)
+        url = _oecd_url(code, as_of)
         return parse_oecd_csv(str(download(url)), code, RENT_NAMES["oecd"], url.split("?")[0])
     if country == "japan":
-        url = "https://www.stat.go.jp/data/cpi/2020/csv/zmi2020aa.csv"
-        raw = download(url, binary=True)
-        assert isinstance(raw, bytes)
-        return parse_japan_cpi(_decode_bytes(raw), RENT_NAMES["japan"], url)
+        current_url = "https://www.stat.go.jp/data/cpi/2020/csv/zmi2020aa.csv"
+        linked_url = "https://www.stat.go.jp/data/cpi/2015/csv/zmi2015aa.csv"
+        current = download(current_url, binary=True)
+        linked = download(linked_url, binary=True)
+        assert isinstance(current, bytes) and isinstance(linked, bytes)
+        return parse_japan_cpi(
+            _decode_bytes(current),
+            _decode_bytes(linked),
+            RENT_NAMES["japan"],
+            current_url,
+        )
     if country == "chinaMainland":
         pages = [
             "https://www.stats.gov.cn/sj/zxfb/index.html",
@@ -692,12 +739,8 @@ def fetch_rent_growth(country: str) -> dict[str, Any]:
                 return parse_china_html(str(download(article)), RENT_NAMES["chinaMainland"], article)
         raise ValueError("China CPI release was not found")
     if country == "hongKong":
-        index_url = "https://www.censtatd.gov.hk/en/data/stat_report/subject/270/report_index.json"
-        year, month = hong_kong_issue(json.loads(str(download(index_url))))
-        code = f"B1060001{year:04d}MM{month:02d}"
-        pdf_url = f"https://www.censtatd.gov.hk/wbr/B1060001/{code}/att/en/{code}.pdf"
-        text = pdf_text(download(pdf_url, binary=True))  # type: ignore[arg-type]
-        return parse_hong_kong_rent_text(text, f"{year:04d}-{month:02d}", RENT_NAMES["hongKong"], pdf_url)
+        url = "https://www.rvd.gov.hk/datagovhk/1.3A.csv"
+        return parse_hong_kong_rent_index(str(download(url)), RENT_NAMES["hongKong"], url)
     if country == "singapore":
         url = "https://data.gov.sg/api/action/datastore_search?resource_id=d_647dabde09e726b9eeb75e4d9cd96699&limit=10"
         return parse_singapore_rent(json.loads(str(download(url))), RENT_NAMES["singapore"], url.split("&limit")[0])
@@ -716,7 +759,7 @@ def fetch_market_series(countries: set[str], as_of: date) -> dict[str, dict[str,
         fetched[country] = {}
         for field, fetcher in (
             ("mortgageRate", lambda country=country: fetch_mortgage(country, as_of)),
-            ("rentGrowth", lambda country=country: fetch_rent_growth(country)),
+            ("rentGrowth", lambda country=country: fetch_rent_growth(country, as_of)),
             ("appreciation", lambda country=country: fetch_appreciation(country, as_of)),
         ):
             try:
@@ -762,8 +805,15 @@ def assemble_market_series(
                 assembled[country][field] = old
                 continue
             validate_observation(new, field, as_of)
-            single_quarter = re.fullmatch(r"20\d{2}-Q[1-4]", str((old or {}).get("periodLabel", "")))
-            if old is not None and not (field == "appreciation" and single_quarter):
+            old_label = str((old or {}).get("periodLabel", ""))
+            new_label = str(new["periodLabel"])
+            single_quarter = re.fullmatch(r"20\d{2}-Q[1-4]", old_label)
+            switching_rent_span = (
+                field == "rentGrowth"
+                and "\u2013" in new_label
+                and "\u2013" not in old_label
+            )
+            if old is not None and not (field == "appreciation" and single_quarter) and not switching_rent_span:
                 delta = abs(float(new["rate"]) - float(old["rate"]))
                 if delta > maximum:
                     raise ValueError(

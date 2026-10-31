@@ -20,7 +20,7 @@ struct PropertyCostRecord: Equatable, Codable, Sendable {
     var confidence: String
     var methodologyNote: String
     var sources: [PropertyCostSource]
-    /// 旧缓存没有这三项时仍能解析，调用方回落到出厂种子。
+    /// 旧缓存没有这三项时仍能解析。表里没有可用值时，这三项保持空白初值。
     var mortgageRate: MarketObservation?
     var rentGrowth: MarketObservation?
     var appreciation: MarketObservation?

@@ -94,11 +94,8 @@ final class PlannerModel {
         let country = Country.matching(regionCode: regionCode)
         self.defaultCountry = country
         assumptions.country = country
-        // 首屏同步使用缓存、安装包里的表或出厂种子；联网更新不会阻塞计算。
+        // 首屏同步使用缓存或安装包里的表；联网更新不会阻塞计算。
         assumptions.monthlyRent = suggestedMonthlyRent
-        assumptions.annualInterestRate = country.preset.defaultMortgageRate
-        assumptions.rentGrowthRate = country.preset.defaultRentGrowth
-        assumptions.appreciationRate = country.preset.defaultAppreciation
         applyResolvedPropertyCosts()
         applyResolvedMarketSeries(preservingManualEdits: false)
         applyResolvedInvestmentReturn(preservingManualEdits: false)
@@ -123,9 +120,6 @@ final class PlannerModel {
         clearPropertyCostManualFlags()
         investmentReturnManuallyEdited = false
         assumptions.monthlyRent = suggestedMonthlyRent
-        assumptions.annualInterestRate = assumptions.country.preset.defaultMortgageRate
-        assumptions.rentGrowthRate = assumptions.country.preset.defaultRentGrowth
-        assumptions.appreciationRate = assumptions.country.preset.defaultAppreciation
         applyResolvedPropertyCosts()
         applyResolvedMarketSeries(preservingManualEdits: false)
         applyResolvedInvestmentReturn(preservingManualEdits: false)
@@ -144,7 +138,7 @@ final class PlannerModel {
 
     // MARK: - 国别与房型
 
-    /// 切换国家：利率、租金升值、房价涨跌、地税和买卖费率改用该国成本表，没有可用值时用出厂种子。
+    /// 切换国家：利率、租金升值、房价涨跌、地税和买卖费率改用该国成本表。
     /// 不改变房价、首付与投资回报。月租按该国租售比重算。
     func applyCountry(_ country: Country) {
         propertyCostFetchTask?.cancel()
@@ -389,20 +383,27 @@ final class PlannerModel {
 
     private func applyResolvedMarketSeries(preservingManualEdits: Bool) {
         let country = assumptions.country
+        let blank = Assumptions()
         if !preservingManualEdits || !mortgageRateManuallyEdited {
-            let rate = propertyCostService.resolvedMortgageRate(for: country)?.rate
-                ?? country.preset.defaultMortgageRate
-            applyMortgageRate(rate)
+            if let rate = propertyCostService.resolvedMortgageRate(for: country)?.rate {
+                applyMortgageRate(rate)
+            } else {
+                assumptions.annualInterestRate = blank.annualInterestRate
+            }
         }
         if !preservingManualEdits || !rentGrowthManuallyEdited {
-            let rate = propertyCostService.resolvedRentGrowth(for: country)?.rate
-                ?? country.preset.defaultRentGrowth
-            applyRentGrowth(rate)
+            if let rate = propertyCostService.resolvedRentGrowth(for: country)?.rate {
+                applyRentGrowth(rate)
+            } else {
+                assumptions.rentGrowthRate = blank.rentGrowthRate
+            }
         }
         if !preservingManualEdits || !appreciationManuallyEdited {
-            let rate = propertyCostService.resolvedAppreciation(for: country)?.rate
-                ?? country.preset.defaultAppreciation
-            applyAppreciation(rate)
+            if let rate = propertyCostService.resolvedAppreciation(for: country)?.rate {
+                applyAppreciation(rate)
+            } else {
+                assumptions.appreciationRate = blank.appreciationRate
+            }
         }
     }
 

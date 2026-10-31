@@ -102,7 +102,7 @@ private struct PriceInputs: View {
                     years: $model.assumptions.loanYears,
                     range: 1...40
                 )
-                ParameterSourceRow(source: model.mortgageRateSourceText) {
+                ParameterSourceRow(sourceLabel: copy.sourceLabel, source: model.mortgageRateSourceText) {
                     PercentStepper(
                         title: copy.mortgageRate,
                         help: copy.helpInterestRate,
@@ -142,7 +142,7 @@ private struct MarketInputs: View {
     var body: some View {
         Section {
             if collapsed.isExpanded("market") {
-                ParameterSourceRow(source: model.investmentReturnSourceText) {
+                ParameterSourceRow(sourceLabel: copy.sourceLabel, source: model.investmentReturnSourceText) {
                     PercentStepper(
                         title: copy.investmentReturn,
                         help: copy.helpInvestmentReturn,
@@ -153,7 +153,7 @@ private struct MarketInputs: View {
                         onManualChange: { model.setInvestmentReturn($0) }
                     )
                 }
-                ParameterSourceRow(source: model.appreciationSourceText) {
+                ParameterSourceRow(sourceLabel: copy.sourceLabel, source: model.appreciationSourceText) {
                     PercentStepper(
                         title: copy.appreciation,
                         help: copy.helpAppreciation,
@@ -164,7 +164,7 @@ private struct MarketInputs: View {
                         onManualChange: { model.setAppreciationRate($0, source: .manual) }
                     )
                 }
-                ParameterSourceRow(source: model.rentGrowthSourceText) {
+                ParameterSourceRow(sourceLabel: copy.sourceLabel, source: model.rentGrowthSourceText) {
                     PercentStepper(
                         title: copy.rentGrowth,
                         help: copy.helpRentGrowth,
@@ -175,7 +175,7 @@ private struct MarketInputs: View {
                         onManualChange: { model.setRentGrowthRate($0, source: .manual) }
                     )
                 }
-                ParameterSourceRow(source: model.monthlyRentSourceText) {
+                ParameterSourceRow(sourceLabel: copy.sourceLabel, source: model.monthlyRentSourceText) {
                     MoneyEditor(
                         title: copy.monthlyRent,
                         help: copy.helpMonthlyRent,
@@ -213,7 +213,7 @@ private struct HoldingInputs: View {
                     range: AssumptionBounds.maintenance,
                     stepPercent: 0.1
                 )
-                ParameterSourceRow(source: model.propertyTaxSourceText) {
+                ParameterSourceRow(sourceLabel: copy.sourceLabel, source: model.propertyTaxSourceText) {
                     PercentStepper(
                         title: copy.propertyTax,
                         help: copy.helpPropertyTax,
@@ -260,7 +260,7 @@ private struct TransactionInputs: View {
     var body: some View {
         Section {
             if collapsed.isExpanded("transaction") {
-                ParameterSourceRow(source: model.buyingCostSourceText) {
+                ParameterSourceRow(sourceLabel: copy.sourceLabel, source: model.buyingCostSourceText) {
                     PercentStepper(
                         title: copy.buyingCost,
                         help: copy.helpBuyingCost,
@@ -271,7 +271,7 @@ private struct TransactionInputs: View {
                         onManualChange: { model.setBuyingCostRate($0) }
                     )
                 }
-                ParameterSourceRow(source: model.sellingCostSourceText) {
+                ParameterSourceRow(sourceLabel: copy.sourceLabel, source: model.sellingCostSourceText) {
                     PercentStepper(
                         title: copy.sellingCost,
                         help: copy.helpSellingCost,
@@ -349,6 +349,7 @@ private struct CategoryHeader: View {
 
 /// 参数和来源放在同一行里，Form 就不会在两者之间画分隔线。
 private struct ParameterSourceRow<Content: View>: View {
+    let sourceLabel: String
     let source: String?
     @ViewBuilder var content: () -> Content
 
@@ -357,12 +358,39 @@ private struct ParameterSourceRow<Content: View>: View {
             content()
                 .frame(maxWidth: .infinity, alignment: .leading)
             if let source {
-                Text(verbatim: source)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
+                sourceLine(source)
             }
         }
+    }
+
+    @ViewBuilder
+    private func sourceLine(_ source: String) -> some View {
+        if let parts = SourceCaptionParts.splitting(source, label: sourceLabel) {
+            highlightedSource(parts, fullText: source)
+        } else {
+            Text(verbatim: source)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private func highlightedSource(_ parts: SourceCaptionParts, fullText: String) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 3) {
+            Text(verbatim: parts.label)
+                .font(.caption)
+                .foregroundStyle(Color.black)
+                .padding(.horizontal, 4)
+                .padding(.vertical, 1)
+                .background(Color.yellow, in: RoundedRectangle(cornerRadius: 3, style: .continuous))
+            Text(verbatim: parts.remainder)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(fullText)
     }
 }
 
