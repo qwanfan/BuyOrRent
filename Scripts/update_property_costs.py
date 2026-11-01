@@ -15,6 +15,7 @@ from typing import Any
 _SCRIPT_DIR = Path(__file__).resolve().parent
 if str(_SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(_SCRIPT_DIR))
+import equity_index_returns
 import market_series
 
 EXPECTED_COUNTRIES = {
@@ -86,6 +87,23 @@ def parse_args() -> argparse.Namespace:
         "--market-json",
         type=Path,
         help="Use a local mortgage, rent-growth, and appreciation JSON instead of downloading.",
+    )
+    parser.add_argument(
+        "--equity-output",
+        type=Path,
+        default=Path("public/v1/equity-index-returns.json"),
+        help="Where to write the equity-index return catalog.",
+    )
+    parser.add_argument(
+        "--equity-previous",
+        type=Path,
+        default=Path("public/v1/equity-index-returns.json"),
+        help="Previous equity-index catalog used when a Yahoo fetch fails.",
+    )
+    parser.add_argument(
+        "--equity-json",
+        type=Path,
+        help="Use a local equity-index JSON instead of downloading Yahoo charts.",
     )
     return parser.parse_args()
 
@@ -336,6 +354,21 @@ def main() -> int:
         history_path = args.history_dir / f"{catalog['datasetVersion']}.json"
         write_json(history_path, catalog)
 
+        if args.equity_json:
+            equity = equity_index_returns.load_equity_json(
+                args.equity_json.read_text(encoding="utf-8")
+            )
+        else:
+            equity_previous = (
+                load_json(args.equity_previous) if args.equity_previous.exists() else None
+            )
+            equity = equity_index_returns.fetch_equity_index_returns(
+                EXPECTED_COUNTRIES,
+                as_of,
+                equity_previous,
+            )
+        write_json(args.equity_output, equity)
+
         print(
             json.dumps(
                 {
@@ -343,6 +376,8 @@ def main() -> int:
                     "datasetVersion": catalog["datasetVersion"],
                     "countries": len(catalog["countries"]),
                     "output": str(args.output),
+                    "equityOutput": str(args.equity_output),
+                    "equityCountries": len(equity.get("countries", {})),
                 },
                 ensure_ascii=False,
             )
