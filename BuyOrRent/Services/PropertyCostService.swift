@@ -78,6 +78,7 @@ struct PropertyCostResolution: Equatable, Sendable {
     var origin: PropertyCostDataOrigin
     var datasetVersion: String?
     var publishedAt: String?
+    var verifiedAt: String?
     var sourceNames: [String]
 }
 
@@ -154,6 +155,7 @@ struct PropertyCostService {
             origin: .seed,
             datasetVersion: nil,
             publishedAt: nil,
+            verifiedAt: nil,
             sourceNames: []
         )
     }
@@ -341,6 +343,7 @@ struct PropertyCostService {
             origin: origin,
             datasetVersion: catalog.datasetVersion,
             publishedAt: catalog.publishedAt,
+            verifiedAt: record.verifiedAt,
             sourceNames: record.sources.map(\.name)
         )
     }

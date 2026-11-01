@@ -32,8 +32,8 @@
 		B0000000000000000000001E /* property-costs.json in Resources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000001E /* property-costs.json */; };
 		B0000000000000000000001F /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0000000000000000000001F /* L10n.swift */; };
 		B00000000000000000000022 /* L10nHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000022 /* L10nHelp.swift */; };
-		B00000000000000000000027 /* SPXReturnService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000027 /* SPXReturnService.swift */; };
-		B00000000000000000000028 /* SPXReturnServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000028 /* SPXReturnServiceTests.swift */; };
+		B00000000000000000000027 /* EquityIndexReturnService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000027 /* EquityIndexReturnService.swift */; };
+		B00000000000000000000028 /* EquityIndexReturnServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000028 /* EquityIndexReturnServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,8 +75,8 @@
 		F00000000000000000000020 /* BuyOrRent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuyOrRent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00000000000000000000021 /* BuyOrRentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BuyOrRentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F00000000000000000000022 /* L10nHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10nHelp.swift; sourceTree = "<group>"; };
-		F00000000000000000000027 /* SPXReturnService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPXReturnService.swift; sourceTree = "<group>"; };
-		F00000000000000000000028 /* SPXReturnServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPXReturnServiceTests.swift; sourceTree = "<group>"; };
+		F00000000000000000000027 /* EquityIndexReturnService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquityIndexReturnService.swift; sourceTree = "<group>"; };
+		F00000000000000000000028 /* EquityIndexReturnServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquityIndexReturnServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,7 +174,7 @@
 				F00000000000000000000011 /* NetWorthCalculatorTests.swift */,
 				F00000000000000000000012 /* PlannerModelTests.swift */,
 				F0000000000000000000001D /* PropertyCostServiceTests.swift */,
-				F00000000000000000000028 /* SPXReturnServiceTests.swift */,
+				F00000000000000000000028 /* EquityIndexReturnServiceTests.swift */,
 			);
 			path = BuyOrRentTests;
 			sourceTree = "<group>";
@@ -184,7 +184,7 @@
 			children = (
 				F0000000000000000000001A /* RemoteFetch.swift */,
 				F0000000000000000000001C /* PropertyCostService.swift */,
-				F00000000000000000000027 /* SPXReturnService.swift */,
+				F00000000000000000000027 /* EquityIndexReturnService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -309,7 +309,7 @@
 				B00000000000000000000022 /* L10nHelp.swift in Sources */,
 				B00000000000000000000015 /* MarketPreset.swift in Sources */,
 				B0000000000000000000001C /* PropertyCostService.swift in Sources */,
-				B00000000000000000000027 /* SPXReturnService.swift in Sources */,
+				B00000000000000000000027 /* EquityIndexReturnService.swift in Sources */,
 				B0000000000000000000001A /* RemoteFetch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -322,7 +322,7 @@
 				B00000000000000000000011 /* NetWorthCalculatorTests.swift in Sources */,
 				B00000000000000000000012 /* PlannerModelTests.swift in Sources */,
 				B0000000000000000000001D /* PropertyCostServiceTests.swift in Sources */,
-				B00000000000000000000028 /* SPXReturnServiceTests.swift in Sources */,
+				B00000000000000000000028 /* EquityIndexReturnServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -63,12 +63,12 @@ final class PlannerModel {
     private(set) var investmentReturnManuallyEdited = false
     /// 本次运行里房产成本表已从 GitHub 取到。手改或联网失败后不显示来源。
     private(set) var propertyCostsFetchedFromNetwork = false
-    /// 本次运行里已从 FRED 取到标普 500 回报。手改或查询失败后不显示来源。
+    /// 本次运行里已用上今天的各国指数表。手改或查询失败后不显示来源。
     private(set) var investmentReturnFetchedFromNetwork = false
     @ObservationIgnored
     private var propertyCostService: PropertyCostService
     @ObservationIgnored
-    private var spxService: SPXReturnService
+    private var equityIndexService: EquityIndexReturnService
     @ObservationIgnored
     private let autoFetchPropertyCosts: Bool
     /// 首次打开和恢复默认时使用的国家，按系统地区匹配。
@@ -82,12 +82,12 @@ final class PlannerModel {
 
     init(
         propertyCostService: PropertyCostService = PropertyCostService(),
-        spxService: SPXReturnService = SPXReturnService(),
+        equityIndexService: EquityIndexReturnService = EquityIndexReturnService(),
         autoFetchPropertyCosts: Bool = true,
         regionCode: String? = Locale.current.region?.identifier
     ) {
         self.propertyCostService = propertyCostService
-        self.spxService = spxService
+        self.equityIndexService = equityIndexService
         self.autoFetchPropertyCosts = autoFetchPropertyCosts
         let country = Country.matching(regionCode: regionCode)
         self.defaultCountry = country
@@ -127,7 +127,7 @@ final class PlannerModel {
         propertyCostFetchTask = Task { @MainActor [weak self] in
             guard let self else { return }
             await self.refreshPropertyCosts(force: true)
-            await self.refreshInvestmentReturn()
+            await self.refreshInvestmentReturn(force: true)
             if !Task.isCancelled {
                 self.isRestoringDefaults = false
             }
@@ -136,8 +136,8 @@ final class PlannerModel {
 
     // MARK: - 国别与房型
 
-    /// 切换国家：利率、租金升值、房价涨跌、地税和买卖费率改用该国成本表。
-    /// 不改变房价、首付与投资回报。月租按该国租售比重算。
+    /// 切换国家：利率、租金升值、房价涨跌、地税、买卖费率和投资回报改用该国数据。
+    /// 不改变房价与首付。月租按该国租售比重算。
     func applyCountry(_ country: Country) {
         propertyCostFetchTask?.cancel()
         isRestoringDefaults = false
@@ -150,8 +150,10 @@ final class PlannerModel {
         rentGrowthManuallyEdited = false
         appreciationManuallyEdited = false
         monthlyRentManuallyEdited = false
+        investmentReturnManuallyEdited = false
         applyResolvedPropertyCosts()
         applyResolvedMarketSeries(preservingManualEdits: false)
+        applyResolvedInvestmentReturn(preservingManualEdits: false)
         applyHousingPreset(preset.housingPreset(for: assumptions.housingType))
         assumptions.monthlyRent = suggestedMonthlyRent
 
@@ -269,14 +271,19 @@ final class PlannerModel {
         }
     }
 
-    /// 启动或恢复默认时向 FRED 查询截至今天的 10 年标普价格年化回报。失败则保留上次缓存或种子。
-    func refreshInvestmentReturn() async {
+    /// 启动或跨日时向 Yahoo 拉取各国主指数的 10 年价格年化回报。失败则保留上次缓存或种子。
+    func refreshInvestmentReturn(force: Bool = false) async {
         do {
-            _ = try await spxService.fetchQuote()
+            _ = try await equityIndexService.fetchAllIfNeeded(force: force)
             investmentReturnFetchedFromNetwork = true
-            applyResolvedInvestmentReturn(preservingManualEdits: true)
+            applyResolvedInvestmentReturn(preservingManualEdits: !force)
         } catch {
-            investmentReturnFetchedFromNetwork = false
+            if equityIndexService.fetchedOnToday() {
+                investmentReturnFetchedFromNetwork = true
+            } else {
+                investmentReturnFetchedFromNetwork = false
+            }
+            applyResolvedInvestmentReturn(preservingManualEdits: !force)
         }
     }
 
@@ -307,7 +314,7 @@ final class PlannerModel {
 
     var investmentReturnSourceText: String? {
         guard investmentReturnFetchedFromNetwork, !investmentReturnManuallyEdited,
-              let quote = spxService.cachedQuote() else { return nil }
+              let quote = equityIndexService.quote(for: assumptions.country) else { return nil }
         return L10n(assumptions.country).source(quote.sourceName, from: quote.startDate, to: quote.endDate)
     }
 
@@ -333,10 +340,16 @@ final class PlannerModel {
 
     private func fieldSourceText(edited: Bool) -> String? {
         guard propertyCostsFetchedFromNetwork, !edited else { return nil }
-        let names = propertyCostService.resolvedRates(for: assumptions.country).sourceNames
+        let resolution = propertyCostService.resolvedRates(for: assumptions.country)
+        let names = resolution.sourceNames
         guard let first = names.first, !first.isEmpty else { return nil }
         let copy = L10n(assumptions.country)
-        if names.count == 1 { return copy.source(first) }
+        if names.count == 1 {
+            if let verifiedAt = resolution.verifiedAt, !verifiedAt.isEmpty {
+                return copy.source(first, period: verifiedAt)
+            }
+            return copy.source(first)
+        }
         return copy.sourceAndOthers(first)
     }
 
@@ -391,7 +404,7 @@ final class PlannerModel {
 
     private func applyResolvedInvestmentReturn(preservingManualEdits: Bool) {
         guard !preservingManualEdits || !investmentReturnManuallyEdited else { return }
-        let rate = spxService.cachedQuote()?.rate ?? SPXReturnService.seedRate
+        let rate = equityIndexService.resolvedRate(for: assumptions.country)
         assumptions.investmentReturn = Self.clampInvestment(rate)
     }
 

@@ -67,10 +67,10 @@ final class PlannerModelTests: XCTestCase {
         XCTAssertEqual(model.assumptions.buyingCostRate, 0.0286, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.sellingCostRate, 0.045, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.monthlyHOA, 250, accuracy: 0.1)
-        // 房价和投资回报不被国家预设覆盖，金额不换汇。房贷利率、房价涨跌和租金升值换成该国成本表。月租未手动改过时按美国租售比 16 年重算。
+        // 房价不被国家预设覆盖，金额不换汇。投资回报换成美国主指数种子。房贷利率、房价涨跌和租金升值换成该国成本表。月租未手动改过时按美国租售比 16 年重算。
         XCTAssertEqual(model.assumptions.homePrice, 800_000, accuracy: 0.1)
         XCTAssertEqual(model.assumptions.monthlyRent, 4_167, accuracy: 0.1)
-        XCTAssertEqual(model.assumptions.investmentReturn, 0.06, accuracy: 0.000_1)
+        XCTAssertEqual(model.assumptions.investmentReturn, 0.1377, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.appreciationRate, 0.061, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.rentGrowthRate, 0.043, accuracy: 0.000_1)
     }
@@ -301,15 +301,16 @@ final class PlannerModelTests: XCTestCase {
             bundledData: { nil },
             cacheDefaults: UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!
         )
-        let csv = Data("observation_date,SP500\n2016-10-28,2000\n2026-10-28,4000\n".utf8)
-        let spx = SPXReturnService(
+        let equity = EquityIndexReturnService(
             now: { fetchedAt },
-            fetchData: { _ in csv },
-            cacheDefaults: UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!
+            fetchData: { _ in PlannerModelTestFixtures.equityChartData() },
+            sleepNanoseconds: { _ in },
+            cacheDefaults: UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!,
+            calendar: PlannerModelTestFixtures.utcCalendar
         )
         let model = PlannerModel(
             propertyCostService: costService,
-            spxService: spx,
+            equityIndexService: equity,
             autoFetchPropertyCosts: true,
             regionCode: "CN"
         )
@@ -339,16 +340,16 @@ final class PlannerModelTests: XCTestCase {
         XCTAssertEqual(model.assumptions.horizonYears, 20)
         XCTAssertEqual(model.assumptions.loanYears, 30)
         XCTAssertEqual(model.mortgageRateSourceText, "来源：Freddie Mac 30 年固定房贷利率 · 2026-10-29")
-        XCTAssertEqual(model.propertyTaxSourceText, "来源：Official source")
-        XCTAssertEqual(model.buyingCostSourceText, "来源：Official source")
-        XCTAssertEqual(model.sellingCostSourceText, "来源：Official source")
-        XCTAssertEqual(model.investmentReturnSourceText, "来源：FRED：S&P 500 · 2016-10-28 至 2026-10-28")
+        XCTAssertEqual(model.propertyTaxSourceText, "来源：Official source · 2026-10-29")
+        XCTAssertEqual(model.buyingCostSourceText, "来源：Official source · 2026-10-29")
+        XCTAssertEqual(model.sellingCostSourceText, "来源：Official source · 2026-10-29")
+        XCTAssertEqual(model.investmentReturnSourceText, "来源：Yahoo Finance：沪深 300 · 2016-10-28 至 2026-10-28")
 
         model.setPropertyTaxRate(0.02)
         model.setMortgageRate(0.04, source: .manual)
         XCTAssertNil(model.propertyTaxSourceText)
         XCTAssertNil(model.mortgageRateSourceText)
-        XCTAssertEqual(model.buyingCostSourceText, "来源：Official source")
+        XCTAssertEqual(model.buyingCostSourceText, "来源：Official source · 2026-10-29")
     }
 
     func testSourceCaptionsStayHiddenWhenNetworkFails() async {
@@ -359,15 +360,52 @@ final class PlannerModelTests: XCTestCase {
                 bundledData: { nil },
                 cacheDefaults: UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!
             ),
+            equityIndexService: EquityIndexReturnService(
+                fetchData: { _ in throw StubError() },
+                sleepNanoseconds: { _ in },
+                cacheDefaults: UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!
+            ),
             autoFetchPropertyCosts: true
         )
         await model.refreshPropertyCosts(force: false, attemptNetwork: true)
+        await model.refreshInvestmentReturn(force: false)
         XCTAssertNil(model.mortgageRateSourceText)
         XCTAssertNil(model.rentGrowthSourceText)
         XCTAssertNil(model.appreciationSourceText)
         XCTAssertNil(model.propertyTaxSourceText)
         XCTAssertNil(model.buyingCostSourceText)
         XCTAssertNil(model.sellingCostSourceText)
+        XCTAssertNil(model.investmentReturnSourceText)
+    }
+
+    func testCountrySwitchAppliesCachedEquityReturnUntilManualEdit() async {
+        let fetchedAt = ISO8601DateFormatter().date(from: "2026-10-29T05:00:00Z")!
+        let equity = EquityIndexReturnService(
+            now: { fetchedAt },
+            fetchData: { url in
+                let endLevel = url.absoluteString.contains("000300") ? 3000.0 : 4000.0
+                return PlannerModelTestFixtures.equityChartData(endLevel: endLevel)
+            },
+            sleepNanoseconds: { _ in },
+            cacheDefaults: UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!,
+            calendar: PlannerModelTestFixtures.utcCalendar
+        )
+        let model = PlannerModel(
+            equityIndexService: equity,
+            autoFetchPropertyCosts: false,
+            regionCode: "CN"
+        )
+        await model.refreshInvestmentReturn(force: false)
+        XCTAssertEqual(model.assumptions.investmentReturn, 0.0414, accuracy: 0.000_1)
+        XCTAssertTrue(model.investmentReturnSourceText?.contains("沪深 300") == true)
+
+        model.applyCountry(.unitedStates)
+        XCTAssertEqual(model.assumptions.investmentReturn, 0.0718, accuracy: 0.000_000_1)
+        XCTAssertTrue(model.investmentReturnSourceText?.contains("S&P 500") == true)
+
+        model.setInvestmentReturn(0.09)
+        await model.refreshInvestmentReturn(force: false)
+        XCTAssertEqual(model.assumptions.investmentReturn, 0.09, accuracy: 0.000_1)
         XCTAssertNil(model.investmentReturnSourceText)
     }
 
@@ -400,7 +438,7 @@ final class PlannerModelTests: XCTestCase {
         await model.refreshPropertyCosts(force: false, attemptNetwork: true)
         XCTAssertEqual(model.currentPriceToRentYears, 10, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.monthlyRent, 5_000, accuracy: 0.1)
-        XCTAssertEqual(model.monthlyRentSourceText, "Source: Official source")
+        XCTAssertEqual(model.monthlyRentSourceText, "Source: Official source · 2026-10-29")
 
         model.setMonthlyRent(1_234)
         await model.refreshPropertyCosts(force: false, attemptNetwork: true)
@@ -555,5 +593,34 @@ final class PlannerModelTests: XCTestCase {
             "sourceName": name,
             "sourceUrl": "https://example.com/source"
         ]
+    }
+
+}
+
+private enum PlannerModelTestFixtures {
+    static var utcCalendar: Calendar {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
+        return calendar
+    }
+
+    static func equityChartData(endLevel: Double = 4000) -> Data {
+        let start = Date(timeIntervalSince1970: 1_477_612_800) // 2016-10-28
+        let end = Date(timeIntervalSince1970: 1_793_145_600) // 2026-10-28
+        let payload: [String: Any] = [
+            "chart": [
+                "result": [
+                    [
+                        "timestamp": [start.timeIntervalSince1970, end.timeIntervalSince1970],
+                        "indicators": [
+                            "quote": [
+                                ["close": [2000.0, endLevel]]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+        return try! JSONSerialization.data(withJSONObject: payload)
     }
 }
