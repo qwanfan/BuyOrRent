@@ -70,7 +70,7 @@ final class PlannerModelTests: XCTestCase {
         // 房价不被国家预设覆盖，金额不换汇。投资回报换成美国主指数种子。房贷利率、房价涨跌和租金升值换成该国成本表。月租未手动改过时按美国租售比 16 年重算。
         XCTAssertEqual(model.assumptions.homePrice, 800_000, accuracy: 0.1)
         XCTAssertEqual(model.assumptions.monthlyRent, 4_167, accuracy: 0.1)
-        XCTAssertEqual(model.assumptions.investmentReturn, 0.1377, accuracy: 0.000_1)
+        XCTAssertEqual(model.assumptions.investmentReturn, 0.1355, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.appreciationRate, 0.061, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.rentGrowthRate, 0.043, accuracy: 0.000_1)
     }
@@ -303,8 +303,8 @@ final class PlannerModelTests: XCTestCase {
         )
         let equity = EquityIndexReturnService(
             now: { fetchedAt },
-            fetchData: { _ in PlannerModelTestFixtures.equityChartData() },
-            sleepNanoseconds: { _ in },
+            fetchData: { _ in PlannerModelTestFixtures.equityCatalogData() },
+            bundledData: { nil },
             cacheDefaults: UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!,
             calendar: PlannerModelTestFixtures.utcCalendar
         )
@@ -335,7 +335,7 @@ final class PlannerModelTests: XCTestCase {
         XCTAssertEqual(model.assumptions.propertyTaxRate, 0.012, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.buyingCostRate, 0.031, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.sellingCostRate, 0.056, accuracy: 0.000_1)
-        XCTAssertEqual(model.assumptions.investmentReturn, 0.0718, accuracy: 0.000_000_1)
+        XCTAssertEqual(model.assumptions.investmentReturn, 0.0414, accuracy: 0.000_1)
         XCTAssertFalse(model.investmentReturnManuallyEdited)
         XCTAssertEqual(model.assumptions.horizonYears, 20)
         XCTAssertEqual(model.assumptions.loanYears, 30)
@@ -362,7 +362,7 @@ final class PlannerModelTests: XCTestCase {
             ),
             equityIndexService: EquityIndexReturnService(
                 fetchData: { _ in throw StubError() },
-                sleepNanoseconds: { _ in },
+                bundledData: { nil },
                 cacheDefaults: UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!
             ),
             autoFetchPropertyCosts: true
@@ -382,11 +382,8 @@ final class PlannerModelTests: XCTestCase {
         let fetchedAt = ISO8601DateFormatter().date(from: "2026-10-29T05:00:00Z")!
         let equity = EquityIndexReturnService(
             now: { fetchedAt },
-            fetchData: { url in
-                let endLevel = url.absoluteString.contains("000300") ? 3000.0 : 4000.0
-                return PlannerModelTestFixtures.equityChartData(endLevel: endLevel)
-            },
-            sleepNanoseconds: { _ in },
+            fetchData: { _ in PlannerModelTestFixtures.equityCatalogData() },
+            bundledData: { nil },
             cacheDefaults: UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!,
             calendar: PlannerModelTestFixtures.utcCalendar
         )
@@ -604,22 +601,26 @@ private enum PlannerModelTestFixtures {
         return calendar
     }
 
-    static func equityChartData(endLevel: Double = 4000) -> Data {
-        let start = Date(timeIntervalSince1970: 1_477_612_800) // 2016-10-28
-        let end = Date(timeIntervalSince1970: 1_793_145_600) // 2026-10-28
+    static func equityCatalogData() -> Data {
         let payload: [String: Any] = [
-            "chart": [
-                "result": [
-                    [
-                        "timestamp": [start.timeIntervalSince1970, end.timeIntervalSince1970],
-                        "indicators": [
-                            "quote": [
-                                ["close": [2000.0, endLevel]]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+            "schemaVersion": 1,
+            "publishedAt": "2026-10-29T05:00:00Z",
+            "fetchedOn": "2026-10-01",
+            "methodology": "Ten-year price CAGR",
+            "countries": [
+                "chinaMainland": [
+                    "rate": 0.0414,
+                    "startDate": "2016-10-28",
+                    "endDate": "2026-10-28",
+                    "sourceName": "Yahoo Finance：沪深 300",
+                ],
+                "unitedStates": [
+                    "rate": 0.0718,
+                    "startDate": "2016-10-28",
+                    "endDate": "2026-10-28",
+                    "sourceName": "Yahoo Finance：S&P 500",
+                ],
+            ],
         ]
         return try! JSONSerialization.data(withJSONObject: payload)
     }

@@ -8,152 +8,113 @@ final class EquityIndexReturnServiceTests: XCTestCase {
         return calendar
     }
 
-    func testTrailingTenYearPriceReturnFromPoints() throws {
-        let asOf = calendar.date(from: DateComponents(year: 2026, month: 10, day: 29))!
-        let start = calendar.date(from: DateComponents(year: 2016, month: 10, day: 28))!
-        let end = calendar.date(from: DateComponents(year: 2026, month: 10, day: 28))!
-        let quote = try EquityIndexReturnParser.trailingReturn(
-            points: [(start, 2000), (end, 4000)],
-            sourceName: "Yahoo Finance：S&P 500",
-            asOf: asOf,
-            calendar: calendar
-        )
-        XCTAssertEqual(quote.rate, 0.0718, accuracy: 0.000_000_1)
-        XCTAssertEqual(quote.startDate, "2016-10-28")
-        XCTAssertEqual(quote.endDate, "2026-10-28")
+    func testParseAndValidateCatalog() throws {
+        let catalog = try EquityIndexReturnService.parse(Self.catalogData())
+        try EquityIndexReturnService.validate(catalog)
+        XCTAssertEqual(catalog.schemaVersion, 1)
+        XCTAssertEqual(catalog.countries["unitedStates"]?.rate ?? 0, 0.0718, accuracy: 0.000_000_1)
+        XCTAssertEqual(catalog.countries["chinaMainland"]?.sourceName, "Yahoo Finance：沪深 300")
     }
 
-    func testParseYahooChartJSON() throws {
-        let asOf = calendar.date(from: DateComponents(year: 2026, month: 10, day: 29))!
-        let start = calendar.date(from: DateComponents(year: 2016, month: 10, day: 28))!
-        let end = calendar.date(from: DateComponents(year: 2026, month: 10, day: 28))!
-        let payload: [String: Any] = [
-            "chart": [
-                "result": [
-                    [
-                        "timestamp": [start.timeIntervalSince1970, end.timeIntervalSince1970],
-                        "indicators": [
-                            "quote": [
-                                ["close": [2000.0, 4000.0]]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ]
-        let data = try JSONSerialization.data(withJSONObject: payload)
-        let quote = try EquityIndexReturnParser.parseChart(
-            data,
-            sourceName: "Yahoo Finance：沪深 300",
-            asOf: asOf,
-            calendar: calendar
-        )
-        XCTAssertEqual(quote.rate, 0.0718, accuracy: 0.000_000_1)
-        XCTAssertEqual(quote.sourceName, "Yahoo Finance：沪深 300")
-    }
-
-    func testRejectsSeriesThatDoesNotCoverTenYears() {
-        let asOf = calendar.date(from: DateComponents(year: 2026, month: 10, day: 29))!
-        let start = calendar.date(from: DateComponents(year: 2026, month: 1, day: 2))!
-        let end = calendar.date(from: DateComponents(year: 2026, month: 10, day: 28))!
-        XCTAssertThrowsError(
-            try EquityIndexReturnParser.trailingReturn(
-                points: [(start, 5000), (end, 5100)],
-                sourceName: "Yahoo Finance：DAX",
-                asOf: asOf,
-                calendar: calendar
-            )
-        ) { error in
-            XCTAssertEqual(error as? EquityIndexReturnError, .insufficient)
+    func testRejectsEmptyCountries() {
+        let data = Self.catalogData(countries: [:])
+        XCTAssertThrowsError(try EquityIndexReturnService.validate(try EquityIndexReturnService.parse(data))) { error in
+            XCTAssertEqual(error as? EquityIndexReturnError, .emptyBatch)
         }
     }
 
-    func testFetchAllCachesByCountryAndSkipsSameDay() async throws {
+    func testRejectsInvalidRate() {
+        let data = Self.catalogData(countries: [
+            "unitedStates": [
+                "rate": 0.9,
+                "startDate": "2016-10-28",
+                "endDate": "2026-10-28",
+                "sourceName": "Yahoo Finance：S&P 500",
+            ]
+        ])
+        XCTAssertThrowsError(try EquityIndexReturnService.validate(try EquityIndexReturnService.parse(data))) { error in
+            XCTAssertEqual(error as? EquityIndexReturnError, .invalidRate)
+        }
+    }
+
+    func testFetchCachesAndSkipsSameDay() async throws {
         let defaults = UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!
         let asOf = calendar.date(from: DateComponents(year: 2026, month: 10, day: 29))!
         var requestCount = 0
         let service = EquityIndexReturnService(
             now: { asOf },
-            fetchData: { url in
+            fetchData: { _ in
                 requestCount += 1
-                return Self.chartData(
-                    start: Date(timeIntervalSince1970: 1_477_612_800),
-                    end: Date(timeIntervalSince1970: 1_793_145_600),
-                    startLevel: 2000,
-                    endLevel: 4000
-                )
+                return Self.catalogData()
             },
-            sleepNanoseconds: { _ in },
+            bundledData: { nil },
             cacheDefaults: defaults,
             calendar: calendar
         )
 
         _ = try await service.fetchAllIfNeeded(force: false)
-        XCTAssertEqual(requestCount, Country.allCases.count)
+        XCTAssertEqual(requestCount, 1)
         XCTAssertEqual(service.quote(for: .unitedStates)?.rate ?? 0, 0.0718, accuracy: 0.000_000_1)
         XCTAssertEqual(service.quote(for: .chinaMainland)?.sourceName, "Yahoo Finance：沪深 300")
         XCTAssertTrue(service.fetchedOnToday())
+        XCTAssertEqual(service.cachedCatalog()?.fetchedOn, "2026-10-29")
 
         _ = try await service.fetchAllIfNeeded(force: false)
-        XCTAssertEqual(requestCount, Country.allCases.count)
+        XCTAssertEqual(requestCount, 1)
 
         _ = try await service.fetchAllIfNeeded(force: true)
-        XCTAssertEqual(requestCount, Country.allCases.count * 2)
+        XCTAssertEqual(requestCount, 2)
     }
 
-    func testPartialFailureKeepsPreviousCountryQuote() async throws {
-        let defaults = UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!
-        let asOf = calendar.date(from: DateComponents(year: 2026, month: 10, day: 29))!
-        var failUnitedStates = false
+    func testFallsBackToBundledWhenCacheMissing() {
         let service = EquityIndexReturnService(
-            now: { asOf },
-            fetchData: { url in
-                if failUnitedStates, url.absoluteString.contains("%5EGSPC") || url.absoluteString.contains("^GSPC") {
-                    throw EquityIndexReturnError.unreadable
-                }
-                return Self.chartData(
-                    start: Date(timeIntervalSince1970: 1_477_612_800),
-                    end: Date(timeIntervalSince1970: 1_793_145_600),
-                    startLevel: 1000,
-                    endLevel: 2000
-                )
-            },
-            sleepNanoseconds: { _ in },
-            cacheDefaults: defaults,
-            calendar: calendar
-        )
-        _ = try await service.fetchAllIfNeeded(force: true)
-        XCTAssertEqual(service.quote(for: .unitedStates)?.rate ?? 0, 0.0718, accuracy: 0.000_000_1)
-
-        failUnitedStates = true
-        _ = try await service.fetchAllIfNeeded(force: true)
-        XCTAssertEqual(service.quote(for: .unitedStates)?.rate ?? 0, 0.0718, accuracy: 0.000_000_1)
-        XCTAssertNotNil(service.quote(for: .germany))
-    }
-
-    func testSeedUsedWhenNoCache() {
-        let service = EquityIndexReturnService(
+            fetchData: { _ in throw EquityIndexReturnError.unreadable },
+            bundledData: { Self.catalogData() },
             cacheDefaults: UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!
         )
-        XCTAssertEqual(service.resolvedRate(for: .unitedStates), 0.1377, accuracy: 0.000_000_1)
-        XCTAssertEqual(service.resolvedRate(for: .chinaMainland), 0.04, accuracy: 0.000_000_1)
+        XCTAssertEqual(service.resolvedRate(for: .unitedStates), 0.0718, accuracy: 0.000_000_1)
+        XCTAssertEqual(service.quote(for: .chinaMainland)?.rate ?? 0, 0.0414, accuracy: 0.000_1)
+    }
+
+    func testSeedUsedWhenNoCacheOrBundle() {
+        let service = EquityIndexReturnService(
+            bundledData: { nil },
+            cacheDefaults: UserDefaults(suiteName: "BuyOrRentTests.\(UUID().uuidString)")!
+        )
+        XCTAssertEqual(service.resolvedRate(for: .unitedStates), 0.1355, accuracy: 0.000_000_1)
+        XCTAssertEqual(service.resolvedRate(for: .chinaMainland), 0.0179, accuracy: 0.000_000_1)
         XCTAssertNil(service.quote(for: .unitedStates))
     }
 
-    private static func chartData(start: Date, end: Date, startLevel: Double, endLevel: Double) -> Data {
+    private static func catalogData(
+        countries: [String: [String: Any]]? = nil
+    ) -> Data {
+        let defaultCountries: [String: [String: Any]] = [
+            "chinaMainland": [
+                "rate": 0.0414,
+                "startDate": "2016-10-28",
+                "endDate": "2026-10-28",
+                "sourceName": "Yahoo Finance：沪深 300",
+            ],
+            "unitedStates": [
+                "rate": 0.0718,
+                "startDate": "2016-10-28",
+                "endDate": "2026-10-28",
+                "sourceName": "Yahoo Finance：S&P 500",
+            ],
+            "germany": [
+                "rate": 0.05,
+                "startDate": "2016-10-28",
+                "endDate": "2026-10-28",
+                "sourceName": "Yahoo Finance：DAX",
+            ],
+        ]
         let payload: [String: Any] = [
-            "chart": [
-                "result": [
-                    [
-                        "timestamp": [start.timeIntervalSince1970, end.timeIntervalSince1970],
-                        "indicators": [
-                            "quote": [
-                                ["close": [startLevel, endLevel]]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+            "schemaVersion": 1,
+            "publishedAt": "2026-10-29T05:00:00Z",
+            "fetchedOn": "2026-10-01",
+            "methodology": "Ten-year price CAGR",
+            "countries": countries ?? defaultCountries,
         ]
         return try! JSONSerialization.data(withJSONObject: payload)
     }

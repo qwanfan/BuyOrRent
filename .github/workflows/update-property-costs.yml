@@ -50,6 +50,7 @@ jobs:
           path: |
             public/v1/property-costs.json
             public/v1/latest.json
+            public/v1/equity-index-returns.json
             public/v1/history/
             public/v1/property-costs-v1.schema.json
             public/v1/sources.json

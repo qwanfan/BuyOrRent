@@ -271,7 +271,7 @@ final class PlannerModel {
         }
     }
 
-    /// 启动或跨日时向 Yahoo 拉取各国主指数的 10 年价格年化回报。失败则保留上次缓存或种子。
+    /// 启动或跨日时从 GitHub Pages 拉取各国主指数的 10 年价格年化回报。失败则保留上次缓存或种子。
     func refreshInvestmentReturn(force: Bool = false) async {
         do {
             _ = try await equityIndexService.fetchAllIfNeeded(force: force)

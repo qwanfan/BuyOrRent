@@ -1,0 +1,92 @@
+{
+  "countries": {
+    "australia": {
+      "endDate": "2026-10-30",
+      "rate": 0.053,
+      "sourceName": "Yahoo Finance：S&P/ASX 200",
+      "startDate": "2016-10-30"
+    },
+    "canada": {
+      "endDate": "2026-10-30",
+      "rate": 0.0919,
+      "sourceName": "Yahoo Finance：S&P/TSX",
+      "startDate": "2016-10-28"
+    },
+    "chinaMainland": {
+      "endDate": "2026-10-30",
+      "rate": 0.0179,
+      "sourceName": "Yahoo Finance：沪深 300",
+      "startDate": "2016-10-28"
+    },
+    "france": {
+      "endDate": "2026-10-30",
+      "rate": 0.0577,
+      "sourceName": "Yahoo Finance：CAC 40",
+      "startDate": "2016-10-28"
+    },
+    "germany": {
+      "endDate": "2026-10-30",
+      "rate": 0.0921,
+      "sourceName": "Yahoo Finance：DAX",
+      "startDate": "2016-10-28"
+    },
+    "hongKong": {
+      "endDate": "2026-10-30",
+      "rate": 0.0015,
+      "sourceName": "Yahoo Finance：恒生指数",
+      "startDate": "2016-10-28"
+    },
+    "italy": {
+      "endDate": "2026-10-30",
+      "rate": 0.1107,
+      "sourceName": "Yahoo Finance：FTSE MIB",
+      "startDate": "2016-10-28"
+    },
+    "japan": {
+      "endDate": "2026-10-30",
+      "rate": 0.1375,
+      "sourceName": "Yahoo Finance：日经 225",
+      "startDate": "2016-10-28"
+    },
+    "netherlands": {
+      "endDate": "2026-10-30",
+      "rate": 0.0955,
+      "sourceName": "Yahoo Finance：AEX",
+      "startDate": "2016-10-28"
+    },
+    "singapore": {
+      "endDate": "2026-10-30",
+      "rate": 0.0668,
+      "sourceName": "Yahoo Finance：海峡时报指数",
+      "startDate": "2016-10-28"
+    },
+    "spain": {
+      "endDate": "2026-10-30",
+      "rate": 0.0732,
+      "sourceName": "Yahoo Finance：IBEX 35",
+      "startDate": "2016-10-28"
+    },
+    "switzerland": {
+      "endDate": "2026-10-30",
+      "rate": 0.0647,
+      "sourceName": "Yahoo Finance：SMI",
+      "startDate": "2016-10-28"
+    },
+    "unitedKingdom": {
+      "endDate": "2026-10-30",
+      "rate": 0.0437,
+      "sourceName": "Yahoo Finance：FTSE 100",
+      "startDate": "2016-10-28"
+    },
+    "unitedStates": {
+      "endDate": "2026-10-30",
+      "rate": 0.1355,
+      "sourceName": "Yahoo Finance：S&P 500",
+      "startDate": "2016-10-28"
+    }
+  },
+  "fetchedOn": "2026-11-01",
+  "methodology": "Ten-year price CAGR for each country's main equity index, excluding dividends. Computed from Yahoo Finance daily closes. Mainland China uses the CSI 300 ETF 510300.SS because Yahoo does not publish a long CSI 300 index history.",
+  "publishedAt": "2026-11-01T15:34:08Z",
+  "schemaVersion": 1
+}

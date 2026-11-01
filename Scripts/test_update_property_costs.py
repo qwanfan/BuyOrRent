@@ -75,8 +75,29 @@ class UpdatePropertyCostsTests(unittest.TestCase):
         output = directory / "property-costs.json"
         previous = directory / "previous.json"
         market = directory / "market.json"
+        equity = directory / "equity-index-returns.json"
         sources.write_text(json.dumps(source_data), encoding="utf-8")
         market.write_text(json.dumps(market_data or sample_market()), encoding="utf-8")
+        equity.write_text(
+            json.dumps(
+                {
+                    "schemaVersion": 1,
+                    "publishedAt": "2026-10-29T05:00:00Z",
+                    "fetchedOn": "2026-10-29",
+                    "methodology": "fixture",
+                    "countries": {
+                        country: {
+                            "rate": 0.04,
+                            "startDate": "2016-10-28",
+                            "endDate": "2026-10-28",
+                            "sourceName": "Fixture",
+                        }
+                        for country in NUMBEO_NAMES
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
         if previous_data is not None:
             previous.write_text(json.dumps(previous_data), encoding="utf-8")
 
@@ -96,6 +117,10 @@ class UpdatePropertyCostsTests(unittest.TestCase):
                 str(previous),
                 "--market-json",
                 str(market),
+                "--equity-json",
+                str(equity),
+                "--equity-output",
+                str(directory / "equity-out.json"),
             ],
             capture_output=True,
             text=True,
