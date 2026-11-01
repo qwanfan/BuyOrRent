@@ -6,7 +6,6 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from datetime import date
 from pathlib import Path
 
 
@@ -75,13 +74,8 @@ class UpdatePropertyCostsTests(unittest.TestCase):
         sources = directory / "sources.json"
         output = directory / "property-costs.json"
         previous = directory / "previous.json"
-        spx_csv = directory / "spx.csv"
         market = directory / "market.json"
         sources.write_text(json.dumps(source_data), encoding="utf-8")
-        spx_csv.write_text(
-            "observation_date,SP500\n2016-10-28,2000\n2026-10-28,4000\n",
-            encoding="utf-8",
-        )
         market.write_text(json.dumps(market_data or sample_market()), encoding="utf-8")
         if previous_data is not None:
             previous.write_text(json.dumps(previous_data), encoding="utf-8")
@@ -100,8 +94,6 @@ class UpdatePropertyCostsTests(unittest.TestCase):
                 str(directory / "history"),
                 "--previous",
                 str(previous),
-                "--spx-csv",
-                str(spx_csv),
                 "--market-json",
                 str(market),
             ],
@@ -121,16 +113,11 @@ class UpdatePropertyCostsTests(unittest.TestCase):
         self.assertEqual(catalog["schemaVersion"], 1)
         self.assertEqual(len(catalog["countries"]), 14)
         self.assertEqual(len(catalog["contentDigest"]), 64)
-        days = (date(2026, 10, 28) - date(2016, 10, 28)).days
-        expected_rate = round(2 ** (365.25 / days) - 1, 4)
-        investment = catalog["investmentReturn"]
-        self.assertEqual(investment["method"], "spxPriceCagr10Y")
-        self.assertEqual(investment["rate"], expected_rate)
-        self.assertEqual(investment["startLevel"], 2000)
-        self.assertEqual(investment["endLevel"], 4000)
-        self.assertTrue(investment["sourceUrl"].startswith("https://"))
-        self.assertNotIn("priceToRent", catalog)
+        self.assertNotIn("investmentReturn", catalog)
         canada = catalog["countries"]["canada"]
+        self.assertEqual(canada["priceToRentYears"], 18)
+        self.assertNotIn("confidence", canada)
+        self.assertNotIn("methodologyNote", canada)
         self.assertEqual(canada["mortgageRate"]["sourceName"], "Mortgage")
         self.assertEqual(canada["rentGrowth"]["rate"], 0.021)
         self.assertEqual(canada["appreciation"]["periodLabel"], "2026-06")

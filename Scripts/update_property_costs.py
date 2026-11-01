@@ -47,9 +47,7 @@ MAX_DELTAS = {
 }
 
 REVIEW_DAYS = 31
-SPX_CSV_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SP500"
-SPX_SOURCE_NAME = "FRED：S&P 500"
-SPX_SOURCE_URL = "https://fred.stlouisfed.org/series/SP500"
+PRICE_TO_RENT_BOUNDS = (5.0, 80.0)
 
 
 def parse_args() -> argparse.Namespace:
@@ -83,11 +81,6 @@ def parse_args() -> argparse.Namespace:
         "--check-urls",
         action="store_true",
         help="Require every official source URL to answer successfully.",
-    )
-    parser.add_argument(
-        "--spx-csv",
-        type=Path,
-        help="Use a local S&P 500 CSV instead of downloading FRED.",
     )
     parser.add_argument(
         "--market-json",
@@ -133,13 +126,18 @@ def validate_sources(document: dict[str, Any]) -> None:
             if not minimum <= float(value) <= maximum:
                 raise ValueError(f"{country}.{field} is outside {minimum}...{maximum}")
 
+        years = record.get("priceToRentYears")
+        if not isinstance(years, (int, float)) or isinstance(years, bool):
+            raise ValueError(f"{country}.priceToRentYears must be a number")
+        minimum_years, maximum_years = PRICE_TO_RENT_BOUNDS
+        if not minimum_years <= float(years) <= maximum_years:
+            raise ValueError(
+                f"{country}.priceToRentYears is outside {minimum_years}...{maximum_years}"
+            )
+
         verified_at = date.fromisoformat(record["verifiedAt"])
         if verified_at > today + timedelta(days=1):
             raise ValueError(f"{country}.verifiedAt is in the future")
-        if record.get("confidence") not in {"high", "medium", "low"}:
-            raise ValueError(f"{country}.confidence is invalid")
-        if len(record.get("methodologyNote", "")) < 10:
-            raise ValueError(f"{country}.methodologyNote is missing")
 
         sources = record.get("sources")
         if not isinstance(sources, list) or not sources:
@@ -194,105 +192,11 @@ def check_url(url: str) -> None:
         raise ValueError(f"source unavailable: {url}: HTTP {status}")
 
 
-def subtract_years(value: date, years: int) -> date:
-    try:
-        return value.replace(year=value.year - years)
-    except ValueError:
-        return value.replace(year=value.year - years, day=28)
-
-
-def parse_spx_csv(text: str) -> list[tuple[date, float]]:
-    points: list[tuple[date, float]] = []
-    for line in text.splitlines():
-        pieces = [piece.strip() for piece in line.split(",")]
-        if len(pieces) < 2:
-            continue
-        try:
-            observed = date.fromisoformat(pieces[0])
-            level = float(pieces[1])
-        except ValueError:
-            continue
-        if level > 0:
-            points.append((observed, level))
-    if len(points) < 2:
-        raise ValueError("SPX series must contain at least two prices")
-    points.sort()
-    return points
-
-
-def download_spx_csv() -> str:
-    result = subprocess.run(
-        [
-            "curl",
-            "--location",
-            "--retry",
-            "2",
-            "--max-time",
-            "40",
-            "--silent",
-            "--show-error",
-            "--fail-with-body",
-            "--user-agent",
-            "BuyOrRentDataBot/1.0 (+https://github.com/qwanfan/BuyOrRent)",
-            SPX_CSV_URL,
-        ],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    if result.returncode != 0 or not result.stdout:
-        detail = result.stderr.strip() or f"exit {result.returncode}"
-        raise ValueError(f"SPX download failed: {detail}")
-    return result.stdout
-
-
-def trailing_spx_return(points: list[tuple[date, float]], as_of: date | None = None) -> dict[str, Any]:
-    as_of = as_of or date.today()
-    eligible = [item for item in points if item[0] <= as_of]
-    if not eligible:
-        raise ValueError("SPX series has no price on or before the as-of date")
-    end_date, end_level = eligible[-1]
-    target = subtract_years(end_date, 10)
-    before = [item for item in eligible if item[0] <= target]
-    after = [item for item in eligible if item[0] >= target]
-    if before and (target - before[-1][0]).days <= 10:
-        start_date, start_level = before[-1]
-    elif after and (after[0][0] - target).days <= 10:
-        start_date, start_level = after[0]
-    else:
-        raise ValueError("SPX series does not cover the trailing 10 years")
-
-    days = (end_date - start_date).days
-    if not 3650 - 20 <= days <= 3650 + 20:
-        raise ValueError(f"SPX window is {days} days")
-    rate = round((end_level / start_level) ** (365.25 / days) - 1, 4)
-    if not -0.5 <= rate <= 0.5:
-        raise ValueError(f"SPX annualized return {rate} is outside -0.5...0.5")
-    return {
-        "rate": rate,
-        "method": "spxPriceCagr10Y",
-        "startDate": start_date.isoformat(),
-        "endDate": end_date.isoformat(),
-        "startLevel": round(start_level, 2),
-        "endLevel": round(end_level, 2),
-        "sourceName": SPX_SOURCE_NAME,
-        "sourceUrl": SPX_SOURCE_URL,
-    }
-
-
-def load_investment_return(spx_csv: Path | None) -> dict[str, Any]:
-    text = spx_csv.read_text(encoding="utf-8") if spx_csv else download_spx_csv()
-    return trailing_spx_return(parse_spx_csv(text))
-
-
 def comparable_payload(document: dict[str, Any]) -> dict[str, Any]:
-    payload: dict[str, Any] = {
+    return {
         "methodology": document["methodology"],
         "countries": public_countries(document["countries"]),
     }
-    if "investmentReturn" in document:
-        payload["investmentReturn"] = document["investmentReturn"]
-    return payload
 
 
 def payload_digest(document: dict[str, Any]) -> str:
@@ -339,7 +243,6 @@ def version_for_today(previous_version: str | None) -> str:
 def build_catalog(
     sources: dict[str, Any],
     previous: dict[str, Any] | None,
-    investment_return: dict[str, Any],
     market_series_by_country: dict[str, dict[str, Any]],
 ) -> tuple[dict[str, Any], bool]:
     countries = public_countries(sources["countries"])
@@ -348,7 +251,6 @@ def build_catalog(
     material = {
         "methodology": sources["methodology"],
         "countries": countries,
-        "investmentReturn": investment_return,
     }
     source_digest = payload_digest(material)
     now = datetime.now(timezone.utc).replace(microsecond=0)
@@ -368,7 +270,6 @@ def build_catalog(
         "nextReviewAt": reviewed_on,
         "methodology": sources["methodology"],
         "contentDigest": source_digest,
-        "investmentReturn": investment_return,
         "countries": countries,
     }
     return result, True
@@ -377,12 +278,17 @@ def build_catalog(
 def public_countries(countries: dict[str, Any]) -> dict[str, Any]:
     result: dict[str, Any] = {}
     for country, record in countries.items():
-        public_record = dict(record)
-        public_record["sources"] = [
-            {"name": source["name"], "url": source["url"]}
-            for source in record["sources"]
-        ]
-        result[country] = public_record
+        result[country] = {
+            "propertyTaxRate": record["propertyTaxRate"],
+            "buyingCostRate": record["buyingCostRate"],
+            "sellingCostRate": record["sellingCostRate"],
+            "priceToRentYears": record["priceToRentYears"],
+            "verifiedAt": record["verifiedAt"],
+            "sources": [
+                {"name": source["name"], "url": source["url"]}
+                for source in record["sources"]
+            ],
+        }
     return result
 
 
@@ -405,7 +311,6 @@ def main() -> int:
 
         previous = load_json(args.previous) if args.previous.exists() else None
         validate_delta(previous, sources)
-        investment_return = load_investment_return(args.spx_csv)
         as_of = date.today()
         if args.market_json:
             fetched_market = market_series.load_market_json(
@@ -420,12 +325,9 @@ def main() -> int:
             EXPECTED_COUNTRIES,
             as_of,
         )
-        if args.check_urls:
-            check_url(SPX_SOURCE_URL)
         catalog, changed = build_catalog(
             sources,
             previous,
-            investment_return,
             market,
         )
         write_json(args.output, catalog)
