@@ -11,11 +11,11 @@ struct ContentView: View {
             AdaptivePlannerView(model: model)
             #endif
         }
-        // 开机检查房产成本表，并向 Numbeo 抓取租售比。成功且用户未手改时，才显示来源。
+        // 开机检查房产成本表，并向 FRED 查询标普回报。成功且用户未手改时，才显示来源。
         .environment(\.appLanguage, model.assumptions.country.appLanguage)
         .task {
             await model.refreshPropertyCosts(force: false, attemptNetwork: true)
-            await model.refreshPriceToRent()
+            await model.refreshInvestmentReturn()
         }
     }
 }

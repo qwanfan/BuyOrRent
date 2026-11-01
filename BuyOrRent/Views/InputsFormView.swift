@@ -220,6 +220,7 @@ private struct HoldingInputs: View {
                         fraction: $model.assumptions.propertyTaxRate,
                         range: AssumptionBounds.propertyTax,
                         stepPercent: 0.1,
+                        decimalPlaces: 2,
                         onStepperChange: { model.setPropertyTaxRate($0) },
                         onManualChange: { model.setPropertyTaxRate($0) }
                     )
@@ -267,6 +268,7 @@ private struct TransactionInputs: View {
                         fraction: $model.assumptions.buyingCostRate,
                         range: AssumptionBounds.buyingCost,
                         stepPercent: 0.1,
+                        decimalPlaces: 2,
                         onStepperChange: { model.setBuyingCostRate($0) },
                         onManualChange: { model.setBuyingCostRate($0) }
                     )
@@ -278,6 +280,7 @@ private struct TransactionInputs: View {
                         fraction: $model.assumptions.sellingCostRate,
                         range: AssumptionBounds.sellingCost,
                         stepPercent: 0.1,
+                        decimalPlaces: 2,
                         onStepperChange: { model.setSellingCostRate($0) },
                         onManualChange: { model.setSellingCostRate($0) }
                     )

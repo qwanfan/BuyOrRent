@@ -33,7 +33,7 @@ struct MarketPreset: Equatable {
     var baseInsuranceRate: Double
     /// 公寓的典型月物业费（当地货币，不换汇）；联排按四成估算，独栋为 0。
     var apartmentHOA: Double
-    /// 租售比种子：Numbeo 市中心与市郊租售比的平均值（年），四舍五入到 0.1 年。直接抓取失败且没有上次结果时使用。
+    /// 租售比种子（年）。GitHub 表和安装包里的表都没有时使用。
     var priceToRentYears: Double
 
     /// 年租金收益率（年租金 ÷ 房价），与租售比互为倒数。
@@ -188,23 +188,23 @@ enum Country: String, CaseIterable, Identifiable, Equatable {
         case .chinaMainland:
             MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.004, apartmentHOA: 300,
-                         priceToRentYears: 47.8)
+                         priceToRentYears: 44)
         case .hongKong:
             MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.008, baseInsuranceRate: 0.003, apartmentHOA: 2_500,
-                         priceToRentYears: 47.4)
+                         priceToRentYears: 28)
         case .unitedStates:
             MarketPreset(loanYears: 30, pmiRate: 0.005,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.005, apartmentHOA: 250,
-                         priceToRentYears: 9.6)
+                         priceToRentYears: 16)
         case .canada:
             MarketPreset(loanYears: 25, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.004, apartmentHOA: 350,
-                         priceToRentYears: 17.0)
+                         priceToRentYears: 18)
         case .singapore:
             MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.008, baseInsuranceRate: 0.003, apartmentHOA: 300,
-                         priceToRentYears: 36.0)
+                         priceToRentYears: 31)
         case .australia:
             MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.004, apartmentHOA: 300,
@@ -212,35 +212,35 @@ enum Country: String, CaseIterable, Identifiable, Equatable {
         case .japan:
             MarketPreset(loanYears: 35, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 15_000,
-                         priceToRentYears: 39.2)
+                         priceToRentYears: 24)
         case .unitedKingdom:
             MarketPreset(loanYears: 25, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 150,
-                         priceToRentYears: 19.7)
+                         priceToRentYears: 15)
         case .germany:
             MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 200,
-                         priceToRentYears: 28.1)
+                         priceToRentYears: 31)
         case .france:
             MarketPreset(loanYears: 25, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 200,
-                         priceToRentYears: 27.0)
+                         priceToRentYears: 21)
         case .netherlands:
             MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 200,
-                         priceToRentYears: 19.2)
+                         priceToRentYears: 15)
         case .spain:
             MarketPreset(loanYears: 30, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 150,
-                         priceToRentYears: 18.2)
+                         priceToRentYears: 18)
         case .italy:
             MarketPreset(loanYears: 25, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 150,
-                         priceToRentYears: 19.0)
+                         priceToRentYears: 15)
         case .switzerland:
             MarketPreset(loanYears: 25, pmiRate: 0,
                          baseMaintenanceRate: 0.010, baseInsuranceRate: 0.003, apartmentHOA: 400,
-                         priceToRentYears: 41.8)
+                         priceToRentYears: 35)
         }
     }
 }

@@ -16,9 +16,8 @@ struct PropertyCostRecord: Equatable, Codable, Sendable {
     var propertyTaxRate: Double
     var buyingCostRate: Double
     var sellingCostRate: Double
+    var priceToRentYears: Double
     var verifiedAt: String
-    var confidence: String
-    var methodologyNote: String
     var sources: [PropertyCostSource]
     /// 旧缓存没有这三项时仍能解析。表里没有可用值时，这三项保持空白初值。
     var mortgageRate: MarketObservation?
@@ -34,17 +33,6 @@ struct PropertyCostRecord: Equatable, Codable, Sendable {
     }
 }
 
-struct InvestmentReturnRecord: Equatable, Codable, Sendable {
-    var rate: Double
-    var method: String
-    var startDate: String
-    var endDate: String
-    var startLevel: Double
-    var endLevel: Double
-    var sourceName: String
-    var sourceUrl: String
-}
-
 struct PropertyCostCatalog: Equatable, Codable, Sendable {
     var schemaVersion: Int
     var datasetVersion: String
@@ -54,7 +42,6 @@ struct PropertyCostCatalog: Equatable, Codable, Sendable {
     var methodology: String
     var contentDigest: String
     var countries: [String: PropertyCostRecord]
-    var investmentReturn: InvestmentReturnRecord?
 }
 
 struct MarketObservation: Equatable, Codable, Sendable {
@@ -69,14 +56,6 @@ struct MarketObservationResolution: Equatable, Sendable {
     var origin: PropertyCostDataOrigin
     var sourceName: String
     var periodLabel: String
-}
-
-struct InvestmentReturnResolution: Equatable, Sendable {
-    var rate: Double
-    var origin: PropertyCostDataOrigin
-    var sourceName: String
-    var startDate: String?
-    var endDate: String?
 }
 
 enum PropertyCostError: Error, Equatable {
@@ -115,26 +94,21 @@ struct PropertyCostService {
 
     /// 公开官方来源校准后的离线底线；远程失败时仍可完成计算。
     static let seed: [Country: PropertyCostRates] = [
-        .chinaMainland: PropertyCostRates(buyingCostRate: 0.025, sellingCostRate: 0.025, propertyTaxRate: 0),
-        .hongKong: PropertyCostRates(buyingCostRate: 0.0325, sellingCostRate: 0.012, propertyTaxRate: 0.003),
-        .unitedStates: PropertyCostRates(buyingCostRate: 0.030, sellingCostRate: 0.055, propertyTaxRate: 0.011),
-        .canada: PropertyCostRates(buyingCostRate: 0.030, sellingCostRate: 0.050, propertyTaxRate: 0.010),
-        .singapore: PropertyCostRates(buyingCostRate: 0.040, sellingCostRate: 0.020, propertyTaxRate: 0.003),
-        .australia: PropertyCostRates(buyingCostRate: 0.050, sellingCostRate: 0.030, propertyTaxRate: 0.006),
-        .japan: PropertyCostRates(buyingCostRate: 0.060, sellingCostRate: 0.035, propertyTaxRate: 0.007),
-        .unitedKingdom: PropertyCostRates(buyingCostRate: 0.040, sellingCostRate: 0.020, propertyTaxRate: 0.006),
-        .germany: PropertyCostRates(buyingCostRate: 0.080, sellingCostRate: 0.030, propertyTaxRate: 0.0035),
-        .france: PropertyCostRates(buyingCostRate: 0.075, sellingCostRate: 0.050, propertyTaxRate: 0.010),
-        .netherlands: PropertyCostRates(buyingCostRate: 0.025, sellingCostRate: 0.020, propertyTaxRate: 0.001),
-        .spain: PropertyCostRates(buyingCostRate: 0.100, sellingCostRate: 0.050, propertyTaxRate: 0.006),
-        .italy: PropertyCostRates(buyingCostRate: 0.060, sellingCostRate: 0.030, propertyTaxRate: 0),
-        .switzerland: PropertyCostRates(buyingCostRate: 0.035, sellingCostRate: 0.030, propertyTaxRate: 0.002),
+        .chinaMainland: PropertyCostRates(buyingCostRate: 0.076, sellingCostRate: 0.01, propertyTaxRate: 0),
+        .hongKong: PropertyCostRates(buyingCostRate: 0.0518, sellingCostRate: 0.0075, propertyTaxRate: 0.0025),
+        .unitedStates: PropertyCostRates(buyingCostRate: 0.0286, sellingCostRate: 0.045, propertyTaxRate: 0.015),
+        .canada: PropertyCostRates(buyingCostRate: 0.0285, sellingCostRate: 0.05, propertyTaxRate: 0.0095),
+        .singapore: PropertyCostRates(buyingCostRate: 0.098, sellingCostRate: 0.0265, propertyTaxRate: 0.0065),
+        .australia: PropertyCostRates(buyingCostRate: 0.0655, sellingCostRate: 0.0225, propertyTaxRate: 0.0055),
+        .japan: PropertyCostRates(buyingCostRate: 0.0925, sellingCostRate: 0.03, propertyTaxRate: 0.0095),
+        .unitedKingdom: PropertyCostRates(buyingCostRate: 0.028, sellingCostRate: 0.0275, propertyTaxRate: 0.0045),
+        .germany: PropertyCostRates(buyingCostRate: 0.095, sellingCostRate: 0.0225, propertyTaxRate: 0.0045),
+        .france: PropertyCostRates(buyingCostRate: 0.0591, sellingCostRate: 0.035, propertyTaxRate: 0.007),
+        .netherlands: PropertyCostRates(buyingCostRate: 0.0425, sellingCostRate: 0.015, propertyTaxRate: 0.002),
+        .spain: PropertyCostRates(buyingCostRate: 0.1075, sellingCostRate: 0.045, propertyTaxRate: 0.0075),
+        .italy: PropertyCostRates(buyingCostRate: 0.11, sellingCostRate: 0.03, propertyTaxRate: 0),
+        .switzerland: PropertyCostRates(buyingCostRate: 0.0345, sellingCostRate: 0.025, propertyTaxRate: 0.0025),
     ]
-
-    /// 标普 500 过去 10 年价格年化回报。远程表缺这一项时使用。
-    /// 2016-10-31 的 2126.15 到 2026-10-29 的 7720.39，年化后保留 1 个基点。
-    static let seedInvestmentReturn = 0.1377
-    static let seedInvestmentReturnSource = "FRED：S&P 500"
 
     static func seedRates(for country: Country) -> PropertyCostRates {
         seed[country] ?? PropertyCostRates(buyingCostRate: 0, sellingCostRate: 0, propertyTaxRate: 0)
@@ -184,6 +158,19 @@ struct PropertyCostService {
         )
     }
 
+    /// 本次或上次的 GitHub 表，然后安装包里的表，最后才用代码里的种子。
+    func resolvedPriceToRentYears(for country: Country) -> Double {
+        if let years = cachedCatalog()?.countries[country.rawValue]?.priceToRentYears,
+           Self.isValidPriceToRent(years) {
+            return years
+        }
+        if let years = bundledCatalog()?.countries[country.rawValue]?.priceToRentYears,
+           Self.isValidPriceToRent(years) {
+            return years
+        }
+        return country.preset.priceToRentYears
+    }
+
     /// 远程缓存优先，其次安装包里的表。缺字段、越界或来源不是 https 时返回 nil。
     func resolvedMortgageRate(for country: Country) -> MarketObservationResolution? {
         resolvedObservation(\.mortgageRate, for: country, allowsZero: false, bounds: 0...0.20)
@@ -195,22 +182,6 @@ struct PropertyCostService {
 
     func resolvedAppreciation(for country: Country) -> MarketObservationResolution? {
         resolvedObservation(\.appreciation, for: country, allowsZero: true, bounds: -0.20...0.20)
-    }
-
-    func resolvedInvestmentReturn() -> InvestmentReturnResolution {
-        if let record = cachedCatalog()?.investmentReturn {
-            return Self.investmentResolution(record, origin: .cache)
-        }
-        if let record = bundledCatalog()?.investmentReturn {
-            return Self.investmentResolution(record, origin: .seed)
-        }
-        return InvestmentReturnResolution(
-            rate: Self.seedInvestmentReturn,
-            origin: .seed,
-            sourceName: Self.seedInvestmentReturnSource,
-            startDate: nil,
-            endDate: nil
-        )
     }
 
     func bundledCatalog() -> PropertyCostCatalog? {
@@ -262,7 +233,8 @@ struct PropertyCostService {
                   record.buyingCostRate.isFinite,
                   (0...0.80).contains(record.buyingCostRate),
                   record.sellingCostRate.isFinite,
-                  (0...0.30).contains(record.sellingCostRate) else {
+                  (0...0.30).contains(record.sellingCostRate),
+                  Self.isValidPriceToRent(record.priceToRentYears) else {
                 throw PropertyCostError.invalidRate
             }
             guard let verified = dateOnly(record.verifiedAt),
@@ -277,40 +249,10 @@ struct PropertyCostService {
                 throw PropertyCostError.insecureSource
             }
         }
-        if let investment = catalog.investmentReturn {
-            guard investment.method == "spxPriceCagr10Y",
-                  investment.rate.isFinite,
-                  (-0.5...0.5).contains(investment.rate),
-                  investment.startLevel > 0,
-                  investment.endLevel > 0 else {
-                throw PropertyCostError.invalidRate
-            }
-            guard let start = dateOnly(investment.startDate),
-                  let end = dateOnly(investment.endDate),
-                  start <= end,
-                  end <= now.addingTimeInterval(24 * 3600) else {
-                throw PropertyCostError.invalidDate
-            }
-            guard let url = URL(string: investment.sourceUrl),
-                  url.scheme == "https",
-                  url.host != nil,
-                  !investment.sourceName.isEmpty else {
-                throw PropertyCostError.insecureSource
-            }
-        }
     }
 
-    private static func investmentResolution(
-        _ record: InvestmentReturnRecord,
-        origin: PropertyCostDataOrigin
-    ) -> InvestmentReturnResolution {
-        InvestmentReturnResolution(
-            rate: record.rate,
-            origin: origin,
-            sourceName: record.sourceName,
-            startDate: record.startDate,
-            endDate: record.endDate
-        )
+    private static func isValidPriceToRent(_ years: Double) -> Bool {
+        years.isFinite && (5...80).contains(years)
     }
 
     private func resolvedObservation(

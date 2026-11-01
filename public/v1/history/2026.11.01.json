@@ -1,0 +1,445 @@
+{
+  "checkedAt": "2026-11-01T14:40:21Z",
+  "contentDigest": "999ce4594ec076ec0f02bf5d60defb8be1bb6fc517c289bff282765d9a4126c3",
+  "countries": {
+    "australia": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0533,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.AU.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0655,
+      "mortgageRate": {
+        "periodLabel": "31/08/2026",
+        "rate": 0.062,
+        "sourceName": "澳洲央行新发放自住房贷利率",
+        "sourceUrl": "https://www.rba.gov.au/statistics/tables/csv/f6-data.csv"
+      },
+      "priceToRentYears": 23,
+      "propertyTaxRate": 0.0055,
+      "rentGrowth": {
+        "periodLabel": "2014–2024",
+        "rate": 0.0186,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/AUS.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.0225,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "canada": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0319,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CA.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0285,
+      "mortgageRate": {
+        "periodLabel": "2026-10-07",
+        "rate": 0.0619,
+        "sourceName": "加拿大央行 5 年期按揭挂牌利率",
+        "sourceUrl": "https://www.bankofcanada.ca/valet/observations/V80691335/json?recent=4"
+      },
+      "priceToRentYears": 18,
+      "propertyTaxRate": 0.0095,
+      "rentGrowth": {
+        "periodLabel": "2014–2024",
+        "rate": 0.0283,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CAN.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.05,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "chinaMainland": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": -0.0008,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CN.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.076,
+      "mortgageRate": {
+        "periodLabel": "2026-10-20",
+        "rate": 0.035,
+        "sourceName": "5 年期以上 LPR",
+        "sourceUrl": "https://www.chinamoney.com.cn/dqs/rest/cm-u-bk-currency/LprHis"
+      },
+      "priceToRentYears": 44,
+      "propertyTaxRate": 0,
+      "rentGrowth": {
+        "periodLabel": "2026-09",
+        "rate": -0.006,
+        "sourceName": "国家统计局租赁房房租（最近一年）",
+        "sourceUrl": "https://www.stats.gov.cn/sj/zxfb/202610/t20261014_1965477.html"
+      },
+      "sellingCostRate": 0.01,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "france": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0228,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.FR.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0591,
+      "mortgageRate": {
+        "periodLabel": "2026-08",
+        "rate": 0.032,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.FR.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "priceToRentYears": 21,
+      "propertyTaxRate": 0.007,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.0093,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/FRA.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.035,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "germany": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0369,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.DE.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.095,
+      "mortgageRate": {
+        "periodLabel": "2026-08",
+        "rate": 0.04,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.DE.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "priceToRentYears": 31,
+      "propertyTaxRate": 0.0045,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.0162,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/DEU.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.0225,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "hongKong": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0156,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.HK.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0518,
+      "mortgageRate": {
+        "periodLabel": "2026-09-30",
+        "rate": 0.0431,
+        "sourceName": "1 个月 HIBOR + 预设利差估算",
+        "sourceUrl": "https://api.hkma.gov.hk/public/market-data-and-statistics/monthly-statistical-bulletin/er-ir/hk-interbank-ir-daily"
+      },
+      "priceToRentYears": 28,
+      "propertyTaxRate": 0.0025,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.013,
+        "sourceName": "差饷物业估价署私人住宅租金指数（10 年复合）",
+        "sourceUrl": "https://www.rvd.gov.hk/datagovhk/1.3A.csv"
+      },
+      "sellingCostRate": 0.0075,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "italy": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0188,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.IT.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.11,
+      "mortgageRate": {
+        "periodLabel": "2026-08",
+        "rate": 0.0358,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.IT.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "priceToRentYears": 15,
+      "propertyTaxRate": 0,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.0119,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ITA.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.03,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "japan": {
+      "appreciation": {
+        "periodLabel": "2015-Q4–2025-Q4",
+        "rate": 0.0334,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.JP.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0925,
+      "mortgageRate": {
+        "periodLabel": "2026-10",
+        "rate": 0.0383,
+        "sourceName": "Flat 35 当月利率",
+        "sourceUrl": "https://www.flat35.com/loan/lineup/flat35/index.html"
+      },
+      "priceToRentYears": 24,
+      "propertyTaxRate": 0.0095,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": -0.0001,
+        "sourceName": "总务省民营房租（10 年复合）",
+        "sourceUrl": "https://www.stat.go.jp/data/cpi/2020/csv/zmi2020aa.csv"
+      },
+      "sellingCostRate": 0.03,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "netherlands": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.079,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.NL.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0425,
+      "mortgageRate": {
+        "periodLabel": "2026-08",
+        "rate": 0.0391,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.NL.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "priceToRentYears": 15,
+      "propertyTaxRate": 0.002,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.026,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/NLD.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.015,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "singapore": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0459,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.SG.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.098,
+      "mortgageRate": {
+        "periodLabel": "2026Aug",
+        "rate": 0.0219,
+        "sourceName": "3 个月 SORA + 预设利差估算",
+        "sourceUrl": "https://data.gov.sg/api/action/datastore_search?resource_id=d_5fe5a4bb4a1ecc4d8a56a095832e2b24"
+      },
+      "priceToRentYears": 31,
+      "propertyTaxRate": 0.0065,
+      "rentGrowth": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0428,
+        "sourceName": "市区重建局私人住宅租金指数（10 年复合）",
+        "sourceUrl": "https://data.gov.sg/api/action/datastore_search?resource_id=d_647dabde09e726b9eeb75e4d9cd96699"
+      },
+      "sellingCostRate": 0.0265,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "spain": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0673,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.ES.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.1075,
+      "mortgageRate": {
+        "periodLabel": "2026-08",
+        "rate": 0.0304,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.ES.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "priceToRentYears": 18,
+      "propertyTaxRate": 0.0075,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.0128,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ESP.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.045,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "switzerland": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0337,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CH.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0345,
+      "mortgageRate": {
+        "periodLabel": "2026-08",
+        "rate": 0.03,
+        "sourceName": "瑞士央行公布的新业务房贷利率",
+        "sourceUrl": "https://data.snb.ch/api/cube/zikrepro/data/csv/en?D1=MV"
+      },
+      "priceToRentYears": 35,
+      "propertyTaxRate": 0.0025,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.0127,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CHE.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.025,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "unitedKingdom": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.034,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.GB.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.028,
+      "mortgageRate": {
+        "periodLabel": "30 Sep 2026",
+        "rate": 0.0513,
+        "sourceName": "英格兰银行房贷报价利率",
+        "sourceUrl": "https://www.bankofengland.co.uk/boeapps/iadb/fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/2020&Dateto=now&SeriesCodes=IUMBV34&CSVF=TN&UsingCodes=Y&VPD=Y&VFD=N"
+      },
+      "priceToRentYears": 15,
+      "propertyTaxRate": 0.0045,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.0285,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/GBR.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.0275,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "unitedStates": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0609,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.US.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0286,
+      "mortgageRate": {
+        "periodLabel": "2026-10-29",
+        "rate": 0.0724,
+        "sourceName": "Freddie Mac 30 年固定房贷利率",
+        "sourceUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US"
+      },
+      "priceToRentYears": 16,
+      "propertyTaxRate": 0.015,
+      "rentGrowth": {
+        "periodLabel": "2014–2024",
+        "rate": 0.0428,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/USA.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.045,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    }
+  },
+  "datasetVersion": "2026.11.01",
+  "methodology": "Price-to-rent, property tax, and buying and selling costs are the September 2026 Global Property Guide figures for an owner-occupied home. Property tax is already an effective rate on market value, including taxes originally charged on rent. Mortgage rates, rent growth, and home-price changes are filled from official series when the catalog is published.",
+  "nextReviewAt": "2026-12-02",
+  "publishedAt": "2026-11-01T14:40:21Z",
+  "schemaVersion": 1
+}

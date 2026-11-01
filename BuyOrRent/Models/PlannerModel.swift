@@ -63,13 +63,12 @@ final class PlannerModel {
     private(set) var investmentReturnManuallyEdited = false
     /// 本次运行里房产成本表已从 GitHub 取到。手改或联网失败后不显示来源。
     private(set) var propertyCostsFetchedFromNetwork = false
-    /// 本次运行里已从 Numbeo 取到租售比。手改月租或抓取失败后不显示来源。
-    private(set) var priceToRentFetchedFromNetwork = false
+    /// 本次运行里已从 FRED 取到标普 500 回报。手改或查询失败后不显示来源。
+    private(set) var investmentReturnFetchedFromNetwork = false
     @ObservationIgnored
     private var propertyCostService: PropertyCostService
     @ObservationIgnored
-    private var priceToRentService: PriceToRentService
-    private var priceToRentTable: PriceToRentTable?
+    private var spxService: SPXReturnService
     @ObservationIgnored
     private let autoFetchPropertyCosts: Bool
     /// 首次打开和恢复默认时使用的国家，按系统地区匹配。
@@ -83,13 +82,12 @@ final class PlannerModel {
 
     init(
         propertyCostService: PropertyCostService = PropertyCostService(),
-        priceToRentService: PriceToRentService = PriceToRentService(),
+        spxService: SPXReturnService = SPXReturnService(),
         autoFetchPropertyCosts: Bool = true,
         regionCode: String? = Locale.current.region?.identifier
     ) {
         self.propertyCostService = propertyCostService
-        self.priceToRentService = priceToRentService
-        self.priceToRentTable = priceToRentService.cachedTable()
+        self.spxService = spxService
         self.autoFetchPropertyCosts = autoFetchPropertyCosts
         let country = Country.matching(regionCode: regionCode)
         self.defaultCountry = country
@@ -110,7 +108,7 @@ final class PlannerModel {
         propertyCostFetchTask?.cancel()
         isRestoringDefaults = false
         propertyCostsFetchedFromNetwork = false
-        priceToRentFetchedFromNetwork = false
+        investmentReturnFetchedFromNetwork = false
         assumptions = Assumptions()
         assumptions.country = defaultCountry
         mortgageRateManuallyEdited = false
@@ -129,7 +127,7 @@ final class PlannerModel {
         propertyCostFetchTask = Task { @MainActor [weak self] in
             guard let self else { return }
             await self.refreshPropertyCosts(force: true)
-            await self.refreshPriceToRent()
+            await self.refreshInvestmentReturn()
             if !Task.isCancelled {
                 self.isRestoringDefaults = false
             }
@@ -178,10 +176,9 @@ final class PlannerModel {
 
     // MARK: - 月租与租售比
 
-    /// 当前国家的租售比（年）：本次或上次从 Numbeo 取到的值，没有时用出厂种子。
+    /// 当前国家的租售比（年）：本次或上次的 GitHub 表，然后安装包里的表，最后才用出厂种子。
     var currentPriceToRentYears: Double {
-        priceToRentTable?.years[assumptions.country.rawValue]
-            ?? assumptions.country.preset.priceToRentYears
+        propertyCostService.resolvedPriceToRentYears(for: assumptions.country)
     }
 
     /// 按当前房价与租售比估算的月租：房价 ÷ (租售比 × 12)，取整到整数金额。
@@ -251,13 +248,11 @@ final class PlannerModel {
             ) else { return }
             if force {
                 clearPropertyCostManualFlags()
-                investmentReturnManuallyEdited = false
                 mortgageRateManuallyEdited = false
                 rentGrowthManuallyEdited = false
                 appreciationManuallyEdited = false
             }
             applyPropertyCosts(resolution.rates, preservingManualEdits: !force)
-            applyResolvedInvestmentReturn(preservingManualEdits: !force)
             applyResolvedMarketSeries(preservingManualEdits: !force)
             if force {
                 monthlyRentManuallyEdited = false
@@ -269,32 +264,24 @@ final class PlannerModel {
             propertyCostsFetchedFromNetwork = false
             let fallback = propertyCostService.resolvedRates(for: country)
             propertyCostState = .failedUsingFallback(fallback)
-            applyResolvedInvestmentReturn(preservingManualEdits: !force)
             applyResolvedMarketSeries(preservingManualEdits: !force)
             applyResolvedMonthlyRent(preservingManualEdits: !force)
         }
     }
 
-    func refreshPriceToRent() async {
+    /// 启动或恢复默认时向 FRED 查询截至今天的 10 年标普价格年化回报。失败则保留上次缓存或种子。
+    func refreshInvestmentReturn() async {
         do {
-            let table = try await priceToRentService.fetchTable()
-            priceToRentTable = table
-            priceToRentFetchedFromNetwork = true
-            applyResolvedMonthlyRent(preservingManualEdits: true)
+            _ = try await spxService.fetchQuote()
+            investmentReturnFetchedFromNetwork = true
+            applyResolvedInvestmentReturn(preservingManualEdits: true)
         } catch {
-            priceToRentFetchedFromNetwork = false
-            if priceToRentTable == nil {
-                priceToRentTable = priceToRentService.cachedTable()
-            }
+            investmentReturnFetchedFromNetwork = false
         }
     }
 
     var monthlyRentSourceText: String? {
-        guard priceToRentFetchedFromNetwork, !monthlyRentManuallyEdited,
-              let period = priceToRentTable?.periodLabel, !period.isEmpty else {
-            return nil
-        }
-        return L10n(assumptions.country).source(PriceToRentParser.sourceName, period: period)
+        fieldSourceText(edited: monthlyRentManuallyEdited)
     }
 
     var mortgageRateSourceText: String? {
@@ -319,14 +306,9 @@ final class PlannerModel {
     }
 
     var investmentReturnSourceText: String? {
-        guard propertyCostsFetchedFromNetwork, !investmentReturnManuallyEdited else { return nil }
-        let resolution = propertyCostService.resolvedInvestmentReturn()
-        guard !resolution.sourceName.isEmpty else { return nil }
-        let copy = L10n(assumptions.country)
-        if let start = resolution.startDate, let end = resolution.endDate {
-            return copy.source(resolution.sourceName, from: start, to: end)
-        }
-        return copy.source(resolution.sourceName)
+        guard investmentReturnFetchedFromNetwork, !investmentReturnManuallyEdited,
+              let quote = spxService.cachedQuote() else { return nil }
+        return L10n(assumptions.country).source(quote.sourceName, from: quote.startDate, to: quote.endDate)
     }
 
     var propertyTaxSourceText: String? {
@@ -366,13 +348,13 @@ final class PlannerModel {
 
     private func applyPropertyCosts(_ rates: PropertyCostRates, preservingManualEdits: Bool) {
         if !preservingManualEdits || !propertyTaxManuallyEdited {
-            assumptions.propertyTaxRate = Self.clampPercent(rates.propertyTaxRate, AssumptionBounds.propertyTax)
+            assumptions.propertyTaxRate = Self.clampToRange(rates.propertyTaxRate, AssumptionBounds.propertyTax)
         }
         if !preservingManualEdits || !buyingCostManuallyEdited {
-            assumptions.buyingCostRate = Self.clampPercent(rates.buyingCostRate, AssumptionBounds.buyingCost)
+            assumptions.buyingCostRate = Self.clampToRange(rates.buyingCostRate, AssumptionBounds.buyingCost)
         }
         if !preservingManualEdits || !sellingCostManuallyEdited {
-            assumptions.sellingCostRate = Self.clampPercent(rates.sellingCostRate, AssumptionBounds.sellingCost)
+            assumptions.sellingCostRate = Self.clampToRange(rates.sellingCostRate, AssumptionBounds.sellingCost)
         }
     }
 
@@ -409,8 +391,8 @@ final class PlannerModel {
 
     private func applyResolvedInvestmentReturn(preservingManualEdits: Bool) {
         guard !preservingManualEdits || !investmentReturnManuallyEdited else { return }
-        let resolution = propertyCostService.resolvedInvestmentReturn()
-        assumptions.investmentReturn = Self.clampInvestment(resolution.rate)
+        let rate = spxService.cachedQuote()?.rate ?? SPXReturnService.seedRate
+        assumptions.investmentReturn = Self.clampInvestment(rate)
     }
 
     private func clearPropertyCostManualFlags() {
@@ -419,12 +401,18 @@ final class PlannerModel {
         sellingCostManuallyEdited = false
     }
 
+    /// 成本表里的费率保留原有小数，只限制在允许范围内。
+    private static func clampToRange(_ fraction: Double, _ range: ClosedRange<Double>) -> Double {
+        guard fraction.isFinite else { return range.lowerBound }
+        return min(max(fraction, range.lowerBound), range.upperBound)
+    }
+
     private static func clampPercent(_ fraction: Double, _ range: ClosedRange<Double>) -> Double {
-        let snapped = (fraction * 1000).rounded() / 1000
+        let snapped = (fraction * 10_000).rounded() / 10_000
         return min(max(snapped, range.lowerBound), range.upperBound)
     }
 
-    /// 投资回报保留 1 个基点，和远程表的标普 500 年化回报一致。
+    /// 投资回报保留 1 个基点，和标普 500 年化回报一致。
     private static func clampInvestment(_ fraction: Double) -> Double {
         let snapped = (fraction * 10_000).rounded() / 10_000
         return min(max(snapped, AssumptionBounds.investment.lowerBound), AssumptionBounds.investment.upperBound)

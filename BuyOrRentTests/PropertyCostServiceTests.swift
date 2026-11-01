@@ -9,10 +9,10 @@ final class PropertyCostServiceTests: XCTestCase {
             XCTAssertNotNil(PropertyCostService.seed[country], country.englishName)
         }
         let china = PropertyCostService.seedRates(for: .chinaMainland)
-        XCTAssertEqual(china.buyingCostRate, 0.025, accuracy: 0.000_1)
-        XCTAssertEqual(china.sellingCostRate, 0.025, accuracy: 0.000_1)
+        XCTAssertEqual(china.buyingCostRate, 0.076, accuracy: 0.000_1)
+        XCTAssertEqual(china.sellingCostRate, 0.01, accuracy: 0.000_1)
         XCTAssertEqual(china.propertyTaxRate, 0, accuracy: 0.000_1)
-        XCTAssertEqual(PropertyCostService.seedRates(for: .singapore).buyingCostRate, 0.040, accuracy: 0.000_1)
+        XCTAssertEqual(PropertyCostService.seedRates(for: .singapore).buyingCostRate, 0.098, accuracy: 0.000_1)
     }
 
     func testFetchValidatesCachesAndResolvesRemoteCatalog() async throws {
@@ -93,12 +93,10 @@ final class PropertyCostServiceTests: XCTestCase {
             .appendingPathComponent("BuyOrRent/Resources/property-costs.json")
         let data = try Data(contentsOf: resource)
         let catalog = try PropertyCostService.parse(data)
-        try PropertyCostService.validate(catalog, now: now.addingTimeInterval(24 * 3600))
+        let checked = try XCTUnwrap(ISO8601DateFormatter().date(from: catalog.checkedAt))
+        try PropertyCostService.validate(catalog, now: checked)
         XCTAssertFalse(catalog.datasetVersion.isEmpty)
         XCTAssertEqual(catalog.countries.count, Country.allCases.count)
-        let investment = try XCTUnwrap(catalog.investmentReturn)
-        XCTAssertEqual(investment.method, "spxPriceCagr10Y")
-        XCTAssertEqual(investment.rate, PropertyCostService.seedInvestmentReturn, accuracy: 0.000_000_1)
 
         for country in Country.allCases {
             let record = try XCTUnwrap(catalog.countries[country.rawValue])
@@ -106,6 +104,7 @@ final class PropertyCostServiceTests: XCTestCase {
             XCTAssertEqual(record.propertyTaxRate, seed.propertyTaxRate, accuracy: 0.000_000_1, country.rawValue)
             XCTAssertEqual(record.buyingCostRate, seed.buyingCostRate, accuracy: 0.000_000_1, country.rawValue)
             XCTAssertEqual(record.sellingCostRate, seed.sellingCostRate, accuracy: 0.000_000_1, country.rawValue)
+            XCTAssertEqual(record.priceToRentYears, country.preset.priceToRentYears, accuracy: 0.000_000_1, country.rawValue)
             XCTAssertFalse(record.sources.isEmpty, country.rawValue)
             XCTAssertNotNil(record.mortgageRate, country.rawValue)
             XCTAssertNotNil(record.rentGrowth, country.rawValue)
@@ -113,7 +112,7 @@ final class PropertyCostServiceTests: XCTestCase {
         }
 
         let service = PropertyCostService(
-            now: { self.now.addingTimeInterval(24 * 3600) },
+            now: { checked },
             bundledData: { data },
             cacheDefaults: isolatedDefaults()
         )
@@ -121,17 +120,13 @@ final class PropertyCostServiceTests: XCTestCase {
         XCTAssertEqual(china.origin, .seed)
         XCTAssertFalse(china.datasetVersion?.isEmpty ?? true)
         XCTAssertEqual(china.rates.propertyTaxRate, 0, accuracy: 0.000_000_1)
-        XCTAssertEqual(
-            service.resolvedInvestmentReturn().rate,
-            PropertyCostService.seedInvestmentReturn,
-            accuracy: 0.000_000_1
-        )
+        XCTAssertEqual(service.resolvedPriceToRentYears(for: .chinaMainland), 44, accuracy: 0.000_1)
         XCTAssertFalse(china.sourceNames.isEmpty)
         XCTAssertFalse(service.isCheckDue(for: .chinaMainland))
         XCTAssertFalse(service.isCheckDue(for: .italy))
 
         let stale = PropertyCostService(
-            now: { ISO8601DateFormatter().date(from: "2026-12-01T00:00:00Z")! },
+            now: { checked.addingTimeInterval(31 * 24 * 3600) },
             bundledData: { data },
             cacheDefaults: isolatedDefaults()
         )
@@ -162,9 +157,8 @@ final class PropertyCostServiceTests: XCTestCase {
             "propertyTaxRate": propertyTax,
             "buyingCostRate": buying,
             "sellingCostRate": selling,
+            "priceToRentYears": 16,
             "verifiedAt": "2026-10-29",
-            "confidence": "medium",
-            "methodologyNote": "Representative owner occupied home",
             "sources": [
                 [
                     "name": "Official source",

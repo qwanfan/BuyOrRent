@@ -12,8 +12,7 @@
     "nextReviewAt",
     "methodology",
     "contentDigest",
-    "countries",
-    "investmentReturn"
+    "countries"
   ],
   "properties": {
     "schemaVersion": {
@@ -50,60 +49,9 @@
       "additionalProperties": {
         "$ref": "#/$defs/countryCost"
       }
-    },
-    "investmentReturn": {
-      "$ref": "#/$defs/investmentReturn"
     }
   },
   "$defs": {
-    "investmentReturn": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "rate",
-        "method",
-        "startDate",
-        "endDate",
-        "startLevel",
-        "endLevel",
-        "sourceName",
-        "sourceUrl"
-      ],
-      "properties": {
-        "rate": {
-          "type": "number",
-          "minimum": -0.5,
-          "maximum": 0.5
-        },
-        "method": {
-          "const": "spxPriceCagr10Y"
-        },
-        "startDate": {
-          "type": "string",
-          "format": "date"
-        },
-        "endDate": {
-          "type": "string",
-          "format": "date"
-        },
-        "startLevel": {
-          "type": "number",
-          "exclusiveMinimum": 0
-        },
-        "endLevel": {
-          "type": "number",
-          "exclusiveMinimum": 0
-        },
-        "sourceName": {
-          "type": "string",
-          "minLength": 2
-        },
-        "sourceUrl": {
-          "type": "string",
-          "pattern": "^https://"
-        }
-      }
-    },
     "source": {
       "type": "object",
       "additionalProperties": false,
@@ -127,9 +75,8 @@
         "propertyTaxRate",
         "buyingCostRate",
         "sellingCostRate",
+        "priceToRentYears",
         "verifiedAt",
-        "confidence",
-        "methodologyNote",
         "sources",
         "mortgageRate",
         "rentGrowth",
@@ -151,16 +98,14 @@
           "minimum": 0,
           "maximum": 0.3
         },
+        "priceToRentYears": {
+          "type": "number",
+          "minimum": 5,
+          "maximum": 80
+        },
         "verifiedAt": {
           "type": "string",
           "format": "date"
-        },
-        "confidence": {
-          "enum": ["high", "medium", "low"]
-        },
-        "methodologyNote": {
-          "type": "string",
-          "minLength": 10
         },
         "sources": {
           "type": "array",

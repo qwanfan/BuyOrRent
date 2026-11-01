@@ -299,7 +299,7 @@ struct CompactPercentStepper: View {
     }
 }
 
-/// 百分比步进：右侧可手动输入（始终允许一位小数）+ 上下箭头按 `stepPercent` 增减。
+/// 百分比步进：右侧可手动输入，上下箭头按 `stepPercent` 增减。默认保留一位小数。
 struct PercentStepper: View {
     let title: String
     let help: String
@@ -307,11 +307,12 @@ struct PercentStepper: View {
     var range: ClosedRange<Double>
     /// 每次步进的百分点，例如 `1` 或 `0.1`。
     var stepPercent: Double = 1
+    /// 显示和手改时保留的小数位数。房产税和买卖费率用 2 位，才能保住 2.86% 这样的表内数值。
+    var decimalPlaces: Int = 1
     var onStepperChange: ((Double) -> Void)?
     var onManualChange: ((Double) -> Void)?
 
-    /// 手动输入统一精确到百分点后一位（0.1%）。
-    private static let inputPrecision = 0.1
+    private var inputPrecision: Double { pow(10, -Double(decimalPlaces)) }
 
     var body: some View {
         HStack(alignment: .center, spacing: 8) {
@@ -320,7 +321,7 @@ struct PercentStepper: View {
             TextField(
                 "",
                 value: manualBinding,
-                format: .number.precision(.fractionLength(0...1))
+                format: .number.precision(.fractionLength(0...decimalPlaces))
             )
             .labelsHidden()
             .multilineTextAlignment(.trailing)
@@ -340,32 +341,32 @@ struct PercentStepper: View {
     }
 
     private var percentRange: ClosedRange<Double> {
-        let lower = Self.snap(range.lowerBound * 100, to: Self.inputPrecision)
-        let upper = Self.snap(range.upperBound * 100, to: Self.inputPrecision)
+        let lower = Self.snap(range.lowerBound * 100, to: inputPrecision)
+        let upper = Self.snap(range.upperBound * 100, to: inputPrecision)
         return lower...upper
     }
 
     private var stepperBinding: Binding<Double> {
         Binding(
-            get: { Self.snap(fraction * 100, to: Self.inputPrecision) },
+            get: { Self.snap(fraction * 100, to: inputPrecision) },
             set: { apply($0, source: .stepper) }
         )
     }
 
     private var manualBinding: Binding<Double> {
         Binding(
-            get: { Self.snap(fraction * 100, to: Self.inputPrecision) },
+            get: { Self.snap(fraction * 100, to: inputPrecision) },
             set: { apply($0, source: .manual) }
         )
     }
 
     private func apply(_ percentPoints: Double, source: RateEditSource) {
-        let snapped = Self.snap(percentPoints, to: Self.inputPrecision)
-        let displayed = Self.snap(fraction * 100, to: Self.inputPrecision)
+        let snapped = Self.snap(percentPoints, to: inputPrecision)
+        let displayed = Self.snap(fraction * 100, to: inputPrecision)
         // 焦点离开时输入框会交回当前显示值。数字没变就不记成手动修改。
         guard snapped != displayed else { return }
         let clamped = min(max(snapped / 100, range.lowerBound), range.upperBound)
-        let fractionValue = Self.snap(clamped * 100, to: Self.inputPrecision) / 100
+        let fractionValue = Self.snap(clamped * 100, to: inputPrecision) / 100
         switch source {
         case .stepper:
             if let onStepperChange {
