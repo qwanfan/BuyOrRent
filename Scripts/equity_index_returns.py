@@ -12,63 +12,111 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 
+# Offline seed used only when Yahoo fetch fails and the previous catalog has no quote.
+SEED_RATES: dict[str, float] = {
+    "unitedStates": 0.1355,
+    "chinaMainland": 0.0179,
+    "germany": 0.0921,
+    "japan": 0.1375,
+    "india": 0.11,
+    "unitedKingdom": 0.0437,
+    "france": 0.0577,
+    "italy": 0.1107,
+    "russia": 0.04,
+    "canada": 0.0919,
+    "brazil": 0.08,
+    "mexico": 0.06,
+    "southKorea": 0.05,
+    "spain": 0.0732,
+    "australia": 0.053,
+    "netherlands": 0.0955,
+    "saudiArabia": 0.05,
+    "turkey": 0.08,
+    "indonesia": 0.05,
+    "switzerland": 0.0647,
+}
+
 INDEX_SPECS: dict[str, dict[str, str]] = {
+    "unitedStates": {
+        "yahooSymbol": "^GSPC",
+        "sourceName": "Yahoo Finance：S&P 500",
+    },
     "chinaMainland": {
         # Yahoo 不提供沪深 300 指数长历史，改用跟踪该指数的 510300 ETF 收盘价。
         "yahooSymbol": "510300.SS",
         "sourceName": "Yahoo Finance：沪深 300",
     },
-    "hongKong": {
-        "yahooSymbol": "^HSI",
-        "sourceName": "Yahoo Finance：恒生指数",
-    },
-    "singapore": {
-        "yahooSymbol": "^STI",
-        "sourceName": "Yahoo Finance：海峡时报指数",
+    "germany": {
+        "yahooSymbol": "^GDAXI",
+        "sourceName": "Yahoo Finance：DAX",
     },
     "japan": {
         "yahooSymbol": "^N225",
         "sourceName": "Yahoo Finance：日经 225",
     },
-    "australia": {
-        "yahooSymbol": "^AXJO",
-        "sourceName": "Yahoo Finance：S&P/ASX 200",
+    "india": {
+        "yahooSymbol": "^NSEI",
+        "sourceName": "Yahoo Finance：Nifty 50",
     },
     "unitedKingdom": {
         "yahooSymbol": "^FTSE",
         "sourceName": "Yahoo Finance：FTSE 100",
     },
-    "netherlands": {
-        "yahooSymbol": "^AEX",
-        "sourceName": "Yahoo Finance：AEX",
-    },
     "france": {
         "yahooSymbol": "^FCHI",
         "sourceName": "Yahoo Finance：CAC 40",
-    },
-    "germany": {
-        "yahooSymbol": "^GDAXI",
-        "sourceName": "Yahoo Finance：DAX",
-    },
-    "spain": {
-        "yahooSymbol": "^IBEX",
-        "sourceName": "Yahoo Finance：IBEX 35",
     },
     "italy": {
         "yahooSymbol": "FTSEMIB.MI",
         "sourceName": "Yahoo Finance：FTSE MIB",
     },
-    "switzerland": {
-        "yahooSymbol": "^SSMI",
-        "sourceName": "Yahoo Finance：SMI",
-    },
-    "unitedStates": {
-        "yahooSymbol": "^GSPC",
-        "sourceName": "Yahoo Finance：S&P 500",
+    "russia": {
+        "yahooSymbol": "IMOEX.ME",
+        "sourceName": "Yahoo Finance：MOEX Russia",
     },
     "canada": {
         "yahooSymbol": "^GSPTSE",
         "sourceName": "Yahoo Finance：S&P/TSX",
+    },
+    "brazil": {
+        "yahooSymbol": "^BVSP",
+        "sourceName": "Yahoo Finance：Bovespa",
+    },
+    "mexico": {
+        "yahooSymbol": "^MXX",
+        "sourceName": "Yahoo Finance：IPC Mexico",
+    },
+    "southKorea": {
+        "yahooSymbol": "^KS11",
+        "sourceName": "Yahoo Finance：KOSPI",
+    },
+    "spain": {
+        "yahooSymbol": "^IBEX",
+        "sourceName": "Yahoo Finance：IBEX 35",
+    },
+    "australia": {
+        "yahooSymbol": "^AXJO",
+        "sourceName": "Yahoo Finance：S&P/ASX 200",
+    },
+    "netherlands": {
+        "yahooSymbol": "^AEX",
+        "sourceName": "Yahoo Finance：AEX",
+    },
+    "saudiArabia": {
+        "yahooSymbol": "^TASI.SR",
+        "sourceName": "Yahoo Finance：Tadawul All Share",
+    },
+    "turkey": {
+        "yahooSymbol": "XU100.IS",
+        "sourceName": "Yahoo Finance：BIST 100",
+    },
+    "indonesia": {
+        "yahooSymbol": "^JKSE",
+        "sourceName": "Yahoo Finance：Jakarta Composite",
+    },
+    "switzerland": {
+        "yahooSymbol": "^SSMI",
+        "sourceName": "Yahoo Finance：SMI",
     },
 }
 
@@ -216,7 +264,7 @@ def fetch_equity_index_returns(
             payload = download_chart(spec["yahooSymbol"])
             points = parse_chart_points(payload)
             quotes[country] = trailing_return(points, spec["sourceName"], as_of)
-        except (ValueError, TypeError, KeyError, json.JSONDecodeError) as error:
+        except (ValueError, TypeError, KeyError, json.JSONDecodeError, OSError) as error:
             old = previous_countries.get(country)
             if isinstance(old, dict) and "rate" in old:
                 print(
@@ -229,6 +277,20 @@ def fetch_equity_index_returns(
                     "startDate": old["startDate"],
                     "endDate": old["endDate"],
                     "sourceName": old.get("sourceName", spec["sourceName"]),
+                }
+            elif country in SEED_RATES:
+                end = as_of
+                start = subtract_years(end, 10)
+                print(
+                    f"warning: {country} equity index fetch failed: {error}; "
+                    "used seed rate",
+                    flush=True,
+                )
+                quotes[country] = {
+                    "rate": SEED_RATES[country],
+                    "startDate": start.isoformat(),
+                    "endDate": end.isoformat(),
+                    "sourceName": f"{spec['sourceName']}（种子）",
                 }
             else:
                 raise ValueError(

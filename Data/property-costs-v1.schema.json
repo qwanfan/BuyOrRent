@@ -44,8 +44,8 @@
     },
     "countries": {
       "type": "object",
-      "minProperties": 14,
-      "maxProperties": 14,
+      "minProperties": 20,
+      "maxProperties": 20,
       "additionalProperties": {
         "$ref": "#/$defs/countryCost"
       }
@@ -77,10 +77,7 @@
         "sellingCostRate",
         "priceToRentYears",
         "verifiedAt",
-        "sources",
-        "mortgageRate",
-        "rentGrowth",
-        "appreciation"
+        "sources"
       ],
       "properties": {
         "propertyTaxRate": {
