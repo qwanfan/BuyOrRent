@@ -371,8 +371,8 @@
       "sellingCostRate": 0.005,
       "sources": [
         {
-          "name": "Numbeo 2026 price-to-rent (Korea); GPG transaction and tax notes",
-          "url": "https://www.numbeo.com/property-investment/rankings_by_country.jsp"
+          "name": "Numbeo 2026 price-to-rent (Korea); tax and transaction costs from national market notes",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
       ],
       "verifiedAt": "2026-09-30"

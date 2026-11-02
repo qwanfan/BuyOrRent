@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-11-02T09:41:51Z",
-  "contentDigest": "bf2fdff4352c0a7e09e2d9b7a2b261b758a54ed1e15ff2e52c9d16bb9be9dfe8",
+  "checkedAt": "2026-11-02T10:10:47Z",
+  "contentDigest": "a85af5d536fc265da013cfaecb9affd15a21f3f1e71a5ef538ab395c3105ef66",
   "countries": {
     "australia": {
       "appreciation": {
@@ -371,8 +371,8 @@
       "sellingCostRate": 0.005,
       "sources": [
         {
-          "name": "Numbeo 2026 price-to-rent (Korea); GPG transaction and tax notes",
-          "url": "https://www.numbeo.com/property-investment/rankings_by_country.jsp"
+          "name": "Numbeo 2026 price-to-rent (Korea); tax and transaction costs from national market notes",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
       ],
       "verifiedAt": "2026-09-30"
@@ -515,9 +515,9 @@
       "verifiedAt": "2026-09-30"
     }
   },
-  "datasetVersion": "2026.11.02",
+  "datasetVersion": "2026.11.02.2",
   "methodology": "Price-to-rent, property tax, and buying and selling costs are the September 2026 Global Property Guide figures for an owner-occupied home across the IMF 2025 top-20 economies by nominal GDP. Property tax is already an effective rate on market value, including taxes originally charged on rent. South Korea price-to-rent uses Numbeo 2026 because GPG does not cover Korea. Mortgage rates, rent growth, and home-price changes are filled from official series when the catalog is published.",
   "nextReviewAt": "2026-12-03",
-  "publishedAt": "2026-11-02T09:41:51Z",
+  "publishedAt": "2026-11-02T10:10:47Z",
   "schemaVersion": 1
 }
