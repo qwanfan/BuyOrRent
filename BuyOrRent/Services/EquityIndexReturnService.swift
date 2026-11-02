@@ -29,20 +29,26 @@ struct EquityIndexReturnService {
 
     /// 首次安装、无缓存时使用。联网成功后会被覆盖。
     static let seedRates: [Country: Double] = [
-        .chinaMainland: 0.0179,
-        .hongKong: 0.0015,
-        .singapore: 0.0668,
-        .japan: 0.1375,
-        .australia: 0.053,
-        .unitedKingdom: 0.0437,
-        .netherlands: 0.0955,
-        .france: 0.0577,
-        .germany: 0.0921,
-        .spain: 0.0732,
-        .italy: 0.1107,
-        .switzerland: 0.0647,
         .unitedStates: 0.1355,
+        .chinaMainland: 0.0179,
+        .germany: 0.0921,
+        .japan: 0.1375,
+        .india: 0.11,
+        .unitedKingdom: 0.0437,
+        .france: 0.0577,
+        .italy: 0.1107,
+        .russia: 0.04,
         .canada: 0.0919,
+        .brazil: 0.08,
+        .mexico: 0.06,
+        .southKorea: 0.05,
+        .spain: 0.0732,
+        .australia: 0.053,
+        .netherlands: 0.0955,
+        .saudiArabia: 0.05,
+        .turkey: 0.08,
+        .indonesia: 0.05,
+        .switzerland: 0.0647,
     ]
 
     var now: @Sendable () -> Date = { Date() }

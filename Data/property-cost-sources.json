@@ -1,33 +1,7 @@
 {
   "schemaVersion": 1,
-  "methodology": "Price-to-rent, property tax, and buying and selling costs are the September 2026 Global Property Guide figures for an owner-occupied home. Property tax is already an effective rate on market value, including taxes originally charged on rent. Mortgage rates, rent growth, and home-price changes are filled from official series when the catalog is published.",
+  "methodology": "Price-to-rent, property tax, and buying and selling costs are the September 2026 Global Property Guide figures for an owner-occupied home across the IMF 2025 top-20 economies by nominal GDP. Property tax is already an effective rate on market value, including taxes originally charged on rent. South Korea price-to-rent uses Numbeo 2026 because GPG does not cover Korea. Mortgage rates, rent growth, and home-price changes are filled from official series when the catalog is published.",
   "countries": {
-    "chinaMainland": {
-      "propertyTaxRate": 0,
-      "buyingCostRate": 0.076,
-      "sellingCostRate": 0.01,
-      "priceToRentYears": 44,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ]
-    },
-    "hongKong": {
-      "propertyTaxRate": 0.0025,
-      "buyingCostRate": 0.0518,
-      "sellingCostRate": 0.0075,
-      "priceToRentYears": 28,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ]
-    },
     "unitedStates": {
       "propertyTaxRate": 0.015,
       "buyingCostRate": 0.0286,
@@ -41,63 +15,11 @@
         }
       ]
     },
-    "canada": {
-      "propertyTaxRate": 0.0095,
-      "buyingCostRate": 0.0285,
-      "sellingCostRate": 0.05,
-      "priceToRentYears": 18,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ]
-    },
-    "singapore": {
-      "propertyTaxRate": 0.0065,
-      "buyingCostRate": 0.098,
-      "sellingCostRate": 0.0265,
-      "priceToRentYears": 31,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ]
-    },
-    "australia": {
-      "propertyTaxRate": 0.0055,
-      "buyingCostRate": 0.0655,
-      "sellingCostRate": 0.0225,
-      "priceToRentYears": 23,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ]
-    },
-    "japan": {
-      "propertyTaxRate": 0.0095,
-      "buyingCostRate": 0.0925,
-      "sellingCostRate": 0.03,
-      "priceToRentYears": 24,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ]
-    },
-    "unitedKingdom": {
-      "propertyTaxRate": 0.0045,
-      "buyingCostRate": 0.028,
-      "sellingCostRate": 0.0275,
-      "priceToRentYears": 15,
+    "chinaMainland": {
+      "propertyTaxRate": 0,
+      "buyingCostRate": 0.076,
+      "sellingCostRate": 0.01,
+      "priceToRentYears": 38,
       "verifiedAt": "2026-09-30",
       "sources": [
         {
@@ -119,11 +41,154 @@
         }
       ]
     },
+    "japan": {
+      "propertyTaxRate": 0.0095,
+      "buyingCostRate": 0.0925,
+      "sellingCostRate": 0.03,
+      "priceToRentYears": 24,
+      "verifiedAt": "2026-09-30",
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ]
+    },
+    "india": {
+      "propertyTaxRate": 0.002,
+      "buyingCostRate": 0.071,
+      "sellingCostRate": 0.015,
+      "priceToRentYears": 19,
+      "verifiedAt": "2026-09-30",
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ]
+    },
+    "unitedKingdom": {
+      "propertyTaxRate": 0.0045,
+      "buyingCostRate": 0.028,
+      "sellingCostRate": 0.0275,
+      "priceToRentYears": 15,
+      "verifiedAt": "2026-09-30",
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ]
+    },
     "france": {
       "propertyTaxRate": 0.007,
       "buyingCostRate": 0.0591,
       "sellingCostRate": 0.035,
-      "priceToRentYears": 21,
+      "priceToRentYears": 23,
+      "verifiedAt": "2026-09-30",
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ]
+    },
+    "italy": {
+      "propertyTaxRate": 0,
+      "buyingCostRate": 0.11,
+      "sellingCostRate": 0.03,
+      "priceToRentYears": 15,
+      "verifiedAt": "2026-09-30",
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ]
+    },
+    "russia": {
+      "propertyTaxRate": 0.002,
+      "buyingCostRate": 0.0175,
+      "sellingCostRate": 0.035,
+      "priceToRentYears": 18,
+      "verifiedAt": "2026-09-30",
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ]
+    },
+    "canada": {
+      "propertyTaxRate": 0.0095,
+      "buyingCostRate": 0.0285,
+      "sellingCostRate": 0.05,
+      "priceToRentYears": 18,
+      "verifiedAt": "2026-09-30",
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ]
+    },
+    "brazil": {
+      "propertyTaxRate": 0.006,
+      "buyingCostRate": 0.06,
+      "sellingCostRate": 0.05,
+      "priceToRentYears": 20,
+      "verifiedAt": "2026-09-30",
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ]
+    },
+    "mexico": {
+      "propertyTaxRate": 0.0018,
+      "buyingCostRate": 0.0575,
+      "sellingCostRate": 0.045,
+      "priceToRentYears": 17,
+      "verifiedAt": "2026-09-30",
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ]
+    },
+    "southKorea": {
+      "propertyTaxRate": 0.001,
+      "buyingCostRate": 0.035,
+      "sellingCostRate": 0.005,
+      "priceToRentYears": 67,
+      "verifiedAt": "2026-09-30",
+      "sources": [
+        {
+          "name": "Numbeo 2026 price-to-rent (Korea); GPG transaction and tax notes",
+          "url": "https://www.numbeo.com/property-investment/rankings_by_country.jsp"
+        }
+      ]
+    },
+    "spain": {
+      "propertyTaxRate": 0.0075,
+      "buyingCostRate": 0.1075,
+      "sellingCostRate": 0.045,
+      "priceToRentYears": 18,
+      "verifiedAt": "2026-09-30",
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ]
+    },
+    "australia": {
+      "propertyTaxRate": 0.0055,
+      "buyingCostRate": 0.0655,
+      "sellingCostRate": 0.0225,
+      "priceToRentYears": 23,
       "verifiedAt": "2026-09-30",
       "sources": [
         {
@@ -145,11 +210,11 @@
         }
       ]
     },
-    "spain": {
-      "propertyTaxRate": 0.0075,
-      "buyingCostRate": 0.1075,
-      "sellingCostRate": 0.045,
-      "priceToRentYears": 18,
+    "saudiArabia": {
+      "propertyTaxRate": 0,
+      "buyingCostRate": 0.065,
+      "sellingCostRate": 0.025,
+      "priceToRentYears": 17,
       "verifiedAt": "2026-09-30",
       "sources": [
         {
@@ -158,11 +223,24 @@
         }
       ]
     },
-    "italy": {
-      "propertyTaxRate": 0,
-      "buyingCostRate": 0.11,
-      "sellingCostRate": 0.03,
-      "priceToRentYears": 15,
+    "turkey": {
+      "propertyTaxRate": 0.0012,
+      "buyingCostRate": 0.0665,
+      "sellingCostRate": 0.02,
+      "priceToRentYears": 14,
+      "verifiedAt": "2026-09-30",
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ]
+    },
+    "indonesia": {
+      "propertyTaxRate": 0.001,
+      "buyingCostRate": 0.0675,
+      "sellingCostRate": 0.04,
+      "priceToRentYears": 12,
       "verifiedAt": "2026-09-30",
       "sources": [
         {

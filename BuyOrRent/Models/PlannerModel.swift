@@ -103,24 +103,29 @@ final class PlannerModel {
         NetWorthCalculator.analyze(assumptions: assumptions)
     }
 
-    /// 房价、年限回到出厂值。房贷利率、房价涨跌、租金升值、房产税和买卖成本先用本机已有的表，再强制刷新这张表。
+    /// 房价、年限回到出厂值；保留当前国别。房贷利率、房价涨跌、租金升值、房产税和买卖成本先用本机已有的表，再强制刷新这张表。
     func resetAssumptions() {
         propertyCostFetchTask?.cancel()
         isRestoringDefaults = false
         propertyCostsFetchedFromNetwork = false
         investmentReturnFetchedFromNetwork = false
+        let country = assumptions.country
         assumptions = Assumptions()
-        assumptions.country = defaultCountry
+        assumptions.country = country
+        let preset = country.preset
+        assumptions.loanYears = preset.loanYears
+        assumptions.pmiRate = preset.pmiRate
         mortgageRateManuallyEdited = false
         rentGrowthManuallyEdited = false
         appreciationManuallyEdited = false
         monthlyRentManuallyEdited = false
         clearPropertyCostManualFlags()
         investmentReturnManuallyEdited = false
-        assumptions.monthlyRent = suggestedMonthlyRent
         applyResolvedPropertyCosts()
         applyResolvedMarketSeries(preservingManualEdits: false)
         applyResolvedInvestmentReturn(preservingManualEdits: false)
+        applyHousingPreset(preset.housingPreset(for: assumptions.housingType))
+        assumptions.monthlyRent = suggestedMonthlyRent
 
         guard autoFetchPropertyCosts else { return }
         isRestoringDefaults = true

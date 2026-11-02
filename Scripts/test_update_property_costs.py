@@ -13,19 +13,25 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "Scripts" / "update_property_costs.py"
 SOURCES = ROOT / "Data" / "property-cost-sources.json"
 NUMBEO_NAMES = {
-    "chinaMainland": "China",
-    "hongKong": "Hong Kong (China)",
     "unitedStates": "United States",
-    "canada": "Canada",
-    "singapore": "Singapore",
-    "australia": "Australia",
-    "japan": "Japan",
-    "unitedKingdom": "United Kingdom",
+    "chinaMainland": "China",
     "germany": "Germany",
+    "japan": "Japan",
+    "india": "India",
+    "unitedKingdom": "United Kingdom",
     "france": "France",
-    "netherlands": "Netherlands",
-    "spain": "Spain",
     "italy": "Italy",
+    "russia": "Russia",
+    "canada": "Canada",
+    "brazil": "Brazil",
+    "mexico": "Mexico",
+    "southKorea": "South Korea",
+    "spain": "Spain",
+    "australia": "Australia",
+    "netherlands": "Netherlands",
+    "saudiArabia": "Saudi Arabia",
+    "turkey": "Turkey",
+    "indonesia": "Indonesia",
     "switzerland": "Switzerland",
 }
 
@@ -136,7 +142,7 @@ class UpdatePropertyCostsTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         catalog = json.loads(output.read_text(encoding="utf-8"))
         self.assertEqual(catalog["schemaVersion"], 1)
-        self.assertEqual(len(catalog["countries"]), 14)
+        self.assertEqual(len(catalog["countries"]), 20)
         self.assertEqual(len(catalog["contentDigest"]), 64)
         self.assertNotIn("investmentReturn", catalog)
         canada = catalog["countries"]["canada"]
@@ -188,14 +194,16 @@ class UpdatePropertyCostsTests(unittest.TestCase):
         catalog = json.loads(regenerated.read_text(encoding="utf-8"))
         self.assertEqual(catalog["countries"]["italy"]["mortgageRate"]["rate"], 0.035)
 
-    def test_rejects_market_series_without_previous_value(self) -> None:
+    def test_omits_market_series_without_previous_value(self) -> None:
         source_data = json.loads(SOURCES.read_text(encoding="utf-8"))
         market = sample_market()
         del market["japan"]["appreciation"]
-        result, _, temporary = self.run_generator(source_data, market_data=market)
+        result, output, temporary = self.run_generator(source_data, market_data=market)
         self.addCleanup(temporary.cleanup)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("previous catalog has no value", result.stderr)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        catalog = json.loads(output.read_text(encoding="utf-8"))
+        self.assertNotIn("appreciation", catalog["countries"]["japan"])
+        self.assertIn("mortgageRate", catalog["countries"]["japan"])
 
     def test_rejects_large_mortgage_rate_jump(self) -> None:
         source_data = json.loads(SOURCES.read_text(encoding="utf-8"))

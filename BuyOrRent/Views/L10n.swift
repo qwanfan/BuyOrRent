@@ -19,14 +19,14 @@ extension Country {
     var appLanguage: AppLanguage {
         switch self {
         case .chinaMainland: .zhHans
-        case .hongKong: .zhHant
         case .japan: .ja
         case .germany, .switzerland: .de
         case .france: .fr
         case .netherlands: .nl
-        case .spain: .es
+        case .spain, .mexico: .es
         case .italy: .it
-        case .unitedStates, .canada, .singapore, .australia, .unitedKingdom: .en
+        case .unitedStates, .india, .unitedKingdom, .russia, .canada, .brazil,
+             .southKorea, .australia, .saudiArabia, .turkey, .indonesia: .en
         }
     }
 }
@@ -48,7 +48,12 @@ struct SourceCaptionParts: Equatable {
 
     static func splitting(_ text: String, label: String) -> SourceCaptionParts? {
         guard text.hasPrefix(label) else { return nil }
-        return SourceCaptionParts(label: label, remainder: String(text.dropFirst(label.count)))
+        var remainder = String(text.dropFirst(label.count))
+        // 黄标只显示「来源 / Source」，冒号和前后空格不进正文。
+        while remainder.hasPrefix("：") || remainder.hasPrefix(":") || remainder.hasPrefix(" ") {
+            remainder.removeFirst()
+        }
+        return SourceCaptionParts(label: label, remainder: remainder)
     }
 }
 
@@ -79,19 +84,25 @@ struct L10n {
 
     func countryName(_ country: Country) -> String {
         switch country {
-        case .chinaMainland: t("中国大陆", "中國大陸", "Mainland China", "中国大陸", "Festlandchina", "Chine continentale", "Vasteland China", "China continental", "Cina continentale")
-        case .hongKong: t("中国香港", "中國香港", "Hong Kong", "香港", "Hongkong", "Hong Kong", "Hongkong", "Hong Kong", "Hong Kong")
         case .unitedStates: t("美国", "美國", "United States", "アメリカ", "Vereinigte Staaten", "États-Unis", "Verenigde Staten", "Estados Unidos", "Stati Uniti")
-        case .canada: t("加拿大", "加拿大", "Canada", "カナダ", "Kanada", "Canada", "Canada", "Canadá", "Canada")
-        case .singapore: t("新加坡", "新加坡", "Singapore", "シンガポール", "Singapur", "Singapour", "Singapore", "Singapur", "Singapore")
-        case .australia: t("澳大利亚", "澳洲", "Australia", "オーストラリア", "Australien", "Australie", "Australië", "Australia", "Australia")
-        case .japan: t("日本", "日本", "Japan", "日本", "Japan", "Japon", "Japan", "Japón", "Giappone")
-        case .unitedKingdom: t("英国", "英國", "United Kingdom", "イギリス", "Vereinigtes Königreich", "Royaume-Uni", "Verenigd Koninkrijk", "Reino Unido", "Regno Unito")
+        case .chinaMainland: t("中国大陆", "中國大陸", "Mainland China", "中国大陸", "Festlandchina", "Chine continentale", "Vasteland China", "China continental", "Cina continentale")
         case .germany: t("德国", "德國", "Germany", "ドイツ", "Deutschland", "Allemagne", "Duitsland", "Alemania", "Germania")
+        case .japan: t("日本", "日本", "Japan", "日本", "Japan", "Japon", "Japan", "Japón", "Giappone")
+        case .india: t("印度", "印度", "India", "インド", "Indien", "Inde", "India", "India", "India")
+        case .unitedKingdom: t("英国", "英國", "United Kingdom", "イギリス", "Vereinigtes Königreich", "Royaume-Uni", "Verenigd Koninkrijk", "Reino Unido", "Regno Unito")
         case .france: t("法国", "法國", "France", "フランス", "Frankreich", "France", "Frankrijk", "Francia", "Francia")
-        case .netherlands: t("荷兰", "荷蘭", "Netherlands", "オランダ", "Niederlande", "Pays-Bas", "Nederland", "Países Bajos", "Paesi Bassi")
-        case .spain: t("西班牙", "西班牙", "Spain", "スペイン", "Spanien", "Espagne", "Spanje", "España", "Spagna")
         case .italy: t("意大利", "意大利", "Italy", "イタリア", "Italien", "Italie", "Italië", "Italia", "Italia")
+        case .russia: t("俄罗斯", "俄羅斯", "Russia", "ロシア", "Russland", "Russie", "Rusland", "Rusia", "Russia")
+        case .canada: t("加拿大", "加拿大", "Canada", "カナダ", "Kanada", "Canada", "Canada", "Canadá", "Canada")
+        case .brazil: t("巴西", "巴西", "Brazil", "ブラジル", "Brasilien", "Brésil", "Brazilië", "Brasil", "Brasile")
+        case .mexico: t("墨西哥", "墨西哥", "Mexico", "メキシコ", "Mexiko", "Mexique", "Mexico", "México", "Messico")
+        case .southKorea: t("韩国", "韓國", "South Korea", "韓国", "Südkorea", "Corée du Sud", "Zuid-Korea", "Corea del Sur", "Corea del Sud")
+        case .spain: t("西班牙", "西班牙", "Spain", "スペイン", "Spanien", "Espagne", "Spanje", "España", "Spagna")
+        case .australia: t("澳大利亚", "澳洲", "Australia", "オーストラリア", "Australien", "Australie", "Australië", "Australia", "Australia")
+        case .netherlands: t("荷兰", "荷蘭", "Netherlands", "オランダ", "Niederlande", "Pays-Bas", "Nederland", "Países Bajos", "Paesi Bassi")
+        case .saudiArabia: t("沙特阿拉伯", "沙烏地阿拉伯", "Saudi Arabia", "サウジアラビア", "Saudi-Arabien", "Arabie saoudite", "Saoedi-Arabië", "Arabia Saudita", "Arabia Saudita")
+        case .turkey: t("土耳其", "土耳其", "Turkey", "トルコ", "Türkei", "Turquie", "Turkije", "Turquía", "Turchia")
+        case .indonesia: t("印度尼西亚", "印尼", "Indonesia", "インドネシア", "Indonesien", "Indonésie", "Indonesië", "Indonesia", "Indonesia")
         case .switzerland: t("瑞士", "瑞士", "Switzerland", "スイス", "Schweiz", "Suisse", "Zwitserland", "Suiza", "Svizzera")
         }
     }
@@ -131,15 +142,15 @@ struct L10n {
     var resetDefaults: String { t("恢复默认参数", "恢復預設參數", "Reset to defaults", "既定値に戻す", "Standardwerte wiederherstellen", "Rétablir les valeurs par défaut", "Standaardwaarden herstellen", "Restablecer valores predeterminados", "Ripristina i valori predefiniti") }
     var resetFooter: String {
         t(
-            "房价、首付和持有年限回到默认值。贷款利率、房产增值、租金升值、投资回报、房产税和买卖成本随房产成本表从 GitHub 刷新。",
-            "樓價、首期和持有年期回到預設值。貸款利率、樓價升值、租金升值、投資回報、物業稅和買賣成本隨房產成本表從 GitHub 重新取得。",
-            "Price, down payment, and holding period return to their defaults. The mortgage rate, home appreciation, rent growth, investment return, property tax, and buying and selling costs refresh with the property-cost table from GitHub.",
-            "価格、頭金、保有年数は既定値に戻ります。ローン金利、住宅価格の上昇、家賃上昇、投資利回り、固定資産税、売買費用は GitHub の不動産コスト表とともに更新します。",
-            "Preis, Eigenkapital und Haltungsdauer kehren auf die Vorgaben zurück. Darlehenszins, Wertsteigerung, Mietsteigerung, Anlagerendite, Grundsteuer und Kauf- sowie Verkaufskosten werden mit der Immobilienkostentabelle von GitHub aktualisiert.",
-            "Le prix, l'apport et la durée de détention reviennent aux valeurs par défaut. Le taux du prêt, la plus-value, la hausse du loyer, le rendement, la taxe foncière et les frais d'achat et de vente sont actualisés avec le tableau des coûts immobiliers depuis GitHub.",
-            "Prijs, eigen inleg en bezitstermijn gaan terug naar de standaard. Hypotheekrente, waardestijging, huurstijging, beleggingsrendement, onroerendezaakbelasting en aan- en verkoopkosten worden met de vastgoedkostentabel van GitHub ververst.",
-            "El precio, la entrada y los años de tenencia vuelven a los valores predeterminados. El tipo de interés, la revalorización, la subida del alquiler, la rentabilidad, el impuesto y los costes de compra y venta se actualizan con la tabla de costes de la vivienda desde GitHub.",
-            "Prezzo, anticipo e anni di possesso tornano ai valori predefiniti. Il tasso, la rivalutazione, l'aumento dell'affitto, il rendimento, l'imposta e i costi di acquisto e vendita si aggiornano con la tabella dei costi immobiliari da GitHub."
+            "保留当前国家。房价、首付和持有年限回到默认值。贷款利率、房产增值、租金升值、投资回报、房产税和买卖成本随房产成本表从 GitHub 刷新。",
+            "保留目前國家。樓價、首期和持有年期回到預設值。貸款利率、樓價升值、租金升值、投資回報、物業稅和買賣成本隨房產成本表從 GitHub 重新取得。",
+            "Keeps the current country. Price, down payment, and holding period return to their defaults. The mortgage rate, home appreciation, rent growth, investment return, property tax, and buying and selling costs refresh with the property-cost table from GitHub.",
+            "現在の国はそのままです。価格、頭金、保有年数は既定値に戻ります。ローン金利、住宅価格の上昇、家賃上昇、投資利回り、固定資産税、売買費用は GitHub の不動産コスト表とともに更新します。",
+            "Das aktuelle Land bleibt erhalten. Preis, Eigenkapital und Haltungsdauer kehren auf die Vorgaben zurück. Darlehenszins, Wertsteigerung, Mietsteigerung, Anlagerendite, Grundsteuer und Kauf- sowie Verkaufskosten werden mit der Immobilienkostentabelle von GitHub aktualisiert.",
+            "Le pays actuel est conservé. Le prix, l'apport et la durée de détention reviennent aux valeurs par défaut. Le taux du prêt, la plus-value, la hausse du loyer, le rendement, la taxe foncière et les frais d'achat et de vente sont actualisés avec le tableau des coûts immobiliers depuis GitHub.",
+            "Het huidige land blijft behouden. Prijs, eigen inleg en bezitstermijn gaan terug naar de standaard. Hypotheekrente, waardestijging, huurstijging, beleggingsrendement, onroerendezaakbelasting en aan- en verkoopkosten worden met de vastgoedkostentabel van GitHub ververst.",
+            "Se mantiene el país actual. El precio, la entrada y los años de tenencia vuelven a los valores predeterminados. El tipo de interés, la revalorización, la subida del alquiler, la rentabilidad, el impuesto y los costes de compra y venta se actualizan con la tabla de costes de la vivienda desde GitHub.",
+            "Il paese attuale resta invariato. Prezzo, anticipo e anni di possesso tornano ai valori predefiniti. Il tasso, la rivalutazione, l'aumento dell'affitto, il rendimento, l'imposta e i costi di acquisto e vendita si aggiornano con la tabella dei costi immobiliari da GitHub."
         )
     }
 
@@ -413,26 +424,6 @@ struct L10n {
             .es: "LPR a más de 5 años",
             .it: "LPR oltre 5 anni"
         ],
-        "1 个月 HIBOR": [
-            .zhHant: "1 個月 HIBOR",
-            .en: "1-month HIBOR",
-            .ja: "1か月 HIBOR",
-            .de: "1-Monats-HIBOR",
-            .fr: "HIBOR 1 mois",
-            .nl: "1-maands HIBOR",
-            .es: "HIBOR a 1 mes",
-            .it: "HIBOR a 1 mese"
-        ],
-        "1 个月 HIBOR + 预设利差估算": [
-            .zhHant: "1 個月 HIBOR + 預設利差估算",
-            .en: "1-month HIBOR plus a preset spread",
-            .ja: "1か月 HIBOR ＋ 所定の上乗せ",
-            .de: "1-Monats-HIBOR plus vorgegebener Aufschlag",
-            .fr: "HIBOR 1 mois plus un écart prédéfini",
-            .nl: "1-maands HIBOR plus een vaste opslag",
-            .es: "HIBOR a 1 mes más un diferencial prefijado",
-            .it: "HIBOR a 1 mese più uno spread predefinito"
-        ],
         "Freddie Mac 30 年固定房贷利率": [
             .zhHant: "Freddie Mac 30 年固定按揭利率",
             .en: "Freddie Mac 30-year fixed mortgage rate",
@@ -452,26 +443,6 @@ struct L10n {
             .nl: "Bank of Canada 5-jarige geposte hypotheekrente",
             .es: "Tipo hipotecario anunciado a 5 años del Banco de Canadá",
             .it: "Tasso ipotecario pubblicato a 5 anni della Banca del Canada"
-        ],
-        "3 个月 SORA": [
-            .zhHant: "3 個月 SORA",
-            .en: "3-month SORA",
-            .ja: "3か月 SORA",
-            .de: "3-Monats-SORA",
-            .fr: "SORA 3 mois",
-            .nl: "3-maands SORA",
-            .es: "SORA a 3 meses",
-            .it: "SORA a 3 mesi"
-        ],
-        "3 个月 SORA + 预设利差估算": [
-            .zhHant: "3 個月 SORA + 預設利差估算",
-            .en: "3-month SORA plus a preset spread",
-            .ja: "3か月 SORA ＋ 所定の上乗せ",
-            .de: "3-Monats-SORA plus vorgegebener Aufschlag",
-            .fr: "SORA 3 mois plus un écart prédéfini",
-            .nl: "3-maands SORA plus een vaste opslag",
-            .es: "SORA a 3 meses más un diferencial prefijado",
-            .it: "SORA a 3 mesi più uno spread predefinito"
         ],
         "澳洲央行新发放自住房贷利率": [
             .zhHant: "澳洲央行新批出自住按揭利率",
@@ -562,46 +533,6 @@ struct L10n {
             .nl: "Huur van huurwoningen (NBS, laatste jaar)",
             .es: "Alquiler de vivienda en alquiler (NBS, último año)",
             .it: "Affitto delle abitazioni in locazione (NBS, ultimo anno)"
-        ],
-        "统计处私人住宅租金": [
-            .zhHant: "統計處私人住宅租金",
-            .en: "C&SD private housing rent",
-            .ja: "統計処の民間住宅家賃",
-            .de: "Private Wohnungsmiete (C&SD)",
-            .fr: "Loyer des logements privés (C&SD)",
-            .nl: "Huur van particuliere woningen (C&SD)",
-            .es: "Alquiler de vivienda privada (C&SD)",
-            .it: "Affitto di abitazioni private (C&SD)"
-        ],
-        "差饷物业估价署私人住宅租金指数（10 年复合）": [
-            .zhHant: "差餉物業估價署私人住宅租金指數（10 年複合）",
-            .en: "RVD private domestic rental index (10-year compound)",
-            .ja: "差餉物業估價署の民間住宅賃料指数（10 年の複利）",
-            .de: "RVD-Mietindex für Privatwohnungen (10-Jahres-Verzinsung)",
-            .fr: "Indice des loyers résidentiels privés du RVD (composé sur 10 ans)",
-            .nl: "RVD-huurindex voor particuliere woningen (10-jaars samengesteld)",
-            .es: "Índice de alquiler residencial privado del RVD (compuesto a 10 años)",
-            .it: "Indice degli affitti residenziali privati RVD (composto su 10 anni)"
-        ],
-        "市区重建局私人住宅租金指数": [
-            .zhHant: "市區重建局私人住宅租金指數",
-            .en: "URA private residential rental index",
-            .ja: "URA の民間住宅賃料指数",
-            .de: "URA-Mietindex für Privatwohnungen",
-            .fr: "Indice des loyers résidentiels privés de l'URA",
-            .nl: "URA-huurindex voor particuliere woningen",
-            .es: "Índice de alquiler residencial privado de la URA",
-            .it: "Indice degli affitti residenziali privati URA"
-        ],
-        "市区重建局私人住宅租金指数（10 年复合）": [
-            .zhHant: "市區重建局私人住宅租金指數（10 年複合）",
-            .en: "URA private residential rental index (10-year compound)",
-            .ja: "URA の民間住宅賃料指数（10 年の複利）",
-            .de: "URA-Mietindex für Privatwohnungen (10-Jahres-Verzinsung)",
-            .fr: "Indice des loyers résidentiels privés de l'URA (composé sur 10 ans)",
-            .nl: "URA-huurindex voor particuliere woningen (10-jaars samengesteld)",
-            .es: "Índice de alquiler residencial privado de la URA (compuesto a 10 años)",
-            .it: "Indice degli affitti residenziali privati URA (composto su 10 anni)"
         ],
         "总务省民营房租": [
             .zhHant: "總務省民營房租",

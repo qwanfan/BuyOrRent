@@ -5,21 +5,24 @@ import XCTest
 final class PlannerModelTests: XCTestCase {
     func testCountryMatchesSystemRegionOrFallsBackToUnitedStates() {
         XCTAssertEqual(Country.matching(regionCode: "CN"), .chinaMainland)
-        XCTAssertEqual(Country.matching(regionCode: "hk"), .hongKong)
         XCTAssertEqual(Country.matching(regionCode: "US"), .unitedStates)
         XCTAssertEqual(Country.matching(regionCode: "GB"), .unitedKingdom)
         XCTAssertEqual(Country.matching(regionCode: "DE"), .germany)
         XCTAssertEqual(Country.matching(regionCode: "JP"), .japan)
         XCTAssertEqual(Country.matching(regionCode: "CH"), .switzerland)
-        XCTAssertEqual(Country.matching(regionCode: "BR"), .unitedStates)
+        XCTAssertEqual(Country.matching(regionCode: "BR"), .brazil)
+        XCTAssertEqual(Country.matching(regionCode: "IN"), .india)
+        XCTAssertEqual(Country.matching(regionCode: "KR"), .southKorea)
+        XCTAssertEqual(Country.matching(regionCode: "HK"), .unitedStates)
         XCTAssertEqual(Country.matching(regionCode: nil), .unitedStates)
         XCTAssertEqual(Country.matching(regionCode: "BR").appLanguage, .en)
 
         let model = PlannerModel(autoFetchPropertyCosts: false, regionCode: "JP")
         XCTAssertEqual(model.assumptions.country, .japan)
         XCTAssertEqual(model.assumptions.country.appLanguage, .ja)
+        model.applyCountry(.unitedStates)
         model.resetAssumptions()
-        XCTAssertEqual(model.assumptions.country, .japan)
+        XCTAssertEqual(model.assumptions.country, .unitedStates)
     }
 
     func testAppreciationAndRentGrowthChangeIndependently() {
@@ -219,8 +222,8 @@ final class PlannerModelTests: XCTestCase {
         XCTAssertTrue(model.monthlyRentManuallyEdited)
         model.resetAssumptions()
         XCTAssertFalse(model.monthlyRentManuallyEdited)
-        // 中国大陆种子租售比 44 年：600,000 ÷ (44×12) ≈ 1,136。
-        XCTAssertEqual(model.assumptions.monthlyRent, 1_136, accuracy: 0.1)
+        // 中国大陆租售比 38 年：600,000 ÷ (38×12) ≈ 1,315.79，四舍五入为 1,316。
+        XCTAssertEqual(model.assumptions.monthlyRent, 1_316, accuracy: 0.1)
         // 地税和买卖费率也回到中国大陆自住种子，而不是结构体里的旧初值。
         XCTAssertEqual(model.assumptions.propertyTaxRate, 0, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.buyingCostRate, 0.076, accuracy: 0.000_1)
@@ -290,10 +293,11 @@ final class PlannerModelTests: XCTestCase {
     func testResetRefreshesMortgageRateAndPropertyCosts() async {
         let fetchedAt = ISO8601DateFormatter().date(from: "2026-10-29T05:00:00Z")!
         let catalog = propertyCostCatalogData(
-            country: "chinaMainland",
+            country: "unitedStates",
             mortgageRate: 0.035,
             rentGrowth: -0.006,
-            appreciation: -0.059
+            appreciation: -0.059,
+            priceToRentYears: 16
         )
         let costService = PropertyCostService(
             now: { fetchedAt },
@@ -314,7 +318,7 @@ final class PlannerModelTests: XCTestCase {
             autoFetchPropertyCosts: true,
             regionCode: "CN"
         )
-        model.assumptions.country = .unitedStates
+        model.applyCountry(.unitedStates)
         model.setMortgageRate(0.09, source: .manual)
         model.setPropertyTaxRate(0.02)
         model.setBuyingCostRate(0.01)
@@ -322,7 +326,7 @@ final class PlannerModelTests: XCTestCase {
         model.setHomePrice(900_000)
 
         model.resetAssumptions()
-        XCTAssertEqual(model.assumptions.country, .chinaMainland)
+        XCTAssertEqual(model.assumptions.country, .unitedStates)
         XCTAssertEqual(model.assumptions.homePrice, 600_000, accuracy: 0.1)
         XCTAssertFalse(model.mortgageRateManuallyEdited)
         XCTAssertFalse(model.propertyTaxManuallyEdited)
@@ -331,25 +335,26 @@ final class PlannerModelTests: XCTestCase {
             try? await Task.sleep(nanoseconds: 20_000_000)
         }
         XCTAssertFalse(model.isRestoringDefaults)
+        XCTAssertEqual(model.assumptions.country, .unitedStates)
         XCTAssertEqual(model.assumptions.annualInterestRate, 0.035, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.propertyTaxRate, 0.012, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.buyingCostRate, 0.031, accuracy: 0.000_1)
         XCTAssertEqual(model.assumptions.sellingCostRate, 0.056, accuracy: 0.000_1)
-        XCTAssertEqual(model.assumptions.investmentReturn, 0.0414, accuracy: 0.000_1)
+        XCTAssertEqual(model.assumptions.investmentReturn, 0.0718, accuracy: 0.000_000_1)
         XCTAssertFalse(model.investmentReturnManuallyEdited)
         XCTAssertEqual(model.assumptions.horizonYears, 20)
         XCTAssertEqual(model.assumptions.loanYears, 30)
-        XCTAssertEqual(model.mortgageRateSourceText, "来源：Freddie Mac 30 年固定房贷利率 · 2026-10-29")
-        XCTAssertEqual(model.propertyTaxSourceText, "来源：Official source · 2026-10-29")
-        XCTAssertEqual(model.buyingCostSourceText, "来源：Official source · 2026-10-29")
-        XCTAssertEqual(model.sellingCostSourceText, "来源：Official source · 2026-10-29")
-        XCTAssertEqual(model.investmentReturnSourceText, "来源：Yahoo Finance：沪深 300 · 2016-10-28 至 2026-10-28")
+        XCTAssertEqual(model.mortgageRateSourceText, "Source: Freddie Mac 30-year fixed mortgage rate · 2026-10-29")
+        XCTAssertEqual(model.propertyTaxSourceText, "Source: Official source · 2026-10-29")
+        XCTAssertEqual(model.buyingCostSourceText, "Source: Official source · 2026-10-29")
+        XCTAssertEqual(model.sellingCostSourceText, "Source: Official source · 2026-10-29")
+        XCTAssertEqual(model.investmentReturnSourceText, "Source: Yahoo Finance：S&P 500 · 2016-10-28 to 2026-10-28")
 
         model.setPropertyTaxRate(0.02)
         model.setMortgageRate(0.04, source: .manual)
         XCTAssertNil(model.propertyTaxSourceText)
         XCTAssertNil(model.mortgageRateSourceText)
-        XCTAssertEqual(model.buyingCostSourceText, "来源：Official source · 2026-10-29")
+        XCTAssertEqual(model.buyingCostSourceText, "Source: Official source · 2026-10-29")
     }
 
     func testSourceCaptionsStayHiddenWhenNetworkFails() async {
@@ -411,7 +416,7 @@ final class PlannerModelTests: XCTestCase {
         let text = copy.source("示例来源", period: "2026-10-29")
         let parts = copy.sourceCaptionParts(in: text)
         XCTAssertEqual(parts?.label, "来源")
-        XCTAssertEqual(parts?.remainder, "：示例来源 · 2026-10-29")
+        XCTAssertEqual(parts?.remainder, "示例来源 · 2026-10-29")
         XCTAssertNil(copy.sourceCaptionParts(in: "Source: Numbeo"))
     }
 

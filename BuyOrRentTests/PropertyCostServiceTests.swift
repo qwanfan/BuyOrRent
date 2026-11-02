@@ -12,7 +12,8 @@ final class PropertyCostServiceTests: XCTestCase {
         XCTAssertEqual(china.buyingCostRate, 0.076, accuracy: 0.000_1)
         XCTAssertEqual(china.sellingCostRate, 0.01, accuracy: 0.000_1)
         XCTAssertEqual(china.propertyTaxRate, 0, accuracy: 0.000_1)
-        XCTAssertEqual(PropertyCostService.seedRates(for: .singapore).buyingCostRate, 0.098, accuracy: 0.000_1)
+        XCTAssertEqual(PropertyCostService.seedRates(for: .southKorea).buyingCostRate, 0.035, accuracy: 0.000_1)
+        XCTAssertEqual(PropertyCostService.seedRates(for: .india).propertyTaxRate, 0.002, accuracy: 0.000_1)
     }
 
     func testFetchValidatesCachesAndResolvesRemoteCatalog() async throws {
@@ -98,6 +99,10 @@ final class PropertyCostServiceTests: XCTestCase {
         XCTAssertFalse(catalog.datasetVersion.isEmpty)
         XCTAssertEqual(catalog.countries.count, Country.allCases.count)
 
+        let countriesWithMarketSeries: Set<Country> = [
+            .unitedStates, .chinaMainland, .germany, .japan, .unitedKingdom, .france,
+            .italy, .canada, .spain, .australia, .netherlands, .switzerland,
+        ]
         for country in Country.allCases {
             let record = try XCTUnwrap(catalog.countries[country.rawValue])
             let seed = PropertyCostService.seedRates(for: country)
@@ -106,9 +111,11 @@ final class PropertyCostServiceTests: XCTestCase {
             XCTAssertEqual(record.sellingCostRate, seed.sellingCostRate, accuracy: 0.000_000_1, country.rawValue)
             XCTAssertEqual(record.priceToRentYears, country.preset.priceToRentYears, accuracy: 0.000_000_1, country.rawValue)
             XCTAssertFalse(record.sources.isEmpty, country.rawValue)
-            XCTAssertNotNil(record.mortgageRate, country.rawValue)
-            XCTAssertNotNil(record.rentGrowth, country.rawValue)
-            XCTAssertNotNil(record.appreciation, country.rawValue)
+            if countriesWithMarketSeries.contains(country) {
+                XCTAssertNotNil(record.mortgageRate, country.rawValue)
+                XCTAssertNotNil(record.rentGrowth, country.rawValue)
+                XCTAssertNotNil(record.appreciation, country.rawValue)
+            }
         }
 
         let service = PropertyCostService(
@@ -120,7 +127,7 @@ final class PropertyCostServiceTests: XCTestCase {
         XCTAssertEqual(china.origin, .seed)
         XCTAssertFalse(china.datasetVersion?.isEmpty ?? true)
         XCTAssertEqual(china.rates.propertyTaxRate, 0, accuracy: 0.000_000_1)
-        XCTAssertEqual(service.resolvedPriceToRentYears(for: .chinaMainland), 44, accuracy: 0.000_1)
+        XCTAssertEqual(service.resolvedPriceToRentYears(for: .chinaMainland), 38, accuracy: 0.000_1)
         XCTAssertFalse(china.sourceNames.isEmpty)
         XCTAssertFalse(service.isCheckDue(for: .chinaMainland))
         XCTAssertFalse(service.isCheckDue(for: .italy))

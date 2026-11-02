@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-11-01T14:40:21Z",
-  "contentDigest": "999ce4594ec076ec0f02bf5d60defb8be1bb6fc517c289bff282765d9a4126c3",
+  "checkedAt": "2026-11-02T09:41:51Z",
+  "contentDigest": "bf2fdff4352c0a7e09e2d9b7a2b261b758a54ed1e15ff2e52c9d16bb9be9dfe8",
   "countries": {
     "australia": {
       "appreciation": {
@@ -25,6 +25,25 @@
         "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/AUS.A.N.CPI.IX.CP041.N._Z"
       },
       "sellingCostRate": 0.0225,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "brazil": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0392,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.BR.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.06,
+      "priceToRentYears": 20,
+      "propertyTaxRate": 0.006,
+      "sellingCostRate": 0.05,
       "sources": [
         {
           "name": "GPG - Global Property Guide",
@@ -78,7 +97,7 @@
         "sourceName": "5 年期以上 LPR",
         "sourceUrl": "https://www.chinamoney.com.cn/dqs/rest/cm-u-bk-currency/LprHis"
       },
-      "priceToRentYears": 44,
+      "priceToRentYears": 38,
       "propertyTaxRate": 0,
       "rentGrowth": {
         "periodLabel": "2026-09",
@@ -104,12 +123,12 @@
       },
       "buyingCostRate": 0.0591,
       "mortgageRate": {
-        "periodLabel": "2026-08",
-        "rate": 0.032,
+        "periodLabel": "2026-09",
+        "rate": 0.0319,
         "sourceName": "ECB 新发放住房贷款利率",
         "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.FR.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
       },
-      "priceToRentYears": 21,
+      "priceToRentYears": 23,
       "propertyTaxRate": 0.007,
       "rentGrowth": {
         "periodLabel": "2015–2025",
@@ -135,8 +154,8 @@
       },
       "buyingCostRate": 0.095,
       "mortgageRate": {
-        "periodLabel": "2026-08",
-        "rate": 0.04,
+        "periodLabel": "2026-09",
+        "rate": 0.0409,
         "sourceName": "ECB 新发放住房贷款利率",
         "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.DE.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
       },
@@ -157,29 +176,36 @@
       ],
       "verifiedAt": "2026-09-30"
     },
-    "hongKong": {
+    "india": {
       "appreciation": {
         "periodLabel": "2016-Q2–2026-Q2",
-        "rate": 0.0156,
+        "rate": 0.0441,
         "sourceName": "国际清算银行选定住宅房价",
-        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.HK.N.628?startPeriod=2015-Q1&format=csv"
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.IN.N.628?startPeriod=2015-Q1&format=csv"
       },
-      "buyingCostRate": 0.0518,
-      "mortgageRate": {
-        "periodLabel": "2026-09-30",
-        "rate": 0.0431,
-        "sourceName": "1 个月 HIBOR + 预设利差估算",
-        "sourceUrl": "https://api.hkma.gov.hk/public/market-data-and-statistics/monthly-statistical-bulletin/er-ir/hk-interbank-ir-daily"
+      "buyingCostRate": 0.071,
+      "priceToRentYears": 19,
+      "propertyTaxRate": 0.002,
+      "sellingCostRate": 0.015,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "indonesia": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0167,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.ID.N.628?startPeriod=2015-Q1&format=csv"
       },
-      "priceToRentYears": 28,
-      "propertyTaxRate": 0.0025,
-      "rentGrowth": {
-        "periodLabel": "2015–2025",
-        "rate": 0.013,
-        "sourceName": "差饷物业估价署私人住宅租金指数（10 年复合）",
-        "sourceUrl": "https://www.rvd.gov.hk/datagovhk/1.3A.csv"
-      },
-      "sellingCostRate": 0.0075,
+      "buyingCostRate": 0.0675,
+      "priceToRentYears": 12,
+      "propertyTaxRate": 0.001,
+      "sellingCostRate": 0.04,
       "sources": [
         {
           "name": "GPG - Global Property Guide",
@@ -197,8 +223,8 @@
       },
       "buyingCostRate": 0.11,
       "mortgageRate": {
-        "periodLabel": "2026-08",
-        "rate": 0.0358,
+        "periodLabel": "2026-09",
+        "rate": 0.0361,
         "sourceName": "ECB 新发放住房贷款利率",
         "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.IT.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
       },
@@ -228,8 +254,8 @@
       },
       "buyingCostRate": 0.0925,
       "mortgageRate": {
-        "periodLabel": "2026-10",
-        "rate": 0.0383,
+        "periodLabel": "2026-11",
+        "rate": 0.0381,
         "sourceName": "Flat 35 当月利率",
         "sourceUrl": "https://www.flat35.com/loan/lineup/flat35/index.html"
       },
@@ -250,6 +276,25 @@
       ],
       "verifiedAt": "2026-09-30"
     },
+    "mexico": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0836,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.MX.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0575,
+      "priceToRentYears": 17,
+      "propertyTaxRate": 0.0018,
+      "sellingCostRate": 0.045,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
     "netherlands": {
       "appreciation": {
         "periodLabel": "2016-Q2–2026-Q2",
@@ -259,8 +304,8 @@
       },
       "buyingCostRate": 0.0425,
       "mortgageRate": {
-        "periodLabel": "2026-08",
-        "rate": 0.0391,
+        "periodLabel": "2026-09",
+        "rate": 0.0387,
         "sourceName": "ECB 新发放住房贷款利率",
         "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.NL.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
       },
@@ -281,33 +326,53 @@
       ],
       "verifiedAt": "2026-09-30"
     },
-    "singapore": {
+    "russia": {
       "appreciation": {
         "periodLabel": "2016-Q2–2026-Q2",
-        "rate": 0.0459,
+        "rate": 0.1033,
         "sourceName": "国际清算银行选定住宅房价",
-        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.SG.N.628?startPeriod=2015-Q1&format=csv"
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.RU.N.628?startPeriod=2015-Q1&format=csv"
       },
-      "buyingCostRate": 0.098,
-      "mortgageRate": {
-        "periodLabel": "2026Aug",
-        "rate": 0.0219,
-        "sourceName": "3 个月 SORA + 预设利差估算",
-        "sourceUrl": "https://data.gov.sg/api/action/datastore_search?resource_id=d_5fe5a4bb4a1ecc4d8a56a095832e2b24"
-      },
-      "priceToRentYears": 31,
-      "propertyTaxRate": 0.0065,
-      "rentGrowth": {
-        "periodLabel": "2016-Q2–2026-Q2",
-        "rate": 0.0428,
-        "sourceName": "市区重建局私人住宅租金指数（10 年复合）",
-        "sourceUrl": "https://data.gov.sg/api/action/datastore_search?resource_id=d_647dabde09e726b9eeb75e4d9cd96699"
-      },
-      "sellingCostRate": 0.0265,
+      "buyingCostRate": 0.0175,
+      "priceToRentYears": 18,
+      "propertyTaxRate": 0.002,
+      "sellingCostRate": 0.035,
       "sources": [
         {
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "saudiArabia": {
+      "buyingCostRate": 0.065,
+      "priceToRentYears": 17,
+      "propertyTaxRate": 0,
+      "sellingCostRate": 0.025,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "southKorea": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0234,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.KR.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.035,
+      "priceToRentYears": 67,
+      "propertyTaxRate": 0.001,
+      "sellingCostRate": 0.005,
+      "sources": [
+        {
+          "name": "Numbeo 2026 price-to-rent (Korea); GPG transaction and tax notes",
+          "url": "https://www.numbeo.com/property-investment/rankings_by_country.jsp"
         }
       ],
       "verifiedAt": "2026-09-30"
@@ -321,8 +386,8 @@
       },
       "buyingCostRate": 0.1075,
       "mortgageRate": {
-        "periodLabel": "2026-08",
-        "rate": 0.0304,
+        "periodLabel": "2026-09",
+        "rate": 0.0299,
         "sourceName": "ECB 新发放住房贷款利率",
         "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.ES.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
       },
@@ -366,6 +431,19 @@
         "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CHE.A.N.CPI.IX.CP041.N._Z"
       },
       "sellingCostRate": 0.025,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide",
+          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
+        }
+      ],
+      "verifiedAt": "2026-09-30"
+    },
+    "turkey": {
+      "buyingCostRate": 0.0665,
+      "priceToRentYears": 14,
+      "propertyTaxRate": 0.0012,
+      "sellingCostRate": 0.02,
       "sources": [
         {
           "name": "GPG - Global Property Guide",
@@ -437,9 +515,9 @@
       "verifiedAt": "2026-09-30"
     }
   },
-  "datasetVersion": "2026.11.01",
-  "methodology": "Price-to-rent, property tax, and buying and selling costs are the September 2026 Global Property Guide figures for an owner-occupied home. Property tax is already an effective rate on market value, including taxes originally charged on rent. Mortgage rates, rent growth, and home-price changes are filled from official series when the catalog is published.",
-  "nextReviewAt": "2026-12-02",
-  "publishedAt": "2026-11-01T14:40:21Z",
+  "datasetVersion": "2026.11.02",
+  "methodology": "Price-to-rent, property tax, and buying and selling costs are the September 2026 Global Property Guide figures for an owner-occupied home across the IMF 2025 top-20 economies by nominal GDP. Property tax is already an effective rate on market value, including taxes originally charged on rent. South Korea price-to-rent uses Numbeo 2026 because GPG does not cover Korea. Mortgage rates, rent growth, and home-price changes are filled from official series when the catalog is published.",
+  "nextReviewAt": "2026-12-03",
+  "publishedAt": "2026-11-02T09:41:51Z",
   "schemaVersion": 1
 }

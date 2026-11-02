@@ -31,16 +31,12 @@ BOUNDS = {
 }
 
 MORTGAGE_SPREADS = {
-    "hongKong": 0.013,
-    "singapore": 0.010,
     "chinaMainland": 0.0,
 }
 MORTGAGE_NAMES = {
     "chinaMainland": "5 年期以上 LPR",
-    "hongKong": "1 个月 HIBOR + 预设利差估算",
     "unitedStates": "Freddie Mac 30 年固定房贷利率",
     "canada": "加拿大央行 5 年期按揭挂牌利率",
-    "singapore": "3 个月 SORA + 预设利差估算",
     "australia": "澳洲央行新发放自住房贷利率",
     "japan": "Flat 35 当月利率",
     "unitedKingdom": "英格兰银行房贷报价利率",
@@ -72,10 +68,8 @@ OECD_CODES = {
 }
 BIS_CODES = {
     "chinaMainland": "CN",
-    "hongKong": "HK",
     "unitedStates": "US",
     "canada": "CA",
-    "singapore": "SG",
     "australia": "AU",
     "japan": "JP",
     "unitedKingdom": "GB",
@@ -85,13 +79,19 @@ BIS_CODES = {
     "spain": "ES",
     "italy": "IT",
     "switzerland": "CH",
+    "india": "IN",
+    "russia": "RU",
+    "brazil": "BR",
+    "mexico": "MX",
+    "southKorea": "KR",
+    "saudiArabia": "SA",
+    "turkey": "TR",
+    "indonesia": "ID",
 }
 RENT_NAMES = {
     "oecd": "OECD 实际房租（10 年复合）",
     "japan": "总务省民营房租（10 年复合）",
     "chinaMainland": "国家统计局租赁房房租（最近一年）",
-    "hongKong": "差饷物业估价署私人住宅租金指数（10 年复合）",
-    "singapore": "市区重建局私人住宅租金指数（10 年复合）",
 }
 APPRECIATION_NAME = "国际清算银行选定住宅房价"
 BIS_SOURCE = "https://stats.bis.org/api/v1/data/WS_SPP"
@@ -663,10 +663,8 @@ def _mortgage_url(country: str) -> str:
         "unitedKingdom": "https://www.bankofengland.co.uk/boeapps/iadb/fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/2020&Dateto=now&SeriesCodes=IUMBV34&CSVF=TN&UsingCodes=Y&VPD=Y&VFD=N",
         "canada": "https://www.bankofcanada.ca/valet/observations/V80691335/json?recent=4",
         "australia": "https://www.rba.gov.au/statistics/tables/csv/f6-data.csv",
-        "singapore": "https://data.gov.sg/api/action/datastore_search?resource_id=d_5fe5a4bb4a1ecc4d8a56a095832e2b24&limit=100",
         "switzerland": "https://data.snb.ch/api/cube/zikrepro/data/csv/en?D1=MV",
         "chinaMainland": "https://www.chinamoney.com.cn/dqs/rest/cm-u-bk-currency/LprHis",
-        "hongKong": "https://api.hkma.gov.hk/public/market-data-and-statistics/monthly-statistical-bulletin/er-ir/hk-interbank-ir-daily?segment=hibor.fixing&pagesize=5&sortby=end_of_day&sortorder=desc",
         "japan": "https://www.flat35.com/loan/lineup/flat35/index.html",
     }[country]
 
@@ -684,16 +682,12 @@ def fetch_mortgage(country: str, as_of: date) -> dict[str, Any]:
         record = parse_bank_of_canada(json.loads(str(download(url))), name, url)
     elif country == "australia":
         record = parse_rba_csv(str(download(url)), name, url)
-    elif country == "singapore":
-        record = parse_sora_json(json.loads(str(download(url))), name, url.split("&limit")[0])
     elif country == "switzerland":
         record = parse_snb_csv(str(download(url)), name, url)
     elif country == "chinaMainland":
         start = _subtract_months(as_of, 4).isoformat()
         live = f"{url}?lang=CN&strStartDate={start}&strEndDate={as_of.isoformat()}"
         record = parse_lpr_json(json.loads(str(download(live))), name, url)
-    elif country == "hongKong":
-        record = parse_hibor_json(json.loads(str(download(url))), name, url.split("?")[0])
     elif country == "japan":
         record = parse_flat35_html(str(download(url)), name, url)
     else:
@@ -738,12 +732,6 @@ def fetch_rent_growth(country: str, as_of: date) -> dict[str, Any]:
             if article:
                 return parse_china_html(str(download(article)), RENT_NAMES["chinaMainland"], article)
         raise ValueError("China CPI release was not found")
-    if country == "hongKong":
-        url = "https://www.rvd.gov.hk/datagovhk/1.3A.csv"
-        return parse_hong_kong_rent_index(str(download(url)), RENT_NAMES["hongKong"], url)
-    if country == "singapore":
-        url = "https://data.gov.sg/api/action/datastore_search?resource_id=d_647dabde09e726b9eeb75e4d9cd96699&limit=10"
-        return parse_singapore_rent(json.loads(str(download(url))), RENT_NAMES["singapore"], url.split("&limit")[0])
     raise ValueError(f"no rent-growth source for {country}")
 
 
@@ -800,7 +788,11 @@ def assemble_market_series(
             old = _previous_observation(previous, country, field)
             if new is None:
                 if old is None:
-                    raise ValueError(f"{country}.{field} unavailable and previous catalog has no value")
+                    print(
+                        f"warning: {country}.{field} unavailable; omitting from catalog",
+                        file=sys.stderr,
+                    )
+                    continue
                 print(f"warning: {country}.{field} kept the previous value", file=sys.stderr)
                 assembled[country][field] = old
                 continue
