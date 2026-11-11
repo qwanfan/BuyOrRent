@@ -1,43 +1,35 @@
-# BuyOrRent
+# BuyOrRent property costs
 
-SwiftUI 买房与租房净财富比较工具，支持 macOS 和 iOS。
+本仓库只维护并发布买/租成本表到 GitHub Pages，不包含 Swift 客户端源码。
 
-## 房产成本数据
+远程数据：
 
-App 以个人购买并自住普通住宅为统一口径，内置全球前 20 大经济体的房产税、买入成本、卖出成本、租售比、房贷利率、租金升值和房价涨跌代表值，以及各国主股指过去 10 年的价格年化回报，用作投资回报默认值。实际税费可能受城市、房屋价格、面积、首套资格和持有年限影响，界面中的默认值可手动修改。
+- https://qwanfan.github.io/BuyOrRent/v1/property-costs.json
+- https://qwanfan.github.io/BuyOrRent/v1/property-costs-v1.schema.json
+- https://qwanfan.github.io/BuyOrRent/v1/sources.json
 
-远程数据发布在：
+## 目录
 
-- `https://qwanfan.github.io/BuyOrRent/v1/property-costs.json`
-- `https://qwanfan.github.io/BuyOrRent/v1/property-costs-v1.schema.json`
-- `https://qwanfan.github.io/BuyOrRent/v1/sources.json`
-
-App 随包内置完整的 20 国数据表，启动后即可离线计算。距内置表或上次成功检查已满 30 天，或当前国家两边都没有时，才会访问 GitHub Pages。下载、解析或校验失败不会清除最后成功数据。
+- `Data/property-cost-sources.json`：人工维护源表
+- `Data/property-costs-v1.schema.json`：schema
+- `Data/housing-defaults/`：各国房型房价与物业费溯源
+- `Scripts/`：生成、校验与月更抓取
+- `public/v1/`：GitHub Pages 发布内容
 
 ## 每月更新
 
-`.github/workflows/update-property-costs.yml` 在每月 1 日运行，也支持手动触发。工作流会重新计算标普 500 过去 10 年的价格年化回报，抓取房贷利率、租金升值和房价涨跌，并复查房产成本来源。步骤：
-
-1. 校验20国覆盖、HTTPS 来源、日期和费率范围。
-2. 检查来源可访问性。
-3. 拒绝超过阈值的未审核费率跳变。
-4. 运行生成器测试和 JSON Schema 校验。
-5. 校验全部通过后使用 GitHub Pages 发布；失败时保留线上旧版本。
-
-源数据和口径维护在 `Data/property-cost-sources.json`。生成命令：
+`.github/workflows/update-property-costs.yml` 在每月 1 日运行，也支持手动触发。
 
 ```sh
 python3 Scripts/update_property_costs.py
 python3 Scripts/validate_property_costs.py
+python3 -m unittest discover -s Scripts -p 'test_*.py'
 ```
 
-## 测试
+## Swift 客户端
+
+SwiftUI App 源码不在本仓库默认分支跟踪。若需查看移除前的最后一版 App 树：
 
 ```sh
-python3 -m unittest discover -s Scripts -p 'test_*.py'
-xcodebuild test \
-  -project BuyOrRent.xcodeproj \
-  -scheme BuyOrRent \
-  -destination 'platform=macOS' \
-  -derivedDataPath build/DerivedData
+git checkout last-swift-app
 ```

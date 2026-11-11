@@ -3,3 +3,10 @@ build/
 DerivedData/
 xcuserdata/
 *.xcuserstate
+
+# Swift app stays local; this repo publishes property-cost GitHub Pages only.
+BuyOrRent/
+BuyOrRentTests/
+BuyOrRent.xcodeproj/
+Configuration/
+Docs/
