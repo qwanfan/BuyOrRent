@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "methodology": "Price-to-rent, property tax, and buying and selling costs are the September 2026 Global Property Guide figures for an owner-occupied home across the IMF 2025 top-20 economies by nominal GDP. Property tax is already an effective rate on market value, including taxes originally charged on rent. South Korea price-to-rent uses Numbeo 2026 because GPG does not cover Korea. Mortgage rates, rent growth, and home-price changes are filled from official series when the catalog is published.",
+  "methodology": "Price-to-rent, property tax, and buying and selling costs are the September 2026 Global Property Guide figures for an owner-occupied home across the IMF 2025 top-20 economies by nominal GDP. Property tax is already an effective rate on market value, including taxes originally charged on rent. South Korea price-to-rent uses Numbeo 2026 because GPG does not cover Korea. Housing home prices and monthly service charges are curated local-currency mid-market defaults by dwelling type (apartment / townhouse / detached), imported from Data/housing-defaults spreadsheets. Loan term, PMI, maintenance, and insurance baselines are curated owner-occupied defaults. Mortgage rates, rent growth, and home-price changes are filled from official series when the catalog is published.",
   "countries": {
     "unitedStates": {
       "propertyTaxRate": 0.015,
@@ -13,7 +13,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 30,
+      "pmiRate": 0.005,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.005,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 325000.0,
+          "monthlyHOA": 330.0
+        },
+        "townhouse": {
+          "homePrice": 310000.0,
+          "monthlyHOA": 180.0
+        },
+        "detached": {
+          "homePrice": 435000.0,
+          "monthlyHOA": 220.0
+        }
+      }
     },
     "chinaMainland": {
       "propertyTaxRate": 0,
@@ -26,7 +44,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 30,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.004,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 860000.0,
+          "monthlyHOA": 214.0
+        },
+        "townhouse": {
+          "homePrice": 1650000.0,
+          "monthlyHOA": 680.0
+        },
+        "detached": {
+          "homePrice": 2400000.0,
+          "monthlyHOA": 840.0
+        }
+      }
     },
     "germany": {
       "propertyTaxRate": 0.0045,
@@ -39,7 +75,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 30,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 282000.0,
+          "monthlyHOA": 240.0
+        },
+        "townhouse": {
+          "homePrice": 320000.0,
+          "monthlyHOA": 160.0
+        },
+        "detached": {
+          "homePrice": 410000.0,
+          "monthlyHOA": 0.0
+        }
+      }
     },
     "japan": {
       "propertyTaxRate": 0.0095,
@@ -52,7 +106,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 35,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 36800000.0,
+          "monthlyHOA": 29300.0
+        },
+        "townhouse": {
+          "homePrice": 26500000.0,
+          "monthlyHOA": 0.0
+        },
+        "detached": {
+          "homePrice": 32500000.0,
+          "monthlyHOA": 0.0
+        }
+      }
     },
     "india": {
       "propertyTaxRate": 0.002,
@@ -65,7 +137,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 20,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 14200000.0,
+          "monthlyHOA": 21000.0
+        },
+        "townhouse": {
+          "homePrice": 16800000.0,
+          "monthlyHOA": 3600.0
+        },
+        "detached": {
+          "homePrice": 21500000.0,
+          "monthlyHOA": 4500.0
+        }
+      }
     },
     "unitedKingdom": {
       "propertyTaxRate": 0.0045,
@@ -78,7 +168,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 25,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 248000.0,
+          "monthlyHOA": 205.0
+        },
+        "townhouse": {
+          "homePrice": 235000.0,
+          "monthlyHOA": 60.0
+        },
+        "detached": {
+          "homePrice": 365000.0,
+          "monthlyHOA": 0.0
+        }
+      }
     },
     "france": {
       "propertyTaxRate": 0.007,
@@ -91,7 +199,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 25,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 270000.0,
+          "monthlyHOA": 220.0
+        },
+        "townhouse": {
+          "homePrice": 290000.0,
+          "monthlyHOA": 120.0
+        },
+        "detached": {
+          "homePrice": 380000.0,
+          "monthlyHOA": 0.0
+        }
+      }
     },
     "italy": {
       "propertyTaxRate": 0,
@@ -104,7 +230,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 25,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 236000.0,
+          "monthlyHOA": 210.0
+        },
+        "townhouse": {
+          "homePrice": 260000.0,
+          "monthlyHOA": 110.0
+        },
+        "detached": {
+          "homePrice": 345000.0,
+          "monthlyHOA": 0.0
+        }
+      }
     },
     "russia": {
       "propertyTaxRate": 0.002,
@@ -117,7 +261,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 20,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 11400000.0,
+          "monthlyHOA": 16800.0
+        },
+        "townhouse": {
+          "homePrice": 14200000.0,
+          "monthlyHOA": 0.0
+        },
+        "detached": {
+          "homePrice": 18600000.0,
+          "monthlyHOA": 0.0
+        }
+      }
     },
     "canada": {
       "propertyTaxRate": 0.0095,
@@ -130,7 +292,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 25,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.004,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 332000.0,
+          "monthlyHOA": 490.0
+        },
+        "townhouse": {
+          "homePrice": 410000.0,
+          "monthlyHOA": 260.0
+        },
+        "detached": {
+          "homePrice": 620000.0,
+          "monthlyHOA": 0.0
+        }
+      }
     },
     "brazil": {
       "propertyTaxRate": 0.006,
@@ -143,7 +323,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 30,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.004,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 680000.0,
+          "monthlyHOA": 1080.0
+        },
+        "townhouse": {
+          "homePrice": 740000.0,
+          "monthlyHOA": 550.0
+        },
+        "detached": {
+          "homePrice": 960000.0,
+          "monthlyHOA": 700.0
+        }
+      }
     },
     "mexico": {
       "propertyTaxRate": 0.0018,
@@ -156,7 +354,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 20,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 2720000.0,
+          "monthlyHOA": 4000.0
+        },
+        "townhouse": {
+          "homePrice": 3100000.0,
+          "monthlyHOA": 850.0
+        },
+        "detached": {
+          "homePrice": 3850000.0,
+          "monthlyHOA": 1100.0
+        }
+      }
     },
     "southKorea": {
       "propertyTaxRate": 0.001,
@@ -169,7 +385,25 @@
           "name": "Numbeo 2026 price-to-rent (Korea); tax and transaction costs from national market notes",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 30,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 520000000.0,
+          "monthlyHOA": 304000.0
+        },
+        "townhouse": {
+          "homePrice": 490000000.0,
+          "monthlyHOA": 0.0
+        },
+        "detached": {
+          "homePrice": 680000000.0,
+          "monthlyHOA": 0.0
+        }
+      }
     },
     "spain": {
       "propertyTaxRate": 0.0075,
@@ -182,7 +416,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 30,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 214000.0,
+          "monthlyHOA": 200.0
+        },
+        "townhouse": {
+          "homePrice": 245000.0,
+          "monthlyHOA": 85.0
+        },
+        "detached": {
+          "homePrice": 320000.0,
+          "monthlyHOA": 100.0
+        }
+      }
     },
     "australia": {
       "propertyTaxRate": 0.0055,
@@ -195,7 +447,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 30,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.004,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 440000.0,
+          "monthlyHOA": 350.0
+        },
+        "townhouse": {
+          "homePrice": 580000.0,
+          "monthlyHOA": 210.0
+        },
+        "detached": {
+          "homePrice": 780000.0,
+          "monthlyHOA": 0.0
+        }
+      }
     },
     "netherlands": {
       "propertyTaxRate": 0.002,
@@ -208,7 +478,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 30,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 296000.0,
+          "monthlyHOA": 245.0
+        },
+        "townhouse": {
+          "homePrice": 340000.0,
+          "monthlyHOA": 170.0
+        },
+        "detached": {
+          "homePrice": 455000.0,
+          "monthlyHOA": 0.0
+        }
+      }
     },
     "saudiArabia": {
       "propertyTaxRate": 0,
@@ -221,7 +509,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 25,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 425000.0,
+          "monthlyHOA": 1380.0
+        },
+        "townhouse": {
+          "homePrice": 540000.0,
+          "monthlyHOA": 260.0
+        },
+        "detached": {
+          "homePrice": 720000.0,
+          "monthlyHOA": 0.0
+        }
+      }
     },
     "turkey": {
       "propertyTaxRate": 0.0012,
@@ -234,7 +540,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 15,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 3100000.0,
+          "monthlyHOA": 4900.0
+        },
+        "townhouse": {
+          "homePrice": 3700000.0,
+          "monthlyHOA": 1400.0
+        },
+        "detached": {
+          "homePrice": 4600000.0,
+          "monthlyHOA": 2000.0
+        }
+      }
     },
     "indonesia": {
       "propertyTaxRate": 0.001,
@@ -247,7 +571,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 20,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 2150000000.0,
+          "monthlyHOA": 2900000.0
+        },
+        "townhouse": {
+          "homePrice": 2450000000.0,
+          "monthlyHOA": 720000.0
+        },
+        "detached": {
+          "homePrice": 3200000000.0,
+          "monthlyHOA": 900000.0
+        }
+      }
     },
     "switzerland": {
       "propertyTaxRate": 0.0025,
@@ -260,7 +602,25 @@
           "name": "GPG - Global Property Guide",
           "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
         }
-      ]
+      ],
+      "loanYears": 25,
+      "pmiRate": 0.0,
+      "maintenanceRate": 0.01,
+      "insuranceRate": 0.003,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 690000.0,
+          "monthlyHOA": 340.0
+        },
+        "townhouse": {
+          "homePrice": 920000.0,
+          "monthlyHOA": 190.0
+        },
+        "detached": {
+          "homePrice": 1280000.0,
+          "monthlyHOA": 0.0
+        }
+      }
     }
   }
 }

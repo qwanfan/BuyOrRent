@@ -45,7 +45,13 @@ RATE_BOUNDS = {
     "propertyTaxRate": (0.0, 0.06),
     "buyingCostRate": (0.0, 0.80),
     "sellingCostRate": (0.0, 0.30),
+    "pmiRate": (0.0, 0.05),
+    "maintenanceRate": (0.0, 0.05),
+    "insuranceRate": (0.0, 0.05),
 }
+
+HOUSING_TYPES = ("apartment", "townhouse", "detached")
+LOAN_YEARS_BOUNDS = (5, 40)
 
 MAX_DELTAS = {
     "propertyTaxRate": 0.01,
@@ -158,6 +164,35 @@ def validate_sources(document: dict[str, Any]) -> None:
             raise ValueError(
                 f"{country}.priceToRentYears is outside {minimum_years}...{maximum_years}"
             )
+
+        loan_years = record.get("loanYears")
+        if not isinstance(loan_years, int) or isinstance(loan_years, bool):
+            raise ValueError(f"{country}.loanYears must be an integer")
+        minimum_loan, maximum_loan = LOAN_YEARS_BOUNDS
+        if not minimum_loan <= loan_years <= maximum_loan:
+            raise ValueError(
+                f"{country}.loanYears is outside {minimum_loan}...{maximum_loan}"
+            )
+
+        housing = record.get("housingDefaults")
+        if not isinstance(housing, dict):
+            raise ValueError(f"{country}.housingDefaults must be an object")
+        if set(housing) != set(HOUSING_TYPES):
+            raise ValueError(
+                f"{country}.housingDefaults must include exactly {list(HOUSING_TYPES)}"
+            )
+        for housing_type in HOUSING_TYPES:
+            block = housing[housing_type]
+            if not isinstance(block, dict):
+                raise ValueError(f"{country}.housingDefaults.{housing_type} must be an object")
+            home_price = block.get("homePrice")
+            monthly_hoa = block.get("monthlyHOA")
+            if not isinstance(home_price, (int, float)) or isinstance(home_price, bool) or home_price <= 0:
+                raise ValueError(f"{country}.housingDefaults.{housing_type}.homePrice must be > 0")
+            if not isinstance(monthly_hoa, (int, float)) or isinstance(monthly_hoa, bool) or monthly_hoa < 0:
+                raise ValueError(
+                    f"{country}.housingDefaults.{housing_type}.monthlyHOA must be >= 0"
+                )
 
         verified_at = date.fromisoformat(record["verifiedAt"])
         if verified_at > today + timedelta(days=1):
@@ -302,11 +337,23 @@ def build_catalog(
 def public_countries(countries: dict[str, Any]) -> dict[str, Any]:
     result: dict[str, Any] = {}
     for country, record in countries.items():
+        housing = {
+            housing_type: {
+                "homePrice": float(record["housingDefaults"][housing_type]["homePrice"]),
+                "monthlyHOA": float(record["housingDefaults"][housing_type]["monthlyHOA"]),
+            }
+            for housing_type in HOUSING_TYPES
+        }
         result[country] = {
             "propertyTaxRate": record["propertyTaxRate"],
             "buyingCostRate": record["buyingCostRate"],
             "sellingCostRate": record["sellingCostRate"],
             "priceToRentYears": record["priceToRentYears"],
+            "loanYears": int(record["loanYears"]),
+            "pmiRate": float(record["pmiRate"]),
+            "maintenanceRate": float(record["maintenanceRate"]),
+            "insuranceRate": float(record["insuranceRate"]),
+            "housingDefaults": housing,
             "verifiedAt": record["verifiedAt"],
             "sources": [
                 {"name": source["name"], "url": source["url"]}

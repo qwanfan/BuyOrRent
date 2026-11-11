@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-11-02T10:10:47Z",
-  "contentDigest": "a85af5d536fc265da013cfaecb9affd15a21f3f1e71a5ef538ab395c3105ef66",
+  "checkedAt": "2026-11-11T01:35:54Z",
+  "contentDigest": "b0793e830fea0f42e5378387c860764e2910c07595a03919e4c55ea2f209b9d7",
   "countries": {
     "australia": {
       "appreciation": {
@@ -10,12 +10,30 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.AU.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.0655,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 440000.0,
+          "monthlyHOA": 350.0
+        },
+        "detached": {
+          "homePrice": 780000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 580000.0,
+          "monthlyHOA": 210.0
+        }
+      },
+      "insuranceRate": 0.004,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
       "mortgageRate": {
         "periodLabel": "31/08/2026",
         "rate": 0.062,
         "sourceName": "澳洲央行新发放自住房贷利率",
         "sourceUrl": "https://www.rba.gov.au/statistics/tables/csv/f6-data.csv"
       },
+      "pmiRate": 0.0,
       "priceToRentYears": 23,
       "propertyTaxRate": 0.0055,
       "rentGrowth": {
@@ -41,6 +59,24 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.BR.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.06,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 680000.0,
+          "monthlyHOA": 1080.0
+        },
+        "detached": {
+          "homePrice": 960000.0,
+          "monthlyHOA": 700.0
+        },
+        "townhouse": {
+          "homePrice": 740000.0,
+          "monthlyHOA": 550.0
+        }
+      },
+      "insuranceRate": 0.004,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
+      "pmiRate": 0.0,
       "priceToRentYears": 20,
       "propertyTaxRate": 0.006,
       "sellingCostRate": 0.05,
@@ -60,12 +96,30 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CA.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.0285,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 332000.0,
+          "monthlyHOA": 490.0
+        },
+        "detached": {
+          "homePrice": 620000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 410000.0,
+          "monthlyHOA": 260.0
+        }
+      },
+      "insuranceRate": 0.004,
+      "loanYears": 25,
+      "maintenanceRate": 0.01,
       "mortgageRate": {
         "periodLabel": "2026-10-07",
         "rate": 0.0619,
         "sourceName": "加拿大央行 5 年期按揭挂牌利率",
         "sourceUrl": "https://www.bankofcanada.ca/valet/observations/V80691335/json?recent=4"
       },
+      "pmiRate": 0.0,
       "priceToRentYears": 18,
       "propertyTaxRate": 0.0095,
       "rentGrowth": {
@@ -91,12 +145,30 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CN.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.076,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 860000.0,
+          "monthlyHOA": 214.0
+        },
+        "detached": {
+          "homePrice": 2400000.0,
+          "monthlyHOA": 840.0
+        },
+        "townhouse": {
+          "homePrice": 1650000.0,
+          "monthlyHOA": 680.0
+        }
+      },
+      "insuranceRate": 0.004,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
       "mortgageRate": {
         "periodLabel": "2026-10-20",
         "rate": 0.035,
         "sourceName": "5 年期以上 LPR",
         "sourceUrl": "https://www.chinamoney.com.cn/dqs/rest/cm-u-bk-currency/LprHis"
       },
+      "pmiRate": 0.0,
       "priceToRentYears": 38,
       "propertyTaxRate": 0,
       "rentGrowth": {
@@ -122,12 +194,30 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.FR.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.0591,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 270000.0,
+          "monthlyHOA": 220.0
+        },
+        "detached": {
+          "homePrice": 380000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 290000.0,
+          "monthlyHOA": 120.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 25,
+      "maintenanceRate": 0.01,
       "mortgageRate": {
         "periodLabel": "2026-09",
         "rate": 0.0319,
         "sourceName": "ECB 新发放住房贷款利率",
         "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.FR.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
       },
+      "pmiRate": 0.0,
       "priceToRentYears": 23,
       "propertyTaxRate": 0.007,
       "rentGrowth": {
@@ -153,12 +243,30 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.DE.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.095,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 282000.0,
+          "monthlyHOA": 240.0
+        },
+        "detached": {
+          "homePrice": 410000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 320000.0,
+          "monthlyHOA": 160.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
       "mortgageRate": {
         "periodLabel": "2026-09",
         "rate": 0.0409,
         "sourceName": "ECB 新发放住房贷款利率",
         "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.DE.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
       },
+      "pmiRate": 0.0,
       "priceToRentYears": 31,
       "propertyTaxRate": 0.0045,
       "rentGrowth": {
@@ -184,6 +292,24 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.IN.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.071,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 14200000.0,
+          "monthlyHOA": 21000.0
+        },
+        "detached": {
+          "homePrice": 21500000.0,
+          "monthlyHOA": 4500.0
+        },
+        "townhouse": {
+          "homePrice": 16800000.0,
+          "monthlyHOA": 3600.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 20,
+      "maintenanceRate": 0.01,
+      "pmiRate": 0.0,
       "priceToRentYears": 19,
       "propertyTaxRate": 0.002,
       "sellingCostRate": 0.015,
@@ -203,6 +329,24 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.ID.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.0675,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 2150000000.0,
+          "monthlyHOA": 2900000.0
+        },
+        "detached": {
+          "homePrice": 3200000000.0,
+          "monthlyHOA": 900000.0
+        },
+        "townhouse": {
+          "homePrice": 2450000000.0,
+          "monthlyHOA": 720000.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 20,
+      "maintenanceRate": 0.01,
+      "pmiRate": 0.0,
       "priceToRentYears": 12,
       "propertyTaxRate": 0.001,
       "sellingCostRate": 0.04,
@@ -222,12 +366,30 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.IT.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.11,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 236000.0,
+          "monthlyHOA": 210.0
+        },
+        "detached": {
+          "homePrice": 345000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 260000.0,
+          "monthlyHOA": 110.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 25,
+      "maintenanceRate": 0.01,
       "mortgageRate": {
         "periodLabel": "2026-09",
         "rate": 0.0361,
         "sourceName": "ECB 新发放住房贷款利率",
         "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.IT.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
       },
+      "pmiRate": 0.0,
       "priceToRentYears": 15,
       "propertyTaxRate": 0,
       "rentGrowth": {
@@ -253,12 +415,30 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.JP.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.0925,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 36800000.0,
+          "monthlyHOA": 29300.0
+        },
+        "detached": {
+          "homePrice": 32500000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 26500000.0,
+          "monthlyHOA": 0.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 35,
+      "maintenanceRate": 0.01,
       "mortgageRate": {
         "periodLabel": "2026-11",
         "rate": 0.0381,
         "sourceName": "Flat 35 当月利率",
         "sourceUrl": "https://www.flat35.com/loan/lineup/flat35/index.html"
       },
+      "pmiRate": 0.0,
       "priceToRentYears": 24,
       "propertyTaxRate": 0.0095,
       "rentGrowth": {
@@ -284,6 +464,24 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.MX.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.0575,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 2720000.0,
+          "monthlyHOA": 4000.0
+        },
+        "detached": {
+          "homePrice": 3850000.0,
+          "monthlyHOA": 1100.0
+        },
+        "townhouse": {
+          "homePrice": 3100000.0,
+          "monthlyHOA": 850.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 20,
+      "maintenanceRate": 0.01,
+      "pmiRate": 0.0,
       "priceToRentYears": 17,
       "propertyTaxRate": 0.0018,
       "sellingCostRate": 0.045,
@@ -303,12 +501,30 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.NL.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.0425,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 296000.0,
+          "monthlyHOA": 245.0
+        },
+        "detached": {
+          "homePrice": 455000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 340000.0,
+          "monthlyHOA": 170.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
       "mortgageRate": {
         "periodLabel": "2026-09",
         "rate": 0.0387,
         "sourceName": "ECB 新发放住房贷款利率",
         "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.NL.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
       },
+      "pmiRate": 0.0,
       "priceToRentYears": 15,
       "propertyTaxRate": 0.002,
       "rentGrowth": {
@@ -334,6 +550,24 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.RU.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.0175,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 11400000.0,
+          "monthlyHOA": 16800.0
+        },
+        "detached": {
+          "homePrice": 18600000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 14200000.0,
+          "monthlyHOA": 0.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 20,
+      "maintenanceRate": 0.01,
+      "pmiRate": 0.0,
       "priceToRentYears": 18,
       "propertyTaxRate": 0.002,
       "sellingCostRate": 0.035,
@@ -347,6 +581,24 @@
     },
     "saudiArabia": {
       "buyingCostRate": 0.065,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 425000.0,
+          "monthlyHOA": 1380.0
+        },
+        "detached": {
+          "homePrice": 720000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 540000.0,
+          "monthlyHOA": 260.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 25,
+      "maintenanceRate": 0.01,
+      "pmiRate": 0.0,
       "priceToRentYears": 17,
       "propertyTaxRate": 0,
       "sellingCostRate": 0.025,
@@ -366,6 +618,24 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.KR.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.035,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 520000000.0,
+          "monthlyHOA": 304000.0
+        },
+        "detached": {
+          "homePrice": 680000000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 490000000.0,
+          "monthlyHOA": 0.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
+      "pmiRate": 0.0,
       "priceToRentYears": 67,
       "propertyTaxRate": 0.001,
       "sellingCostRate": 0.005,
@@ -385,12 +655,30 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.ES.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.1075,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 214000.0,
+          "monthlyHOA": 200.0
+        },
+        "detached": {
+          "homePrice": 320000.0,
+          "monthlyHOA": 100.0
+        },
+        "townhouse": {
+          "homePrice": 245000.0,
+          "monthlyHOA": 85.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
       "mortgageRate": {
         "periodLabel": "2026-09",
         "rate": 0.0299,
         "sourceName": "ECB 新发放住房贷款利率",
         "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.ES.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
       },
+      "pmiRate": 0.0,
       "priceToRentYears": 18,
       "propertyTaxRate": 0.0075,
       "rentGrowth": {
@@ -416,12 +704,30 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CH.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.0345,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 690000.0,
+          "monthlyHOA": 340.0
+        },
+        "detached": {
+          "homePrice": 1280000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 920000.0,
+          "monthlyHOA": 190.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 25,
+      "maintenanceRate": 0.01,
       "mortgageRate": {
         "periodLabel": "2026-08",
         "rate": 0.03,
         "sourceName": "瑞士央行公布的新业务房贷利率",
         "sourceUrl": "https://data.snb.ch/api/cube/zikrepro/data/csv/en?D1=MV"
       },
+      "pmiRate": 0.0,
       "priceToRentYears": 35,
       "propertyTaxRate": 0.0025,
       "rentGrowth": {
@@ -441,6 +747,24 @@
     },
     "turkey": {
       "buyingCostRate": 0.0665,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 3100000.0,
+          "monthlyHOA": 4900.0
+        },
+        "detached": {
+          "homePrice": 4600000.0,
+          "monthlyHOA": 2000.0
+        },
+        "townhouse": {
+          "homePrice": 3700000.0,
+          "monthlyHOA": 1400.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 15,
+      "maintenanceRate": 0.01,
+      "pmiRate": 0.0,
       "priceToRentYears": 14,
       "propertyTaxRate": 0.0012,
       "sellingCostRate": 0.02,
@@ -460,12 +784,30 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.GB.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.028,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 248000.0,
+          "monthlyHOA": 205.0
+        },
+        "detached": {
+          "homePrice": 365000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 235000.0,
+          "monthlyHOA": 60.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 25,
+      "maintenanceRate": 0.01,
       "mortgageRate": {
         "periodLabel": "30 Sep 2026",
         "rate": 0.0513,
         "sourceName": "英格兰银行房贷报价利率",
         "sourceUrl": "https://www.bankofengland.co.uk/boeapps/iadb/fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/2020&Dateto=now&SeriesCodes=IUMBV34&CSVF=TN&UsingCodes=Y&VPD=Y&VFD=N"
       },
+      "pmiRate": 0.0,
       "priceToRentYears": 15,
       "propertyTaxRate": 0.0045,
       "rentGrowth": {
@@ -491,12 +833,30 @@
         "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.US.N.628?startPeriod=2015-Q1&format=csv"
       },
       "buyingCostRate": 0.0286,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 325000.0,
+          "monthlyHOA": 330.0
+        },
+        "detached": {
+          "homePrice": 435000.0,
+          "monthlyHOA": 220.0
+        },
+        "townhouse": {
+          "homePrice": 310000.0,
+          "monthlyHOA": 180.0
+        }
+      },
+      "insuranceRate": 0.005,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
       "mortgageRate": {
         "periodLabel": "2026-10-29",
         "rate": 0.0724,
         "sourceName": "Freddie Mac 30 年固定房贷利率",
         "sourceUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US"
       },
+      "pmiRate": 0.005,
       "priceToRentYears": 16,
       "propertyTaxRate": 0.015,
       "rentGrowth": {
@@ -515,9 +875,9 @@
       "verifiedAt": "2026-09-30"
     }
   },
-  "datasetVersion": "2026.11.02.2",
-  "methodology": "Price-to-rent, property tax, and buying and selling costs are the September 2026 Global Property Guide figures for an owner-occupied home across the IMF 2025 top-20 economies by nominal GDP. Property tax is already an effective rate on market value, including taxes originally charged on rent. South Korea price-to-rent uses Numbeo 2026 because GPG does not cover Korea. Mortgage rates, rent growth, and home-price changes are filled from official series when the catalog is published.",
-  "nextReviewAt": "2026-12-03",
-  "publishedAt": "2026-11-02T10:10:47Z",
+  "datasetVersion": "2026.11.11",
+  "methodology": "Price-to-rent, property tax, and buying and selling costs are the September 2026 Global Property Guide figures for an owner-occupied home across the IMF 2025 top-20 economies by nominal GDP. Property tax is already an effective rate on market value, including taxes originally charged on rent. South Korea price-to-rent uses Numbeo 2026 because GPG does not cover Korea. Housing home prices and monthly service charges are curated local-currency mid-market defaults by dwelling type (apartment / townhouse / detached), imported from Data/housing-defaults spreadsheets. Loan term, PMI, maintenance, and insurance baselines are curated owner-occupied defaults. Mortgage rates, rent growth, and home-price changes are filled from official series when the catalog is published.",
+  "nextReviewAt": "2026-12-12",
+  "publishedAt": "2026-11-11T01:35:54Z",
   "schemaVersion": 1
 }

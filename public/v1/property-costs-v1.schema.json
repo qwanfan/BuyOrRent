@@ -68,6 +68,31 @@
         }
       }
     },
+    "housingTypeDefaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["homePrice", "monthlyHOA"],
+      "properties": {
+        "homePrice": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "monthlyHOA": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "housingDefaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["apartment", "townhouse", "detached"],
+      "properties": {
+        "apartment": { "$ref": "#/$defs/housingTypeDefaults" },
+        "townhouse": { "$ref": "#/$defs/housingTypeDefaults" },
+        "detached": { "$ref": "#/$defs/housingTypeDefaults" }
+      }
+    },
     "countryCost": {
       "type": "object",
       "additionalProperties": false,
@@ -76,6 +101,11 @@
         "buyingCostRate",
         "sellingCostRate",
         "priceToRentYears",
+        "loanYears",
+        "pmiRate",
+        "maintenanceRate",
+        "insuranceRate",
+        "housingDefaults",
         "verifiedAt",
         "sources"
       ],
@@ -99,6 +129,29 @@
           "type": "number",
           "minimum": 5,
           "maximum": 80
+        },
+        "loanYears": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 40
+        },
+        "pmiRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.05
+        },
+        "maintenanceRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.05
+        },
+        "insuranceRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.05
+        },
+        "housingDefaults": {
+          "$ref": "#/$defs/housingDefaults"
         },
         "verifiedAt": {
           "type": "string",
