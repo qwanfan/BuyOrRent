@@ -25,11 +25,3 @@ python3 Scripts/update_property_costs.py
 python3 Scripts/validate_property_costs.py
 python3 -m unittest discover -s Scripts -p 'test_*.py'
 ```
-
-## Swift 客户端
-
-SwiftUI App 源码不在本仓库默认分支跟踪。若需查看移除前的最后一版 App 树：
-
-```sh
-git checkout last-swift-app
-```
