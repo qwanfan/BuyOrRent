@@ -55,17 +55,79 @@
     "source": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "url"],
+      "required": ["name"],
       "properties": {
         "name": {
-          "type": "string",
-          "minLength": 2
+          "type": "string"
         },
         "url": {
           "type": "string",
           "format": "uri",
           "pattern": "^https://"
+        },
+        "availabilityCheck": {
+          "type": "boolean"
         }
+      }
+    },
+    "fieldSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Empty string means provenance is unconfirmed."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://",
+          "description": "Optional provenance link for humans and --check-urls; not used as an Action fetch target."
+        },
+        "asOf": {
+          "type": "string",
+          "format": "date"
+        },
+        "periodLabel": {
+          "type": "string",
+          "minLength": 4
+        },
+        "availabilityCheck": {
+          "type": "boolean"
+        }
+      }
+    },
+    "sourcesByField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "propertyTaxRate",
+        "buyingCostRate",
+        "sellingCostRate",
+        "priceToRentYears",
+        "housingDefaults",
+        "loanYears",
+        "pmiRate",
+        "maintenanceRate",
+        "insuranceRate",
+        "mortgageRate",
+        "appreciation",
+        "rentGrowth"
+      ],
+      "properties": {
+        "propertyTaxRate": { "$ref": "#/$defs/fieldSource" },
+        "buyingCostRate": { "$ref": "#/$defs/fieldSource" },
+        "sellingCostRate": { "$ref": "#/$defs/fieldSource" },
+        "priceToRentYears": { "$ref": "#/$defs/fieldSource" },
+        "housingDefaults": { "$ref": "#/$defs/fieldSource" },
+        "loanYears": { "$ref": "#/$defs/fieldSource" },
+        "pmiRate": { "$ref": "#/$defs/fieldSource" },
+        "maintenanceRate": { "$ref": "#/$defs/fieldSource" },
+        "insuranceRate": { "$ref": "#/$defs/fieldSource" },
+        "mortgageRate": { "$ref": "#/$defs/fieldSource" },
+        "appreciation": { "$ref": "#/$defs/fieldSource" },
+        "rentGrowth": { "$ref": "#/$defs/fieldSource" }
       }
     },
     "housingTypeDefaults": {
@@ -107,6 +169,7 @@
         "insuranceRate",
         "housingDefaults",
         "verifiedAt",
+        "sourcesByField",
         "sources"
       ],
       "properties": {
@@ -164,6 +227,9 @@
             "$ref": "#/$defs/source"
           }
         },
+        "sourcesByField": {
+          "$ref": "#/$defs/sourcesByField"
+        },
         "mortgageRate": {
           "$ref": "#/$defs/mortgageRate"
         },
@@ -203,7 +269,7 @@
         {
           "type": "object",
           "properties": {
-            "rate": { "type": "number", "exclusiveMinimum": 0, "maximum": 0.2 }
+            "rate": { "type": "number", "exclusiveMinimum": 0, "maximum": 0.5 }
           }
         }
       ]
@@ -214,7 +280,7 @@
         {
           "type": "object",
           "properties": {
-            "rate": { "type": "number", "minimum": -0.05, "maximum": 0.15 }
+            "rate": { "type": "number", "minimum": -0.25, "maximum": 0.3 }
           }
         }
       ]
@@ -225,7 +291,7 @@
         {
           "type": "object",
           "properties": {
-            "rate": { "type": "number", "minimum": -0.2, "maximum": 0.2 }
+            "rate": { "type": "number", "minimum": -0.25, "maximum": 0.3 }
           }
         }
       ]

@@ -1,26 +1,20 @@
 {
   "schemaVersion": 1,
-  "methodology": "Price-to-rent, property tax, and buying and selling costs are the September 2026 Global Property Guide figures for an owner-occupied home across the IMF 2025 top-20 economies by nominal GDP. Property tax is already an effective rate on market value, including taxes originally charged on rent. South Korea price-to-rent uses Numbeo 2026 because GPG does not cover Korea. Housing home prices and monthly service charges are curated local-currency mid-market defaults by dwelling type (apartment / townhouse / detached), imported from Data/housing-defaults spreadsheets. Loan term, PMI, maintenance, and insurance baselines are curated owner-occupied defaults. Mortgage rates, rent growth, and home-price changes are filled from official series when the catalog is published.",
+  "methodology": "Owner-occupied baselines for the IMF 2025 top-20 economies by nominal GDP, curated in Data/property-cost-sources.json from the 2026-11-16 merged workbook （前二十大经济体_房产参数与市场动态_合并表）. Static transaction and tax figures primarily follow Global Property Guide (GPG) H2 2026 / 2026-09 releases, with PwC/OECD cross-checks for property tax; China price-to-rent uses China Index Academy 50-city rent-to-price (2026-04); South Korea uses Seoul jeonse-implied yield. Housing prices: UK HPI and US NAR/FRED official medians where available; other countries use GPG sqm × typical size estimates when agencies publish indexes only. Indonesia mortgage seed uses subsidized KPR policy rate 6% (2026-09); Indonesia rent growth is a reference estimate, not BPS official YoY. Market seeds store only rate here; periodLabel and provenance live in sourcesByField. Unverified parameters leave name empty. Publish merge for market fields remains live fetch → seed → previous catalog. url is optional provenance for humans and --check-urls, not an Action fetch target.",
   "countries": {
     "unitedStates": {
       "propertyTaxRate": 0.015,
       "buyingCostRate": 0.0286,
       "sellingCostRate": 0.045,
-      "priceToRentYears": 16,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 14.9,
+      "verifiedAt": "2026-11-16",
       "loanYears": 30,
       "pmiRate": 0.005,
       "maintenanceRate": 0.01,
       "insuranceRate": 0.005,
       "housingDefaults": {
         "apartment": {
-          "homePrice": 325000.0,
+          "homePrice": 363000.0,
           "monthlyHOA": 330.0
         },
         "townhouse": {
@@ -28,23 +22,76 @@
           "monthlyHOA": 180.0
         },
         "detached": {
-          "homePrice": 435000.0,
+          "homePrice": 422700.0,
           "monthlyHOA": 220.0
+        }
+      },
+      "mortgageRate": {
+        "rate": 0.0643
+      },
+      "appreciation": {
+        "rate": 0.013
+      },
+      "rentGrowth": {
+        "rate": 0.054
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "NAR 现有住宅成交中位价；FRED 独立屋中位价（联排仍为估算）",
+          "asOf": "2026-09-30"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": "美国 HUD/FHA 按揭保险费（MIP）费率表"
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "NAR 现有住宅中位价同比",
+          "url": "https://www.nar.realtor/research-and-statistics",
+          "periodLabel": "2026-09"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
         }
       }
     },
     "chinaMainland": {
-      "propertyTaxRate": 0,
+      "propertyTaxRate": 0.0,
       "buyingCostRate": 0.076,
       "sellingCostRate": 0.01,
-      "priceToRentYears": 38,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 44.1,
+      "verifiedAt": "2026-11-16",
       "loanYears": 30,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -62,20 +109,72 @@
           "homePrice": 2400000.0,
           "monthlyHOA": 840.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.0306
+      },
+      "appreciation": {
+        "rate": -0.055
+      },
+      "rentGrowth": {
+        "rate": -0.006
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "中指研究院 50 城住宅租金房价比",
+          "asOf": "2026-04-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "国家统计局 CPI 租赁房房租",
+          "url": "https://www.stats.gov.cn/",
+          "periodLabel": "2026-10"
+        }
       }
     },
     "germany": {
       "propertyTaxRate": 0.0045,
       "buyingCostRate": 0.095,
       "sellingCostRate": 0.0225,
-      "priceToRentYears": 31,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 29.9,
+      "verifiedAt": "2026-11-16",
       "loanYears": 30,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -93,20 +192,72 @@
           "homePrice": 410000.0,
           "monthlyHOA": 0.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.0395
+      },
+      "appreciation": {
+        "rate": 0.015
+      },
+      "rentGrowth": {
+        "rate": -0.057
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
+        }
       }
     },
     "japan": {
       "propertyTaxRate": 0.0095,
       "buyingCostRate": 0.0925,
       "sellingCostRate": 0.03,
-      "priceToRentYears": 24,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 23.6,
+      "verifiedAt": "2026-11-16",
       "loanYears": 35,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -124,20 +275,72 @@
           "homePrice": 32500000.0,
           "monthlyHOA": 0.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.0315
+      },
+      "appreciation": {
+        "rate": -0.0084
+      },
+      "rentGrowth": {
+        "rate": 0.064
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
+        }
       }
     },
     "india": {
       "propertyTaxRate": 0.002,
       "buyingCostRate": 0.071,
       "sellingCostRate": 0.015,
-      "priceToRentYears": 19,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 19.4,
+      "verifiedAt": "2026-11-16",
       "loanYears": 20,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -155,36 +358,147 @@
           "homePrice": 21500000.0,
           "monthlyHOA": 4500.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.0625
+      },
+      "appreciation": {
+        "rate": 0.042
+      },
+      "rentGrowth": {
+        "rate": 0.0237
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "MOSPI CPI 租金分项",
+          "url": "https://www.mospi.gov.in/",
+          "periodLabel": "2026-09"
+        }
       }
     },
     "unitedKingdom": {
       "propertyTaxRate": 0.0045,
       "buyingCostRate": 0.028,
       "sellingCostRate": 0.0275,
-      "priceToRentYears": 15,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 13.6,
+      "verifiedAt": "2026-11-16",
       "loanYears": 25,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
       "insuranceRate": 0.003,
       "housingDefaults": {
         "apartment": {
-          "homePrice": 248000.0,
+          "homePrice": 193711.0,
           "monthlyHOA": 205.0
         },
         "townhouse": {
-          "homePrice": 235000.0,
+          "homePrice": 230994.0,
           "monthlyHOA": 60.0
         },
         "detached": {
-          "homePrice": 365000.0,
+          "homePrice": 444652.0,
           "monthlyHOA": 0.0
+        }
+      },
+      "mortgageRate": {
+        "rate": 0.0518
+      },
+      "appreciation": {
+        "rate": 0.02
+      },
+      "rentGrowth": {
+        "rate": 0.037
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "HM Land Registry UK HPI（Flat / Terraced / Detached）",
+          "asOf": "2026-06-30"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "UK HPI 同比",
+          "url": "https://www.gov.uk/government/collections/uk-house-price-index-reports",
+          "periodLabel": "2026-06"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
         }
       }
     },
@@ -192,14 +506,8 @@
       "propertyTaxRate": 0.007,
       "buyingCostRate": 0.0591,
       "sellingCostRate": 0.035,
-      "priceToRentYears": 23,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 20.7,
+      "verifiedAt": "2026-11-16",
       "loanYears": 25,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -217,20 +525,72 @@
           "homePrice": 380000.0,
           "monthlyHOA": 0.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.0316
+      },
+      "appreciation": {
+        "rate": -0.0087
+      },
+      "rentGrowth": {
+        "rate": 0.047
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
+        }
       }
     },
     "italy": {
-      "propertyTaxRate": 0,
+      "propertyTaxRate": 0.0,
       "buyingCostRate": 0.11,
       "sellingCostRate": 0.03,
-      "priceToRentYears": 15,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 15.1,
+      "verifiedAt": "2026-11-16",
       "loanYears": 25,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -248,20 +608,72 @@
           "homePrice": 345000.0,
           "monthlyHOA": 0.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.0349
+      },
+      "appreciation": {
+        "rate": 0.052
+      },
+      "rentGrowth": {
+        "rate": -0.033
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
+        }
       }
     },
     "russia": {
       "propertyTaxRate": 0.002,
       "buyingCostRate": 0.0175,
       "sellingCostRate": 0.035,
-      "priceToRentYears": 18,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 17.3,
+      "verifiedAt": "2026-11-16",
       "loanYears": 20,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -279,20 +691,72 @@
           "homePrice": 18600000.0,
           "monthlyHOA": 0.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.1018
+      },
+      "appreciation": {
+        "rate": 0.0823
+      },
+      "rentGrowth": {
+        "rate": -0.049
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
+        }
       }
     },
     "canada": {
       "propertyTaxRate": 0.0095,
       "buyingCostRate": 0.0285,
       "sellingCostRate": 0.05,
-      "priceToRentYears": 18,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 17.2,
+      "verifiedAt": "2026-11-16",
       "loanYears": 25,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -310,20 +774,73 @@
           "homePrice": 620000.0,
           "monthlyHOA": 0.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.038
+      },
+      "appreciation": {
+        "rate": -0.0153
+      },
+      "rentGrowth": {
+        "rate": -0.07
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "CREA 城市中位价参照 / GPG 折算估算",
+          "asOf": "2026-09-30"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
+        }
       }
     },
     "brazil": {
       "propertyTaxRate": 0.006,
       "buyingCostRate": 0.06,
       "sellingCostRate": 0.05,
-      "priceToRentYears": 20,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 17.7,
+      "verifiedAt": "2026-11-16",
       "loanYears": 30,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -341,20 +858,72 @@
           "homePrice": 960000.0,
           "monthlyHOA": 700.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.1122
+      },
+      "appreciation": {
+        "rate": 0.0415
+      },
+      "rentGrowth": {
+        "rate": 0.053
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
+        }
       }
     },
     "mexico": {
       "propertyTaxRate": 0.0018,
       "buyingCostRate": 0.0575,
       "sellingCostRate": 0.045,
-      "priceToRentYears": 17,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 17.3,
+      "verifiedAt": "2026-11-16",
       "loanYears": 20,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -372,20 +941,72 @@
           "homePrice": 3850000.0,
           "monthlyHOA": 1100.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.1133
+      },
+      "appreciation": {
+        "rate": 0.0731
+      },
+      "rentGrowth": {
+        "rate": 0.186
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
+        }
       }
     },
     "southKorea": {
       "propertyTaxRate": 0.001,
       "buyingCostRate": 0.035,
       "sellingCostRate": 0.005,
-      "priceToRentYears": 67,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "Numbeo 2026 price-to-rent (Korea); tax and transaction costs from national market notes",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 57.1,
+      "verifiedAt": "2026-11-16",
       "loanYears": 30,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -403,20 +1024,72 @@
           "homePrice": 680000000.0,
           "monthlyHOA": 0.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.0431
+      },
+      "appreciation": {
+        "rate": 0.0245
+      },
+      "rentGrowth": {
+        "rate": 0.014
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "한국부동산원 全租押金 + KB 国民银行均价（首尔口径，传贳转换率 4.5%）",
+          "asOf": "2026-10-31"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "统计厅租金 CPI",
+          "url": "https://kostat.go.kr/",
+          "periodLabel": "2026-10"
+        }
       }
     },
     "spain": {
       "propertyTaxRate": 0.0075,
       "buyingCostRate": 0.1075,
       "sellingCostRate": 0.045,
-      "priceToRentYears": 18,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 18.1,
+      "verifiedAt": "2026-11-16",
       "loanYears": 30,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -434,20 +1107,72 @@
           "homePrice": 320000.0,
           "monthlyHOA": 100.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.0289
+      },
+      "appreciation": {
+        "rate": 0.1388
+      },
+      "rentGrowth": {
+        "rate": 0.031
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
+        }
       }
     },
     "australia": {
       "propertyTaxRate": 0.0055,
       "buyingCostRate": 0.0655,
       "sellingCostRate": 0.0225,
-      "priceToRentYears": 23,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 20.2,
+      "verifiedAt": "2026-11-16",
       "loanYears": 30,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -465,20 +1190,72 @@
           "homePrice": 780000.0,
           "monthlyHOA": 0.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.0625
+      },
+      "appreciation": {
+        "rate": 0.0241
+      },
+      "rentGrowth": {
+        "rate": 0.127
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
+        }
       }
     },
     "netherlands": {
       "propertyTaxRate": 0.002,
       "buyingCostRate": 0.0425,
       "sellingCostRate": 0.015,
-      "priceToRentYears": 15,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 16.8,
+      "verifiedAt": "2026-11-16",
       "loanYears": 30,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -496,20 +1273,72 @@
           "homePrice": 455000.0,
           "monthlyHOA": 0.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.0373
+      },
+      "appreciation": {
+        "rate": 0.0571
+      },
+      "rentGrowth": {
+        "rate": 0.267
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
+        }
       }
     },
     "saudiArabia": {
-      "propertyTaxRate": 0,
+      "propertyTaxRate": 0.0,
       "buyingCostRate": 0.065,
       "sellingCostRate": 0.025,
-      "priceToRentYears": 17,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 13.4,
+      "verifiedAt": "2026-11-16",
       "loanYears": 25,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -527,20 +1356,72 @@
           "homePrice": 720000.0,
           "monthlyHOA": 0.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.0574
+      },
+      "appreciation": {
+        "rate": 0.0128
+      },
+      "rentGrowth": {
+        "rate": -0.185
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
+        }
       }
     },
     "turkey": {
       "propertyTaxRate": 0.0012,
       "buyingCostRate": 0.0665,
       "sellingCostRate": 0.02,
-      "priceToRentYears": 14,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 12.7,
+      "verifiedAt": "2026-11-16",
       "loanYears": 15,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -558,20 +1439,72 @@
           "homePrice": 4600000.0,
           "monthlyHOA": 2000.0
         }
+      },
+      "mortgageRate": {
+        "rate": 0.4034
+      },
+      "appreciation": {
+        "rate": 0.223
+      },
+      "rentGrowth": {
+        "rate": 0.259
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "CBRT 住宅价格指数 / GPG",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
+        }
       }
     },
     "indonesia": {
       "propertyTaxRate": 0.001,
       "buyingCostRate": 0.0675,
       "sellingCostRate": 0.04,
-      "priceToRentYears": 12,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 12.2,
+      "verifiedAt": "2026-11-16",
       "loanYears": 20,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -589,20 +1522,72 @@
           "homePrice": 3200000000.0,
           "monthlyHOA": 900000.0
         }
+      },
+      "appreciation": {
+        "rate": 0.0058
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "印尼政府补贴 KPR 政策利率（非补贴商业 KPR 另计）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-09"
+        },
+        "appreciation": {
+          "name": "BI RPPI / GPG",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "参考值：雅加达公寓挂牌租金年化推算（非 BPS 官方分项同比）",
+          "url": "https://www.bps.go.id/",
+          "periodLabel": "2026-06"
+        }
+      },
+      "mortgageRate": {
+        "rate": 0.06
+      },
+      "rentGrowth": {
+        "rate": 0.025
       }
     },
     "switzerland": {
       "propertyTaxRate": 0.0025,
       "buyingCostRate": 0.0345,
       "sellingCostRate": 0.025,
-      "priceToRentYears": 35,
-      "verifiedAt": "2026-09-30",
-      "sources": [
-        {
-          "name": "GPG - Global Property Guide",
-          "url": "https://www.globalpropertyguide.com/most-highly-taxed-cities"
-        }
-      ],
+      "priceToRentYears": 34.6,
+      "verifiedAt": "2026-11-16",
       "loanYears": 25,
       "pmiRate": 0.0,
       "maintenanceRate": 0.01,
@@ -619,6 +1604,64 @@
         "detached": {
           "homePrice": 1280000.0,
           "monthlyHOA": 0.0
+        }
+      },
+      "mortgageRate": {
+        "rate": 0.0152
+      },
+      "appreciation": {
+        "rate": 0.0425
+      },
+      "rentGrowth": {
+        "rate": 0.014
+      },
+      "sourcesByField": {
+        "propertyTaxRate": {
+          "name": "PwC Worldwide Tax Summaries / OECD / GPG 房地产税",
+          "asOf": "2026-09-30"
+        },
+        "buyingCostRate": {
+          "name": "GPG - Global Property Guide《Real Estate Transaction Costs》区间中值",
+          "asOf": "2026-09-30"
+        },
+        "sellingCostRate": {
+          "name": "GPG - Global Property Guide《Global Real Estate Taxes》Selling Costs 区间中值",
+          "asOf": "2026-09-30"
+        },
+        "priceToRentYears": {
+          "name": "GPG - Global Property Guide 毛租金收益率（H2 2026）",
+          "asOf": "2026-09-30"
+        },
+        "housingDefaults": {
+          "name": "GPG - Global Property Guide（每平米均价×典型面积折算）"
+        },
+        "loanYears": {
+          "name": "European Mortgage Federation / 国别主流期限默认",
+          "asOf": "2026-05-31"
+        },
+        "pmiRate": {
+          "name": ""
+        },
+        "maintenanceRate": {
+          "name": ""
+        },
+        "insuranceRate": {
+          "name": ""
+        },
+        "mortgageRate": {
+          "name": "GPG - Global Property Guide 各国住宅按揭利率表",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q2"
+        },
+        "appreciation": {
+          "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-Q3"
+        },
+        "rentGrowth": {
+          "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
+          "url": "https://www.globalpropertyguide.com/",
+          "periodLabel": "2026-11"
         }
       }
     }

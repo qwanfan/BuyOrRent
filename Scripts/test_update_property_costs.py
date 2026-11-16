@@ -44,24 +44,37 @@ def load_generator():
     return module
 
 
-def sample_observation(rate: float, name: str) -> dict:
+def sample_observation(rate: float, name: str, period: str = "2026-06") -> dict:
     return {
         "rate": rate,
-        "periodLabel": "2026-06",
+        "periodLabel": period,
         "sourceName": name,
         "sourceUrl": "https://example.com/source",
     }
 
 
 def sample_market() -> dict:
-    return {
-        country: {
-            "mortgageRate": sample_observation(0.035, "Mortgage"),
-            "rentGrowth": sample_observation(0.021, "Rent"),
-            "appreciation": sample_observation(0.012, "Prices"),
-        }
-        for country in NUMBEO_NAMES
-    }
+    """用源表种子附近的值，避免相对种子的跳变校验失败。"""
+    source_data = json.loads(SOURCES.read_text(encoding="utf-8"))
+    market: dict = {}
+    for country in NUMBEO_NAMES:
+        record = source_data["countries"][country]
+        # 周期用新近标签，避免 live validate 的 24 个月新鲜度卡住旧种子区间。
+        block: dict = {}
+        if isinstance(record.get("mortgageRate"), dict):
+            block["mortgageRate"] = sample_observation(
+                float(record["mortgageRate"]["rate"]), "Mortgage"
+            )
+        if isinstance(record.get("rentGrowth"), dict):
+            block["rentGrowth"] = sample_observation(
+                float(record["rentGrowth"]["rate"]), "Rent"
+            )
+        if isinstance(record.get("appreciation"), dict):
+            block["appreciation"] = sample_observation(
+                float(record["appreciation"]["rate"]), "Prices"
+            )
+        market[country] = block
+    return market
 
 
 class UpdatePropertyCostsTests(unittest.TestCase):
@@ -146,13 +159,51 @@ class UpdatePropertyCostsTests(unittest.TestCase):
         self.assertEqual(len(catalog["contentDigest"]), 64)
         self.assertNotIn("investmentReturn", catalog)
         canada = catalog["countries"]["canada"]
-        self.assertEqual(canada["priceToRentYears"], 18)
+        self.assertEqual(canada["priceToRentYears"], 17.2)
         self.assertNotIn("confidence", canada)
         self.assertNotIn("methodologyNote", canada)
         self.assertEqual(canada["mortgageRate"]["sourceName"], "Mortgage")
-        self.assertEqual(canada["rentGrowth"]["rate"], 0.021)
+        self.assertEqual(
+            canada["rentGrowth"]["rate"],
+            source_data["countries"]["canada"]["rentGrowth"]["rate"],
+        )
         self.assertEqual(canada["appreciation"]["periodLabel"], "2026-06")
-        self.assertEqual(canada["sources"][0]["name"], source_data["countries"]["canada"]["sources"][0]["name"])
+        self.assertIn("sourcesByField", canada)
+        self.assertEqual(
+            canada["sourcesByField"]["propertyTaxRate"]["name"],
+            source_data["countries"]["canada"]["sourcesByField"]["propertyTaxRate"]["name"],
+        )
+        self.assertNotIn("url", canada["sourcesByField"]["propertyTaxRate"])
+        self.assertEqual(canada["sourcesByField"]["mortgageRate"]["name"], "Mortgage")
+        self.assertIn("url", canada["sourcesByField"]["mortgageRate"])
+        for field in ("mortgageRate", "rentGrowth", "appreciation"):
+            self.assertIn(field, canada)
+            self.assertIn("sourceName", canada[field])
+
+    def test_rejects_market_source_without_url(self) -> None:
+        source_data = json.loads(SOURCES.read_text(encoding="utf-8"))
+        del source_data["countries"]["india"]["sourcesByField"]["mortgageRate"]["url"]
+        with self.assertRaisesRegex(ValueError, "must include url for market seed"):
+            self.generator.validate_sources(source_data)
+
+    def test_allows_empty_provenance_and_missing_market_seed(self) -> None:
+        source_data = json.loads(SOURCES.read_text(encoding="utf-8"))
+        # 维护费率无法核验：出处为空仍可通过校验。
+        self.assertEqual(
+            source_data["countries"]["indonesia"]["sourcesByField"]["maintenanceRate"]["name"],
+            "",
+        )
+        # 构造「有出处名但缺种子」应失败；缺种子且出处为空应通过。
+        source_data["countries"]["indonesia"].pop("mortgageRate", None)
+        source_data["countries"]["indonesia"]["sourcesByField"]["mortgageRate"] = {"name": ""}
+        self.generator.validate_sources(source_data)
+        source_data["countries"]["indonesia"]["sourcesByField"]["mortgageRate"] = {
+            "name": "Named",
+            "url": "https://example.com/",
+            "periodLabel": "2026-09",
+        }
+        with self.assertRaisesRegex(ValueError, "seed is required when provenance is set"):
+            self.generator.validate_sources(source_data)
 
     def test_rejects_missing_country(self) -> None:
         source_data = json.loads(SOURCES.read_text(encoding="utf-8"))
@@ -176,33 +227,49 @@ class UpdatePropertyCostsTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("manual review threshold", result.stderr)
 
-    def test_keeps_previous_market_series_when_one_fetch_is_missing(self) -> None:
+    def test_uses_sources_seed_when_fetch_is_missing(self) -> None:
+        source_data = json.loads(SOURCES.read_text(encoding="utf-8"))
+        seed_rate = source_data["countries"]["italy"]["mortgageRate"]["rate"]
+        market = sample_market()
+        del market["italy"]["mortgageRate"]
+        result, output, temporary = self.run_generator(source_data, market_data=market)
+        self.addCleanup(temporary.cleanup)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        catalog = json.loads(output.read_text(encoding="utf-8"))
+        self.assertEqual(catalog["countries"]["italy"]["mortgageRate"]["rate"], seed_rate)
+        self.assertIn("using sources seed", result.stderr)
+
+    def test_keeps_previous_when_fetch_and_seed_are_missing(self) -> None:
         source_data = json.loads(SOURCES.read_text(encoding="utf-8"))
         initial, output, first = self.run_generator(source_data)
         self.addCleanup(first.cleanup)
         self.assertEqual(initial.returncode, 0, initial.stderr)
         previous = json.loads(output.read_text(encoding="utf-8"))
+        del source_data["countries"]["italy"]["mortgageRate"]
         market = sample_market()
         del market["italy"]["mortgageRate"]
-        result, regenerated, second = self.run_generator(
-            source_data,
-            previous_data=previous,
-            market_data=market,
+        # validate_sources now requires seeds; bypass by injecting after load isn't possible,
+        # so call assemble directly for this fallback path.
+        as_of = __import__("datetime").date.today()
+        assembled = self.generator.market_series.assemble_market_series(
+            {"italy": {"rentGrowth": market["italy"]["rentGrowth"], "appreciation": market["italy"]["appreciation"]}},
+            previous,
+            {"italy"},
+            as_of,
+            seeds={"italy": {}},
         )
-        self.addCleanup(second.cleanup)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        catalog = json.loads(regenerated.read_text(encoding="utf-8"))
-        self.assertEqual(catalog["countries"]["italy"]["mortgageRate"]["rate"], 0.035)
+        self.assertEqual(assembled["italy"]["mortgageRate"]["rate"], previous["countries"]["italy"]["mortgageRate"]["rate"])
 
-    def test_omits_market_series_without_previous_value(self) -> None:
+    def test_uses_sources_seed_for_appreciation_when_fetch_missing(self) -> None:
         source_data = json.loads(SOURCES.read_text(encoding="utf-8"))
+        seed = source_data["countries"]["japan"]["appreciation"]
         market = sample_market()
         del market["japan"]["appreciation"]
         result, output, temporary = self.run_generator(source_data, market_data=market)
         self.addCleanup(temporary.cleanup)
         self.assertEqual(result.returncode, 0, result.stderr)
         catalog = json.loads(output.read_text(encoding="utf-8"))
-        self.assertNotIn("appreciation", catalog["countries"]["japan"])
+        self.assertEqual(catalog["countries"]["japan"]["appreciation"]["rate"], seed["rate"])
         self.assertIn("mortgageRate", catalog["countries"]["japan"])
 
     def test_rejects_large_mortgage_rate_jump(self) -> None:
@@ -211,7 +278,8 @@ class UpdatePropertyCostsTests(unittest.TestCase):
         self.addCleanup(first.cleanup)
         self.assertEqual(initial.returncode, 0, initial.stderr)
         market = sample_market()
-        market["unitedStates"]["mortgageRate"]["rate"] = 0.06
+        base = market["unitedStates"]["mortgageRate"]["rate"]
+        market["unitedStates"]["mortgageRate"]["rate"] = round(base + 0.03, 4)
         result, _, second = self.run_generator(
             source_data,
             previous_data=json.loads(output.read_text(encoding="utf-8")),

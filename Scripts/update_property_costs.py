@@ -52,6 +52,21 @@ RATE_BOUNDS = {
 
 HOUSING_TYPES = ("apartment", "townhouse", "detached")
 LOAN_YEARS_BOUNDS = (5, 40)
+MARKET_FIELDS = ("mortgageRate", "appreciation", "rentGrowth")
+FIELD_SOURCE_KEYS = (
+    "propertyTaxRate",
+    "buyingCostRate",
+    "sellingCostRate",
+    "priceToRentYears",
+    "housingDefaults",
+    "loanYears",
+    "pmiRate",
+    "maintenanceRate",
+    "insuranceRate",
+    "mortgageRate",
+    "appreciation",
+    "rentGrowth",
+)
 
 MAX_DELTAS = {
     "propertyTaxRate": 0.01,
@@ -93,7 +108,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--check-urls",
         action="store_true",
-        help="Require every official source URL to answer successfully.",
+        help="Require every present sourcesByField.url to answer successfully.",
     )
     parser.add_argument(
         "--market-json",
@@ -198,26 +213,115 @@ def validate_sources(document: dict[str, Any]) -> None:
         if verified_at > today + timedelta(days=1):
             raise ValueError(f"{country}.verifiedAt is in the future")
 
-        sources = record.get("sources")
-        if not isinstance(sources, list) or not sources:
-            raise ValueError(f"{country}.sources must not be empty")
-        for source in sources:
-            if not isinstance(source, dict) or not source.get("name"):
-                raise ValueError(f"{country} has an invalid source")
+        sources_by_field = record.get("sourcesByField")
+        if not isinstance(sources_by_field, dict):
+            raise ValueError(f"{country}.sourcesByField must be an object")
+        if set(sources_by_field) != set(FIELD_SOURCE_KEYS):
+            raise ValueError(
+                f"{country}.sourcesByField must include exactly {list(FIELD_SOURCE_KEYS)}"
+            )
+        for field, source in sources_by_field.items():
+            if not isinstance(source, dict) or "name" not in source:
+                raise ValueError(f"{country}.sourcesByField.{field} is invalid")
+            name = source.get("name")
+            if not isinstance(name, str):
+                raise ValueError(f"{country}.sourcesByField.{field}.name must be a string")
+            # 空 name 表示无法确认出处（允许无 url / asOf / periodLabel）。
             url = source.get("url")
-            if not isinstance(url, str) or not url.startswith("https://"):
-                raise ValueError(f"{country} source must use HTTPS: {url}")
+            if url is not None:
+                if not isinstance(url, str) or not url.startswith("https://"):
+                    raise ValueError(f"{country}.sourcesByField.{field} must use HTTPS: {url}")
+            as_of = source.get("asOf")
+            if as_of is not None:
+                if not isinstance(as_of, str):
+                    raise ValueError(f"{country}.sourcesByField.{field}.asOf must be a string")
+                date.fromisoformat(as_of)
+            period_label = source.get("periodLabel")
+            if period_label is not None:
+                if not isinstance(period_label, str) or not period_label:
+                    raise ValueError(
+                        f"{country}.sourcesByField.{field}.periodLabel must be a non-empty string"
+                    )
+                if market_series.period_date(period_label) is None:
+                    raise ValueError(
+                        f"{country}.sourcesByField.{field}.periodLabel is not a date: {period_label}"
+                    )
+            if field in MARKET_FIELDS and name:
+                if not period_label:
+                    raise ValueError(
+                        f"{country}.sourcesByField.{field} must include periodLabel for market series"
+                    )
+                if url is None:
+                    raise ValueError(
+                        f"{country}.sourcesByField.{field} must include url for market seed provenance"
+                    )
+
+        for field in MARKET_FIELDS:
+            observation = record.get(field)
+            source = sources_by_field[field]
+            if observation is None:
+                if source.get("name"):
+                    raise ValueError(f"{country}.{field} seed is required when provenance is set")
+                continue
+            if not isinstance(observation, dict):
+                raise ValueError(f"{country}.{field} seed must be an object")
+            if set(observation) != {"rate"}:
+                raise ValueError(f"{country}.{field} seed may only contain rate")
+            market_series.validate_seed_rate(observation, field)
 
 
 def source_urls(document: dict[str, Any]) -> list[str]:
-    return sorted(
-        {
-            source["url"]
-            for record in document["countries"].values()
-            for source in record["sources"]
-            if source.get("availabilityCheck", True)
-        }
-    )
+    """仅收集仍带 url 的出处，供 --check-urls；无 url 的静态项跳过。"""
+    urls: set[str] = set()
+    for record in document["countries"].values():
+        for source in (record.get("sourcesByField") or {}).values():
+            if isinstance(source, dict) and source.get("availabilityCheck", True):
+                url = source.get("url")
+                if isinstance(url, str) and url.startswith("https://"):
+                    urls.add(url)
+    return sorted(urls)
+
+
+def market_seeds_from_sources(document: dict[str, Any]) -> dict[str, dict[str, dict[str, Any]]]:
+    """把 rate 种子与 sourcesByField 的 name/url/periodLabel 合并成完整观测。"""
+    seeds: dict[str, dict[str, dict[str, Any]]] = {}
+    for country, record in document["countries"].items():
+        by_field = record["sourcesByField"]
+        seeds[country] = {}
+        for field in MARKET_FIELDS:
+            observation = record.get(field)
+            source = by_field[field]
+            if not isinstance(observation, dict):
+                continue
+            # 出处未确认时不生成种子观测，交给 live / 上期发布表。
+            if not str(source.get("name") or "").strip():
+                continue
+            seeds[country][field] = market_series.observation_with_source(
+                observation,
+                source,
+            )
+    return seeds
+
+
+def sources_summary(sources_by_field: dict[str, Any]) -> list[dict[str, str]]:
+    """由 sourcesByField 去重生成摘要列表（便于旧逻辑/检查）。"""
+    summary: list[dict[str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    for source in sources_by_field.values():
+        name = str(source.get("name") or "").strip()
+        if not name:
+            continue
+        url = source.get("url")
+        url_text = str(url) if isinstance(url, str) else ""
+        key = (name, url_text)
+        if key in seen:
+            continue
+        seen.add(key)
+        entry: dict[str, str] = {"name": name}
+        if url_text.startswith("https://"):
+            entry["url"] = url_text
+        summary.append(entry)
+    return summary
 
 
 def check_url(url: str) -> None:
@@ -307,6 +411,15 @@ def build_catalog(
     countries = public_countries(sources["countries"])
     for country, blocks in market_series_by_country.items():
         countries[country].update(blocks)
+        # 发布表里的 sourcesByField 与最终市场观测出处保持一致。
+        by_field = countries[country]["sourcesByField"]
+        for field, observation in blocks.items():
+            by_field[field] = {
+                "name": observation["sourceName"],
+                "url": observation["sourceUrl"],
+                "periodLabel": observation["periodLabel"],
+            }
+        countries[country]["sources"] = sources_summary(by_field)
     material = {
         "methodology": sources["methodology"],
         "countries": countries,
@@ -344,6 +457,16 @@ def public_countries(countries: dict[str, Any]) -> dict[str, Any]:
             }
             for housing_type in HOUSING_TYPES
         }
+        sources_by_field = {}
+        for field, source in record["sourcesByField"].items():
+            entry: dict[str, Any] = {"name": source["name"]}
+            if source.get("url"):
+                entry["url"] = source["url"]
+            if source.get("asOf"):
+                entry["asOf"] = source["asOf"]
+            if source.get("periodLabel"):
+                entry["periodLabel"] = source["periodLabel"]
+            sources_by_field[field] = entry
         result[country] = {
             "propertyTaxRate": record["propertyTaxRate"],
             "buyingCostRate": record["buyingCostRate"],
@@ -355,10 +478,8 @@ def public_countries(countries: dict[str, Any]) -> dict[str, Any]:
             "insuranceRate": float(record["insuranceRate"]),
             "housingDefaults": housing,
             "verifiedAt": record["verifiedAt"],
-            "sources": [
-                {"name": source["name"], "url": source["url"]}
-                for source in record["sources"]
-            ],
+            "sourcesByField": sources_by_field,
+            "sources": sources_summary(sources_by_field),
         }
     return result
 
@@ -395,6 +516,7 @@ def main() -> int:
             previous,
             EXPECTED_COUNTRIES,
             as_of,
+            seeds=market_seeds_from_sources(sources),
         )
         catalog, changed = build_catalog(
             sources,

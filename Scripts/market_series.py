@@ -25,9 +25,10 @@ MAX_DELTAS = {
     "appreciation": 0.10,
 }
 BOUNDS = {
-    "mortgageRate": (0.0, 0.20, False),
-    "rentGrowth": (-0.05, 0.15, True),
-    "appreciation": (-0.20, 0.20, True),
+    # 手维种子需覆盖高通胀国（如土耳其房贷）与深跌/高涨租金同比。
+    "mortgageRate": (0.0, 0.50, False),
+    "rentGrowth": (-0.25, 0.30, True),
+    "appreciation": (-0.25, 0.30, True),
 }
 
 MORTGAGE_SPREADS = {
@@ -774,19 +775,71 @@ def _previous_observation(previous: dict[str, Any] | None, country: str, field: 
     return None
 
 
+def validate_seed_rate(record: dict[str, Any], field: str) -> None:
+    """源表手维种子：只检查 rate；period/出处在 sourcesByField。"""
+    minimum, maximum, allow_zero = BOUNDS[field]
+    rate = float(record["rate"])
+    if rate < minimum or rate > maximum or (not allow_zero and rate <= 0):
+        raise ValueError(f"{field} seed rate {rate} is outside {minimum}...{maximum}")
+
+
+def observation_with_source(record: dict[str, Any], source: dict[str, Any]) -> dict[str, Any]:
+    name = str(source.get("name", ""))
+    url = str(source.get("url", ""))
+    period = str(source.get("periodLabel") or record.get("periodLabel") or "")
+    if len(name) < 2:
+        raise ValueError("observation source name is missing")
+    if not url.startswith("https://"):
+        raise ValueError(f"observation source URL must use https: {url}")
+    if period_date(period) is None:
+        raise ValueError(f"observation period {period!r} is not a date")
+    return {
+        "rate": float(record["rate"]),
+        "periodLabel": period,
+        "sourceName": name,
+        "sourceUrl": url,
+    }
+
+
 def assemble_market_series(
     fetched: dict[str, dict[str, dict[str, Any]]],
     previous: dict[str, Any] | None,
     countries: set[str],
     as_of: date,
+    seeds: dict[str, dict[str, dict[str, Any]]] | None = None,
 ) -> dict[str, dict[str, dict[str, Any]]]:
+    """合并顺序：live 抓取 → 源表种子 → 上一期发布表。"""
+    seeds = seeds or {}
     assembled: dict[str, dict[str, dict[str, Any]]] = {}
     for country in sorted(countries):
         assembled[country] = {}
         for field, maximum in MAX_DELTAS.items():
             new = fetched.get(country, {}).get(field)
+            seed = seeds.get(country, {}).get(field)
             old = _previous_observation(previous, country, field)
             if new is None:
+                if seed is not None:
+                    # 种子在传入前应已是完整观测（rate + periodLabel + sourceName/Url）。
+                    validate_seed_rate(seed, field)
+                    if period_date(str(seed.get("periodLabel", ""))) is None:
+                        raise ValueError(
+                            f"{country}.{field} seed period {seed.get('periodLabel')!r} is not a date"
+                        )
+                    if not str(seed.get("sourceUrl", "")).startswith("https://"):
+                        raise ValueError(f"{country}.{field} seed source URL must use https")
+                    if len(str(seed.get("sourceName", ""))) < 2:
+                        raise ValueError(f"{country}.{field} seed source name is missing")
+                    assembled[country][field] = {
+                        "rate": float(seed["rate"]),
+                        "periodLabel": str(seed["periodLabel"]),
+                        "sourceName": str(seed["sourceName"]),
+                        "sourceUrl": str(seed["sourceUrl"]),
+                    }
+                    print(
+                        f"warning: {country}.{field} using sources seed",
+                        file=sys.stderr,
+                    )
+                    continue
                 if old is None:
                     print(
                         f"warning: {country}.{field} unavailable; omitting from catalog",
@@ -797,7 +850,8 @@ def assemble_market_series(
                 assembled[country][field] = old
                 continue
             validate_observation(new, field, as_of)
-            old_label = str((old or {}).get("periodLabel", ""))
+            baseline = old if old is not None else seed
+            old_label = str((baseline or {}).get("periodLabel", ""))
             new_label = str(new["periodLabel"])
             single_quarter = re.fullmatch(r"20\d{2}-Q[1-4]", old_label)
             switching_rent_span = (
@@ -805,8 +859,8 @@ def assemble_market_series(
                 and "\u2013" in new_label
                 and "\u2013" not in old_label
             )
-            if old is not None and not (field == "appreciation" and single_quarter) and not switching_rent_span:
-                delta = abs(float(new["rate"]) - float(old["rate"]))
+            if baseline is not None and not (field == "appreciation" and single_quarter) and not switching_rent_span:
+                delta = abs(float(new["rate"]) - float(baseline["rate"]))
                 if delta > maximum:
                     raise ValueError(
                         f"{country}.{field} changed by {delta:.4f}; "

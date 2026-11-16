@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "17 3 1 * *"
   workflow_dispatch:
+    inputs:
+      redeploy_committed_public:
+        description: "Skip live regenerate; deploy the committed public/ catalog as-is"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -33,6 +38,7 @@ jobs:
         run: python -m unittest discover -s Scripts -p 'test_*.py'
 
       - name: Generate monthly catalog
+        if: ${{ github.event_name == 'schedule' || inputs.redeploy_committed_public != true }}
         run: python Scripts/update_property_costs.py --check-urls
 
       - name: Validate public catalog

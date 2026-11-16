@@ -1,0 +1,2480 @@
+{
+  "checkedAt": "2026-11-16T04:16:03Z",
+  "contentDigest": "75a9da2b370db24383f47d1e35abe007b43ba58e1f990c2eeee142237c466aad",
+  "countries": {
+    "australia": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0533,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.AU.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0655,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 440000.0,
+          "monthlyHOA": 350.0
+        },
+        "detached": {
+          "homePrice": 780000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 580000.0,
+          "monthlyHOA": 210.0
+        }
+      },
+      "insuranceRate": 0.004,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "31/08/2026",
+        "rate": 0.062,
+        "sourceName": "澳洲央行新发放自住房贷利率",
+        "sourceUrl": "https://www.rba.gov.au/statistics/tables/csv/f6-data.csv"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 23,
+      "propertyTaxRate": 0.0055,
+      "rentGrowth": {
+        "periodLabel": "2014–2024",
+        "rate": 0.0186,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/AUS.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.0225,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "澳洲央行新发放自住房贷利率",
+          "url": "https://www.rba.gov.au/statistics/tables/csv/f6-data.csv"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.AU.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "OECD 实际房租（10 年复合）",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/AUS.A.N.CPI.IX.CP041.N._Z"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.AU.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "澳洲央行新发放自住房贷利率",
+          "periodLabel": "31/08/2026",
+          "url": "https://www.rba.gov.au/statistics/tables/csv/f6-data.csv"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "OECD 实际房租（10 年复合）",
+          "periodLabel": "2014–2024",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/AUS.A.N.CPI.IX.CP041.N._Z"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "brazil": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0392,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.BR.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.06,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 680000.0,
+          "monthlyHOA": 1080.0
+        },
+        "detached": {
+          "homePrice": 960000.0,
+          "monthlyHOA": 700.0
+        },
+        "townhouse": {
+          "homePrice": 740000.0,
+          "monthlyHOA": 550.0
+        }
+      },
+      "insuranceRate": 0.004,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-09",
+        "rate": 0.1099,
+        "sourceName": "手维：巴西银行体系住房贷款代表利率",
+        "sourceUrl": "https://www.bcb.gov.br/"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 20,
+      "propertyTaxRate": 0.006,
+      "rentGrowth": {
+        "periodLabel": "2024–2025",
+        "rate": 0.045,
+        "sourceName": "手维：巴西租金同比代表增速",
+        "sourceUrl": "https://www.ibge.gov.br/"
+      },
+      "sellingCostRate": 0.05,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "手维：巴西银行体系住房贷款代表利率",
+          "url": "https://www.bcb.gov.br/"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.BR.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "手维：巴西租金同比代表增速",
+          "url": "https://www.ibge.gov.br/"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.BR.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "手维：巴西银行体系住房贷款代表利率",
+          "periodLabel": "2026-09",
+          "url": "https://www.bcb.gov.br/"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "手维：巴西租金同比代表增速",
+          "periodLabel": "2024–2025",
+          "url": "https://www.ibge.gov.br/"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "canada": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0319,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CA.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0285,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 332000.0,
+          "monthlyHOA": 490.0
+        },
+        "detached": {
+          "homePrice": 620000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 410000.0,
+          "monthlyHOA": 260.0
+        }
+      },
+      "insuranceRate": 0.004,
+      "loanYears": 25,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-10-07",
+        "rate": 0.0619,
+        "sourceName": "加拿大央行 5 年期按揭挂牌利率",
+        "sourceUrl": "https://www.bankofcanada.ca/valet/observations/V80691335/json?recent=4"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 18,
+      "propertyTaxRate": 0.0095,
+      "rentGrowth": {
+        "periodLabel": "2014–2024",
+        "rate": 0.0283,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CAN.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.05,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "加拿大央行 5 年期按揭挂牌利率",
+          "url": "https://www.bankofcanada.ca/valet/observations/V80691335/json?recent=4"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CA.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "OECD 实际房租（10 年复合）",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CAN.A.N.CPI.IX.CP041.N._Z"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CA.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "加拿大央行 5 年期按揭挂牌利率",
+          "periodLabel": "2026-10-07",
+          "url": "https://www.bankofcanada.ca/valet/observations/V80691335/json?recent=4"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "OECD 实际房租（10 年复合）",
+          "periodLabel": "2014–2024",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CAN.A.N.CPI.IX.CP041.N._Z"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "chinaMainland": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": -0.0008,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CN.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.076,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 860000.0,
+          "monthlyHOA": 214.0
+        },
+        "detached": {
+          "homePrice": 2400000.0,
+          "monthlyHOA": 840.0
+        },
+        "townhouse": {
+          "homePrice": 1650000.0,
+          "monthlyHOA": 680.0
+        }
+      },
+      "insuranceRate": 0.004,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-10-20",
+        "rate": 0.035,
+        "sourceName": "5 年期以上 LPR",
+        "sourceUrl": "https://www.chinamoney.com.cn/dqs/rest/cm-u-bk-currency/LprHis"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 38,
+      "propertyTaxRate": 0,
+      "rentGrowth": {
+        "periodLabel": "2026-09",
+        "rate": -0.006,
+        "sourceName": "国家统计局租赁房房租（最近一年）",
+        "sourceUrl": "https://www.stats.gov.cn/sj/zxfb/202610/t20261014_1965477.html"
+      },
+      "sellingCostRate": 0.01,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "5 年期以上 LPR",
+          "url": "https://www.chinamoney.com.cn/dqs/rest/cm-u-bk-currency/LprHis"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CN.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "国家统计局租赁房房租（最近一年）",
+          "url": "https://www.stats.gov.cn/sj/zxfb/202610/t20261014_1965477.html"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CN.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "5 年期以上 LPR",
+          "periodLabel": "2026-10-20",
+          "url": "https://www.chinamoney.com.cn/dqs/rest/cm-u-bk-currency/LprHis"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "国家统计局租赁房房租（最近一年）",
+          "periodLabel": "2026-09",
+          "url": "https://www.stats.gov.cn/sj/zxfb/202610/t20261014_1965477.html"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "france": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0228,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.FR.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0591,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 270000.0,
+          "monthlyHOA": 220.0
+        },
+        "detached": {
+          "homePrice": 380000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 290000.0,
+          "monthlyHOA": 120.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 25,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-09",
+        "rate": 0.0319,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.FR.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 23,
+      "propertyTaxRate": 0.007,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.0093,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/FRA.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.035,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "ECB 新发放住房贷款利率",
+          "url": "https://data-api.ecb.europa.eu/service/data/MIR/M.FR.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.FR.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "OECD 实际房租（10 年复合）",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/FRA.A.N.CPI.IX.CP041.N._Z"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.FR.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "ECB 新发放住房贷款利率",
+          "periodLabel": "2026-09",
+          "url": "https://data-api.ecb.europa.eu/service/data/MIR/M.FR.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "OECD 实际房租（10 年复合）",
+          "periodLabel": "2015–2025",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/FRA.A.N.CPI.IX.CP041.N._Z"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "germany": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0369,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.DE.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.095,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 282000.0,
+          "monthlyHOA": 240.0
+        },
+        "detached": {
+          "homePrice": 410000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 320000.0,
+          "monthlyHOA": 160.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-09",
+        "rate": 0.0409,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.DE.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 31,
+      "propertyTaxRate": 0.0045,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.0162,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/DEU.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.0225,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "ECB 新发放住房贷款利率",
+          "url": "https://data-api.ecb.europa.eu/service/data/MIR/M.DE.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.DE.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "OECD 实际房租（10 年复合）",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/DEU.A.N.CPI.IX.CP041.N._Z"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.DE.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "ECB 新发放住房贷款利率",
+          "periodLabel": "2026-09",
+          "url": "https://data-api.ecb.europa.eu/service/data/MIR/M.DE.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "OECD 实际房租（10 年复合）",
+          "periodLabel": "2015–2025",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/DEU.A.N.CPI.IX.CP041.N._Z"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "india": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0441,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.IN.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.071,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 14200000.0,
+          "monthlyHOA": 21000.0
+        },
+        "detached": {
+          "homePrice": 21500000.0,
+          "monthlyHOA": 4500.0
+        },
+        "townhouse": {
+          "homePrice": 16800000.0,
+          "monthlyHOA": 3600.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 20,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-09",
+        "rate": 0.0875,
+        "sourceName": "手维：印度住房贷款代表利率",
+        "sourceUrl": "https://www.rbi.org.in/"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 19,
+      "propertyTaxRate": 0.002,
+      "rentGrowth": {
+        "periodLabel": "2024–2025",
+        "rate": 0.035,
+        "sourceName": "手维：印度房租代表增速",
+        "sourceUrl": "https://www.mospi.gov.in/"
+      },
+      "sellingCostRate": 0.015,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "手维：印度住房贷款代表利率",
+          "url": "https://www.rbi.org.in/"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.IN.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "手维：印度房租代表增速",
+          "url": "https://www.mospi.gov.in/"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.IN.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "手维：印度住房贷款代表利率",
+          "periodLabel": "2026-09",
+          "url": "https://www.rbi.org.in/"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "手维：印度房租代表增速",
+          "periodLabel": "2024–2025",
+          "url": "https://www.mospi.gov.in/"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "indonesia": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0167,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.ID.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0675,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 2150000000.0,
+          "monthlyHOA": 2900000.0
+        },
+        "detached": {
+          "homePrice": 3200000000.0,
+          "monthlyHOA": 900000.0
+        },
+        "townhouse": {
+          "homePrice": 2450000000.0,
+          "monthlyHOA": 720000.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 20,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-09",
+        "rate": 0.075,
+        "sourceName": "手维：印尼住房贷款代表利率",
+        "sourceUrl": "https://www.bi.go.id/"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 12,
+      "propertyTaxRate": 0.001,
+      "rentGrowth": {
+        "periodLabel": "2024–2025",
+        "rate": 0.03,
+        "sourceName": "手维：印尼房租代表增速",
+        "sourceUrl": "https://www.bps.go.id/"
+      },
+      "sellingCostRate": 0.04,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "手维：印尼住房贷款代表利率",
+          "url": "https://www.bi.go.id/"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.ID.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "手维：印尼房租代表增速",
+          "url": "https://www.bps.go.id/"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.ID.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "手维：印尼住房贷款代表利率",
+          "periodLabel": "2026-09",
+          "url": "https://www.bi.go.id/"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "手维：印尼房租代表增速",
+          "periodLabel": "2024–2025",
+          "url": "https://www.bps.go.id/"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "italy": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0188,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.IT.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.11,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 236000.0,
+          "monthlyHOA": 210.0
+        },
+        "detached": {
+          "homePrice": 345000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 260000.0,
+          "monthlyHOA": 110.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 25,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-09",
+        "rate": 0.0361,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.IT.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 15,
+      "propertyTaxRate": 0,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.0119,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ITA.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.03,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "ECB 新发放住房贷款利率",
+          "url": "https://data-api.ecb.europa.eu/service/data/MIR/M.IT.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.IT.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "OECD 实际房租（10 年复合）",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ITA.A.N.CPI.IX.CP041.N._Z"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.IT.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "ECB 新发放住房贷款利率",
+          "periodLabel": "2026-09",
+          "url": "https://data-api.ecb.europa.eu/service/data/MIR/M.IT.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "OECD 实际房租（10 年复合）",
+          "periodLabel": "2015–2025",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ITA.A.N.CPI.IX.CP041.N._Z"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "japan": {
+      "appreciation": {
+        "periodLabel": "2015-Q4–2025-Q4",
+        "rate": 0.0334,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.JP.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0925,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 36800000.0,
+          "monthlyHOA": 29300.0
+        },
+        "detached": {
+          "homePrice": 32500000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 26500000.0,
+          "monthlyHOA": 0.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 35,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-11",
+        "rate": 0.0381,
+        "sourceName": "Flat 35 当月利率",
+        "sourceUrl": "https://www.flat35.com/loan/lineup/flat35/index.html"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 24,
+      "propertyTaxRate": 0.0095,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": -0.0001,
+        "sourceName": "总务省民营房租（10 年复合）",
+        "sourceUrl": "https://www.stat.go.jp/data/cpi/2020/csv/zmi2020aa.csv"
+      },
+      "sellingCostRate": 0.03,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "Flat 35 当月利率",
+          "url": "https://www.flat35.com/loan/lineup/flat35/index.html"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.JP.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "总务省民营房租（10 年复合）",
+          "url": "https://www.stat.go.jp/data/cpi/2020/csv/zmi2020aa.csv"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2015-Q4–2025-Q4",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.JP.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "Flat 35 当月利率",
+          "periodLabel": "2026-11",
+          "url": "https://www.flat35.com/loan/lineup/flat35/index.html"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "总务省民营房租（10 年复合）",
+          "periodLabel": "2015–2025",
+          "url": "https://www.stat.go.jp/data/cpi/2020/csv/zmi2020aa.csv"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "mexico": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0836,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.MX.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0575,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 2720000.0,
+          "monthlyHOA": 4000.0
+        },
+        "detached": {
+          "homePrice": 3850000.0,
+          "monthlyHOA": 1100.0
+        },
+        "townhouse": {
+          "homePrice": 3100000.0,
+          "monthlyHOA": 850.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 20,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-09",
+        "rate": 0.105,
+        "sourceName": "手维：墨西哥住房贷款代表利率",
+        "sourceUrl": "https://www.banxico.org.mx/"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 17,
+      "propertyTaxRate": 0.0018,
+      "rentGrowth": {
+        "periodLabel": "2024–2025",
+        "rate": 0.04,
+        "sourceName": "手维：墨西哥房租代表增速",
+        "sourceUrl": "https://www.inegi.org.mx/"
+      },
+      "sellingCostRate": 0.045,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "手维：墨西哥住房贷款代表利率",
+          "url": "https://www.banxico.org.mx/"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.MX.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "手维：墨西哥房租代表增速",
+          "url": "https://www.inegi.org.mx/"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.MX.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "手维：墨西哥住房贷款代表利率",
+          "periodLabel": "2026-09",
+          "url": "https://www.banxico.org.mx/"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "手维：墨西哥房租代表增速",
+          "periodLabel": "2024–2025",
+          "url": "https://www.inegi.org.mx/"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "netherlands": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.079,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.NL.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0425,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 296000.0,
+          "monthlyHOA": 245.0
+        },
+        "detached": {
+          "homePrice": 455000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 340000.0,
+          "monthlyHOA": 170.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-09",
+        "rate": 0.0387,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.NL.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 15,
+      "propertyTaxRate": 0.002,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.026,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/NLD.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.015,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "ECB 新发放住房贷款利率",
+          "url": "https://data-api.ecb.europa.eu/service/data/MIR/M.NL.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.NL.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "OECD 实际房租（10 年复合）",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/NLD.A.N.CPI.IX.CP041.N._Z"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.NL.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "ECB 新发放住房贷款利率",
+          "periodLabel": "2026-09",
+          "url": "https://data-api.ecb.europa.eu/service/data/MIR/M.NL.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "OECD 实际房租（10 年复合）",
+          "periodLabel": "2015–2025",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/NLD.A.N.CPI.IX.CP041.N._Z"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "russia": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.1033,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.RU.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0175,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 11400000.0,
+          "monthlyHOA": 16800.0
+        },
+        "detached": {
+          "homePrice": 18600000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 14200000.0,
+          "monthlyHOA": 0.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 20,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-09",
+        "rate": 0.18,
+        "sourceName": "手维：俄罗斯住房贷款代表利率",
+        "sourceUrl": "https://www.cbr.ru/"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 18,
+      "propertyTaxRate": 0.002,
+      "rentGrowth": {
+        "periodLabel": "2024–2025",
+        "rate": 0.06,
+        "sourceName": "手维：俄罗斯房租代表增速",
+        "sourceUrl": "https://rosstat.gov.ru/"
+      },
+      "sellingCostRate": 0.035,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "手维：俄罗斯住房贷款代表利率",
+          "url": "https://www.cbr.ru/"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.RU.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "手维：俄罗斯房租代表增速",
+          "url": "https://rosstat.gov.ru/"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.RU.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "手维：俄罗斯住房贷款代表利率",
+          "periodLabel": "2026-09",
+          "url": "https://www.cbr.ru/"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "手维：俄罗斯房租代表增速",
+          "periodLabel": "2024–2025",
+          "url": "https://rosstat.gov.ru/"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "saudiArabia": {
+      "appreciation": {
+        "periodLabel": "2020–2025",
+        "rate": 0.02,
+        "sourceName": "手维：沙特房价代表年化",
+        "sourceUrl": "https://www.stats.gov.sa/"
+      },
+      "buyingCostRate": 0.065,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 425000.0,
+          "monthlyHOA": 1380.0
+        },
+        "detached": {
+          "homePrice": 720000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 540000.0,
+          "monthlyHOA": 260.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 25,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-09",
+        "rate": 0.055,
+        "sourceName": "手维：沙特住房贷款代表利率",
+        "sourceUrl": "https://www.sama.gov.sa/"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 17,
+      "propertyTaxRate": 0,
+      "rentGrowth": {
+        "periodLabel": "2024–2025",
+        "rate": 0.025,
+        "sourceName": "手维：沙特房租代表增速",
+        "sourceUrl": "https://www.stats.gov.sa/"
+      },
+      "sellingCostRate": 0.025,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "手维：沙特住房贷款代表利率",
+          "url": "https://www.sama.gov.sa/"
+        },
+        {
+          "name": "手维：沙特房价代表年化",
+          "url": "https://www.stats.gov.sa/"
+        },
+        {
+          "name": "手维：沙特房租代表增速",
+          "url": "https://www.stats.gov.sa/"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "手维：沙特房价代表年化",
+          "periodLabel": "2020–2025",
+          "url": "https://www.stats.gov.sa/"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "手维：沙特住房贷款代表利率",
+          "periodLabel": "2026-09",
+          "url": "https://www.sama.gov.sa/"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "手维：沙特房租代表增速",
+          "periodLabel": "2024–2025",
+          "url": "https://www.stats.gov.sa/"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "southKorea": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0234,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.KR.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.035,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 520000000.0,
+          "monthlyHOA": 304000.0
+        },
+        "detached": {
+          "homePrice": 680000000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 490000000.0,
+          "monthlyHOA": 0.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-09",
+        "rate": 0.039,
+        "sourceName": "手维：韩国住房贷款代表利率",
+        "sourceUrl": "https://www.bok.or.kr/"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 67,
+      "propertyTaxRate": 0.001,
+      "rentGrowth": {
+        "periodLabel": "2024–2025",
+        "rate": 0.015,
+        "sourceName": "手维：韩国房租代表增速",
+        "sourceUrl": "https://kostat.go.kr/"
+      },
+      "sellingCostRate": 0.005,
+      "sources": [
+        {
+          "name": "韩国市场纪要中的代表有效税率"
+        },
+        {
+          "name": "韩国市场纪要中的买入成本"
+        },
+        {
+          "name": "韩国市场纪要中的卖出成本"
+        },
+        {
+          "name": "Numbeo 2026 price-to-rent (Korea)"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "手维：韩国住房贷款代表利率",
+          "url": "https://www.bok.or.kr/"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.KR.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "手维：韩国房租代表增速",
+          "url": "https://kostat.go.kr/"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.KR.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "韩国市场纪要中的买入成本"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "手维：韩国住房贷款代表利率",
+          "periodLabel": "2026-09",
+          "url": "https://www.bok.or.kr/"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "Numbeo 2026 price-to-rent (Korea)"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "韩国市场纪要中的代表有效税率"
+        },
+        "rentGrowth": {
+          "name": "手维：韩国房租代表增速",
+          "periodLabel": "2024–2025",
+          "url": "https://kostat.go.kr/"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "韩国市场纪要中的卖出成本"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "spain": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0673,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.ES.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.1075,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 214000.0,
+          "monthlyHOA": 200.0
+        },
+        "detached": {
+          "homePrice": 320000.0,
+          "monthlyHOA": 100.0
+        },
+        "townhouse": {
+          "homePrice": 245000.0,
+          "monthlyHOA": 85.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-09",
+        "rate": 0.0299,
+        "sourceName": "ECB 新发放住房贷款利率",
+        "sourceUrl": "https://data-api.ecb.europa.eu/service/data/MIR/M.ES.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 18,
+      "propertyTaxRate": 0.0075,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.0128,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ESP.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.045,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "ECB 新发放住房贷款利率",
+          "url": "https://data-api.ecb.europa.eu/service/data/MIR/M.ES.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.ES.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "OECD 实际房租（10 年复合）",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ESP.A.N.CPI.IX.CP041.N._Z"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.ES.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "ECB 新发放住房贷款利率",
+          "periodLabel": "2026-09",
+          "url": "https://data-api.ecb.europa.eu/service/data/MIR/M.ES.B.A2C.AM.R.A.2250.EUR.N?format=jsondata&lastNObservations=1"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "OECD 实际房租（10 年复合）",
+          "periodLabel": "2015–2025",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/ESP.A.N.CPI.IX.CP041.N._Z"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "switzerland": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0337,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CH.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0345,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 690000.0,
+          "monthlyHOA": 340.0
+        },
+        "detached": {
+          "homePrice": 1280000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 920000.0,
+          "monthlyHOA": 190.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 25,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-08",
+        "rate": 0.03,
+        "sourceName": "瑞士央行公布的新业务房贷利率",
+        "sourceUrl": "https://data.snb.ch/api/cube/zikrepro/data/csv/en?D1=MV"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 35,
+      "propertyTaxRate": 0.0025,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.0127,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CHE.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.025,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "瑞士央行公布的新业务房贷利率",
+          "url": "https://data.snb.ch/api/cube/zikrepro/data/csv/en?D1=MV"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CH.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "OECD 实际房租（10 年复合）",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CHE.A.N.CPI.IX.CP041.N._Z"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.CH.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "瑞士央行公布的新业务房贷利率",
+          "periodLabel": "2026-08",
+          "url": "https://data.snb.ch/api/cube/zikrepro/data/csv/en?D1=MV"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "OECD 实际房租（10 年复合）",
+          "periodLabel": "2015–2025",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/CHE.A.N.CPI.IX.CP041.N._Z"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "turkey": {
+      "appreciation": {
+        "periodLabel": "2020–2025",
+        "rate": 0.08,
+        "sourceName": "手维：土耳其房价代表年化",
+        "sourceUrl": "https://www.tuik.gov.tr/"
+      },
+      "buyingCostRate": 0.0665,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 3100000.0,
+          "monthlyHOA": 4900.0
+        },
+        "detached": {
+          "homePrice": 4600000.0,
+          "monthlyHOA": 2000.0
+        },
+        "townhouse": {
+          "homePrice": 3700000.0,
+          "monthlyHOA": 1400.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 15,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-09",
+        "rate": 0.2,
+        "sourceName": "手维：土耳其住房贷款代表利率（上限）",
+        "sourceUrl": "https://www.tcmb.gov.tr/"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 14,
+      "propertyTaxRate": 0.0012,
+      "rentGrowth": {
+        "periodLabel": "2024–2025",
+        "rate": 0.12,
+        "sourceName": "手维：土耳其房租代表增速",
+        "sourceUrl": "https://www.tuik.gov.tr/"
+      },
+      "sellingCostRate": 0.02,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "手维：土耳其住房贷款代表利率（上限）",
+          "url": "https://www.tcmb.gov.tr/"
+        },
+        {
+          "name": "手维：土耳其房价代表年化",
+          "url": "https://www.tuik.gov.tr/"
+        },
+        {
+          "name": "手维：土耳其房租代表增速",
+          "url": "https://www.tuik.gov.tr/"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "手维：土耳其房价代表年化",
+          "periodLabel": "2020–2025",
+          "url": "https://www.tuik.gov.tr/"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "手维：土耳其住房贷款代表利率（上限）",
+          "periodLabel": "2026-09",
+          "url": "https://www.tcmb.gov.tr/"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "手维：土耳其房租代表增速",
+          "periodLabel": "2024–2025",
+          "url": "https://www.tuik.gov.tr/"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "unitedKingdom": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.034,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.GB.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.028,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 248000.0,
+          "monthlyHOA": 205.0
+        },
+        "detached": {
+          "homePrice": 365000.0,
+          "monthlyHOA": 0.0
+        },
+        "townhouse": {
+          "homePrice": 235000.0,
+          "monthlyHOA": 60.0
+        }
+      },
+      "insuranceRate": 0.003,
+      "loanYears": 25,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "30 Sep 2026",
+        "rate": 0.0513,
+        "sourceName": "英格兰银行房贷报价利率",
+        "sourceUrl": "https://www.bankofengland.co.uk/boeapps/iadb/fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/2020&Dateto=now&SeriesCodes=IUMBV34&CSVF=TN&UsingCodes=Y&VPD=Y&VFD=N"
+      },
+      "pmiRate": 0.0,
+      "priceToRentYears": 15,
+      "propertyTaxRate": 0.0045,
+      "rentGrowth": {
+        "periodLabel": "2015–2025",
+        "rate": 0.0285,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/GBR.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.0275,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "英格兰银行房贷报价利率",
+          "url": "https://www.bankofengland.co.uk/boeapps/iadb/fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/2020&Dateto=now&SeriesCodes=IUMBV34&CSVF=TN&UsingCodes=Y&VPD=Y&VFD=N"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.GB.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "OECD 实际房租（10 年复合）",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/GBR.A.N.CPI.IX.CP041.N._Z"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.GB.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "英格兰银行房贷报价利率",
+          "periodLabel": "30 Sep 2026",
+          "url": "https://www.bankofengland.co.uk/boeapps/iadb/fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/2020&Dateto=now&SeriesCodes=IUMBV34&CSVF=TN&UsingCodes=Y&VPD=Y&VFD=N"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "OECD 实际房租（10 年复合）",
+          "periodLabel": "2015–2025",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/GBR.A.N.CPI.IX.CP041.N._Z"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    },
+    "unitedStates": {
+      "appreciation": {
+        "periodLabel": "2016-Q2–2026-Q2",
+        "rate": 0.0609,
+        "sourceName": "国际清算银行选定住宅房价",
+        "sourceUrl": "https://stats.bis.org/api/v1/data/WS_SPP/Q.US.N.628?startPeriod=2015-Q1&format=csv"
+      },
+      "buyingCostRate": 0.0286,
+      "housingDefaults": {
+        "apartment": {
+          "homePrice": 325000.0,
+          "monthlyHOA": 330.0
+        },
+        "detached": {
+          "homePrice": 435000.0,
+          "monthlyHOA": 220.0
+        },
+        "townhouse": {
+          "homePrice": 310000.0,
+          "monthlyHOA": 180.0
+        }
+      },
+      "insuranceRate": 0.005,
+      "loanYears": 30,
+      "maintenanceRate": 0.01,
+      "mortgageRate": {
+        "periodLabel": "2026-10-29",
+        "rate": 0.0724,
+        "sourceName": "Freddie Mac 30 年固定房贷利率",
+        "sourceUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US"
+      },
+      "pmiRate": 0.005,
+      "priceToRentYears": 16,
+      "propertyTaxRate": 0.015,
+      "rentGrowth": {
+        "periodLabel": "2014–2024",
+        "rate": 0.0428,
+        "sourceName": "OECD 实际房租（10 年复合）",
+        "sourceUrl": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/USA.A.N.CPI.IX.CP041.N._Z"
+      },
+      "sellingCostRate": 0.045,
+      "sources": [
+        {
+          "name": "GPG - Global Property Guide"
+        },
+        {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        {
+          "name": "Freddie Mac 30 年固定房贷利率",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US"
+        },
+        {
+          "name": "国际清算银行选定住宅房价",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.US.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        {
+          "name": "OECD 实际房租（10 年复合）",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/USA.A.N.CPI.IX.CP041.N._Z"
+        }
+      ],
+      "sourcesByField": {
+        "appreciation": {
+          "name": "国际清算银行选定住宅房价",
+          "periodLabel": "2016-Q2–2026-Q2",
+          "url": "https://stats.bis.org/api/v1/data/WS_SPP/Q.US.N.628?startPeriod=2015-Q1&format=csv"
+        },
+        "buyingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "housingDefaults": {
+          "name": "BuyOrRent housing-defaults（各国中位默认）"
+        },
+        "insuranceRate": {
+          "name": "BuyOrRent 自住房屋保险默认"
+        },
+        "loanYears": {
+          "name": "BuyOrRent 自住贷款年限默认"
+        },
+        "maintenanceRate": {
+          "name": "BuyOrRent 自住维修费率默认"
+        },
+        "mortgageRate": {
+          "name": "Freddie Mac 30 年固定房贷利率",
+          "periodLabel": "2026-10-29",
+          "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US"
+        },
+        "pmiRate": {
+          "name": "BuyOrRent 自住贷款保险默认"
+        },
+        "priceToRentYears": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "propertyTaxRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        },
+        "rentGrowth": {
+          "name": "OECD 实际房租（10 年复合）",
+          "periodLabel": "2014–2024",
+          "url": "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/USA.A.N.CPI.IX.CP041.N._Z"
+        },
+        "sellingCostRate": {
+          "asOf": "2026-09-30",
+          "name": "GPG - Global Property Guide"
+        }
+      },
+      "verifiedAt": "2026-09-30"
+    }
+  },
+  "datasetVersion": "2026.11.16.4",
+  "methodology": "Price-to-rent, property tax, and buying and selling costs are the September 2026 Global Property Guide figures for an owner-occupied home across the IMF 2025 top-20 economies by nominal GDP. Property tax is already an effective rate on market value, including taxes originally charged on rent. South Korea price-to-rent uses Numbeo 2026 because GPG does not cover Korea. Housing home prices and monthly service charges are curated local-currency mid-market defaults by dwelling type (apartment / townhouse / detached), imported from Data/housing-defaults spreadsheets. Loan term, PMI, maintenance, and insurance baselines are curated owner-occupied defaults. Every catalog field lists provenance in sourcesByField as {name, asOf?, url?} for point-in-time static figures, or {name, periodLabel?, url?} for market series. url is optional provenance for humans and optional --check-urls; it is not an Action fetch target. Static fields usually omit url; market seeds keep url so uncovered countries can publish seed observations. Mortgage rates, rent growth, and home-price appreciation store only rate here as seeds; their periodLabel lives in sourcesByField. Publish merge order per market field is live fetch (hardcoded endpoints in market_series.py), then this seed, then the previous published catalog. Live observations keep their own source metadata and period; seed provenance and period come from sourcesByField.",
+  "nextReviewAt": "2026-12-17",
+  "publishedAt": "2026-11-16T04:16:03Z",
+  "schemaVersion": 1
+}

@@ -181,7 +181,7 @@ class MarketSeriesTests(unittest.TestCase):
         stale = dict(fresh, periodLabel="2023")
         with self.assertRaises(ValueError):
             self.series.validate_observation(stale, "rentGrowth", as_of)
-        out_of_range = dict(fresh, rate=-0.06)
+        out_of_range = dict(fresh, rate=-0.30)
         with self.assertRaises(ValueError):
             self.series.validate_observation(out_of_range, "rentGrowth", as_of)
 
