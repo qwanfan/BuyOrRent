@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-11-16T16:45:21Z",
-  "contentDigest": "c4d25cee1925e87a23460f2904b2b2d76b07e2a6cfd04856019da299d3f1f9c7",
+  "checkedAt": "2026-11-16T17:01:46Z",
+  "contentDigest": "b6ca897b4b4d1dae94e73a2905729d018388bb68b5cbed03bf8a2604e8d62a6c",
   "countries": {
     "australia": {
       "appreciation": {
@@ -113,7 +113,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -247,7 +246,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -381,7 +379,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -515,7 +512,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -649,7 +645,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -783,7 +778,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -917,7 +911,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -1046,7 +1039,6 @@
           "name": "印尼政府补贴 KPR 政策利率（非补贴商业 KPR 另计）"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -1179,7 +1171,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -1313,7 +1304,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -1447,7 +1437,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -1581,7 +1570,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -1715,7 +1703,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -1849,7 +1836,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -1983,7 +1969,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -2117,7 +2102,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -2251,7 +2235,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -2385,7 +2368,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -2519,7 +2501,6 @@
           "url": "https://www.globalpropertyguide.com/"
         },
         "pmiRate": {
-          "asOf": "2026-11-16",
           "name": ""
         },
         "priceToRentYears": {
@@ -2685,6 +2666,6 @@
   "datasetVersion": "2026.11.17",
   "methodology": "Owner-occupied baselines for the IMF 2025 top-20 economies by nominal GDP, curated in Data/property-cost-sources.json from the 2026-11-16 merged workbook （前二十大经济体_房产参数与市场动态_合并表）. Static transaction and tax figures primarily follow Global Property Guide (GPG) H2 2026 / 2026-09 releases, with PwC/OECD cross-checks for property tax; China price-to-rent uses China Index Academy 50-city rent-to-price (2026-04); South Korea uses Seoul jeonse-implied yield. Housing prices: UK HPI and US NAR/FRED official medians where available; other countries use GPG sqm × typical size estimates when agencies publish indexes only. Indonesia mortgage seed uses subsidized KPR policy rate 6% (2026-09); Indonesia rent growth is a reference estimate, not BPS official YoY. Market seeds store only rate here; provenance lives in sourcesByField as {name, url?, asOf?}. asOf may be a point date (YYYY-MM-DD) or a period label (e.g. 2026-Q3, 2016-Q2–2026-Q2). Unverified parameters leave name empty. Publish merge for market fields remains live fetch → seed → previous catalog. url is optional provenance for humans and --check-urls, not an Action fetch target. 【v2 · 2026-11-17】数值与 2026-11-16 版完全一致（340 个值逐一对齐合并表，0 差异）；仅修订来源元数据：所有 sourcesByField 条目统一为 name + asOf + 可选 url/note/status（periodLabel 原值并入 asOf，写法不折算）；新增每国 currency（ISO 4217，金额字段均为该币种原值）；GPG 房价同比期次改为按国别实测季；loanYears 不再全球统一套用 EMF；status 取 assumption / not_applicable 时表示该值非观测值。audit 记录核查结论与已知缺口。 【v2 · 2026-11-17】数值与 2026-11-16 版完全一致（340 个值逐一对齐合并表，0 差异）；仅修订来源元数据：所有 sourcesByField 条目统一为 name + asOf + 可选 url/note/status（periodLabel 原值并入 asOf，写法不折算）；新增每国 currency（ISO 4217，金额字段均为该币种原值）；GPG 房价同比期次改为按国别实测季；loanYears 不再全球统一套用 EMF；status 取 assumption / not_applicable 时表示该值非观测值。audit 记录核查结论与已知缺口。",
   "nextReviewAt": "2026-12-17",
-  "publishedAt": "2026-11-16T16:45:21Z",
+  "publishedAt": "2026-11-16T17:01:46Z",
   "schemaVersion": 1
 }

@@ -459,10 +459,12 @@ def public_countries(countries: dict[str, Any]) -> dict[str, Any]:
         sources_by_field = {}
         for field, source in record["sourcesByField"].items():
             entry: dict[str, Any] = {"name": source["name"]}
-            if source.get("url"):
-                entry["url"] = source["url"]
-            if source.get("asOf"):
-                entry["asOf"] = source["asOf"]
+            # 空 name = 无可展示出处：不发布 asOf/url，避免 App 误显示标注日期或回退文案。
+            if str(source.get("name") or "").strip():
+                if source.get("url"):
+                    entry["url"] = source["url"]
+                if source.get("asOf"):
+                    entry["asOf"] = source["asOf"]
             sources_by_field[field] = entry
         result[country] = {
             "propertyTaxRate": record["propertyTaxRate"],
