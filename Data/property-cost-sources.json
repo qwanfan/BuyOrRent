@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "methodology": "Owner-occupied baselines for the IMF 2025 top-20 economies by nominal GDP, curated in Data/property-cost-sources.json from the 2026-11-16 merged workbook （前二十大经济体_房产参数与市场动态_合并表）. Static transaction and tax figures primarily follow Global Property Guide (GPG) H2 2026 / 2026-09 releases, with PwC/OECD cross-checks for property tax; China price-to-rent uses China Index Academy 50-city rent-to-price (2026-04); South Korea uses Seoul jeonse-implied yield. Housing prices: UK HPI and US NAR/FRED official medians where available; other countries use GPG sqm × typical size estimates when agencies publish indexes only. Indonesia mortgage seed uses subsidized KPR policy rate 6% (2026-09); Indonesia rent growth is a reference estimate, not BPS official YoY. Market seeds store only rate here; provenance lives in sourcesByField as {name, url?, asOf?}. asOf may be a point date (YYYY-MM-DD) or a period label (e.g. 2026-Q3, 2016-Q2–2026-Q2). Unverified parameters leave name empty. Publish merge for market fields remains live fetch → seed → previous catalog. url is optional provenance for humans and --check-urls, not an Action fetch target. 【v2 · 2026-11-17】数值与 2026-11-16 版完全一致（340 个值逐一对齐合并表，0 差异）；仅修订来源元数据：所有 sourcesByField 条目统一为 name + asOf + 可选 url/note/status（periodLabel 原值并入 asOf，写法不折算）；新增每国 currency（ISO 4217，金额字段均为该币种原值）；GPG 房价同比期次改为按国别实测季；loanYears 不再全球统一套用 EMF；status 取 assumption / not_applicable 时表示该值非观测值。audit 记录核查结论与已知缺口。 【v2 · 2026-11-17】数值与 2026-11-16 版完全一致（340 个值逐一对齐合并表，0 差异）；仅修订来源元数据：所有 sourcesByField 条目统一为 name + asOf + 可选 url/note/status（periodLabel 原值并入 asOf，写法不折算）；新增每国 currency（ISO 4217，金额字段均为该币种原值）；GPG 房价同比期次改为按国别实测季；loanYears 不再全球统一套用 EMF；status 取 assumption / not_applicable 时表示该值非观测值。audit 记录核查结论与已知缺口。",
+  "methodology": "Owner-occupied baselines for the IMF 2025 top-20 economies by nominal GDP, curated in Data/property-cost-sources.json from the 2026-11-16 merged workbook （前二十大经济体_房产参数与市场动态_合并表）. Static transaction and tax figures primarily follow Global Property Guide (GPG) H2 2026 / 2026-09 releases, with PwC/OECD cross-checks for property tax; China price-to-rent uses China Index Academy 50-city rent-to-price (2026-04); South Korea uses Seoul jeonse-implied yield. Housing prices: UK HPI and US NAR/FRED official medians where available; other countries use GPG sqm × typical size estimates when agencies publish indexes only. Indonesia mortgage seed uses subsidized KPR policy rate 6% (2026-09); Indonesia rent growth is a reference estimate, not BPS official YoY. Market seeds store only rate here; provenance lives in sourcesByField as {name, url?, asOf?}. asOf may be a point date (YYYY-MM-DD) or a period label (e.g. 2026-Q3, 2016-Q2–2026-Q2). Unverified parameters leave name empty. Publish merge for market fields remains live fetch → seed → previous catalog. url is optional provenance for humans and --check-urls, not an Action fetch target. 【v2 · 2026-11-17】数值与 2026-11-16 版完全一致（340 个值逐一对齐合并表，0 差异）；仅修订来源元数据：所有 sourcesByField 条目统一为 name + asOf + 可选 url/note/status（periodLabel 原值并入 asOf，写法不折算）；新增每国 currency（ISO 4217，金额字段均为该币种原值）；GPG 房价同比期次改为按国别实测季；loanYears 不再全球统一套用 EMF；status 取 assumption / not_applicable 时表示该值非观测值。audit 记录核查结论与已知缺口。 【v2 · 2026-11-17】数值与 2026-11-16 版完全一致（340 个值逐一对齐合并表，0 差异）；仅修订来源元数据：所有 sourcesByField 条目统一为 name + asOf + 可选 url/note/status（periodLabel 原值并入 asOf，写法不折算）；新增每国 currency（ISO 4217，金额字段均为该币种原值）；GPG 房价同比期次改为按国别实测季；loanYears 不再全球统一套用 EMF；status 取 assumption / not_applicable 时表示该值非观测值。audit 记录核查结论与已知缺口。 【v2 · 2026-11-17】数值与 2026-11-16 版完全一致（340 个值逐一对齐合并表，0 差异）；仅修订来源元数据：所有 sourcesByField 条目统一为 name + asOf + 可选 url/note/status（periodLabel 原值并入 asOf，写法不折算）；新增每国 currency（ISO 4217，金额字段均为该币种原值）；GPG 房价同比期次改为按国别实测季；loanYears 不再全球统一套用 EMF；status 取 assumption / not_applicable 时表示该值非观测值。audit 记录核查结论与已知缺口。",
   "countries": {
     "unitedStates": {
       "propertyTaxRate": 0.015,
@@ -64,7 +64,7 @@
           "name": "美国 Freddie Mac 30 年期固定利率按揭（市场主流产品）",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "模型设定值：国别主流按揭期限默认（非统计发布）；用于月供与总利息测算，非监管或统计口径发布值"
         },
         "pmiRate": {
           "name": "美国 HUD/FHA 按揭保险费（MIP）费率表",
@@ -73,16 +73,16 @@
           "note": "美国 HUD/FHA 按揭保险费（MIP）费率，按贷款余额计"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -167,7 +167,7 @@
           "name": "中国个人住房按揭最长 30 年（模型取上限值）",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "模型设定值：国别主流按揭期限默认（非统计发布）；用于月供与总利息测算，非监管或统计口径发布值"
         },
         "pmiRate": {
           "name": "",
@@ -176,16 +176,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -270,7 +270,7 @@
           "name": "European Mortgage Federation / 国别主流期限默认",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "European Mortgage Federation 口径下的国别主流期限默认值；用于月供与总利息测算，非监管发布值"
         },
         "pmiRate": {
           "name": "",
@@ -279,16 +279,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -373,7 +373,7 @@
           "name": "日本 Flat 35（35 年固定）为市场主流产品",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "模型设定值：国别主流按揭期限默认（非统计发布）；用于月供与总利息测算，非监管或统计口径发布值"
         },
         "pmiRate": {
           "name": "",
@@ -382,16 +382,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -473,10 +473,10 @@
           "asOf": "2026-Q3"
         },
         "loanYears": {
-          "name": "国别主流按揭期限（模型设定值，非统计发布）",
+          "name": "",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "模型设定值：国别主流按揭期限默认（非统计发布）；用于月供与总利息测算，非监管或统计口径发布值"
         },
         "pmiRate": {
           "name": "",
@@ -485,16 +485,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -579,7 +579,7 @@
           "name": "European Mortgage Federation / 国别主流期限默认",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "European Mortgage Federation 口径下的国别主流期限默认值；用于月供与总利息测算，非监管发布值"
         },
         "pmiRate": {
           "name": "",
@@ -588,16 +588,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -682,7 +682,7 @@
           "name": "European Mortgage Federation / 国别主流期限默认",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "European Mortgage Federation 口径下的国别主流期限默认值；用于月供与总利息测算，非监管发布值"
         },
         "pmiRate": {
           "name": "",
@@ -691,16 +691,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -785,7 +785,7 @@
           "name": "European Mortgage Federation / 国别主流期限默认",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "European Mortgage Federation 口径下的国别主流期限默认值；用于月供与总利息测算，非监管发布值"
         },
         "pmiRate": {
           "name": "",
@@ -794,16 +794,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -885,10 +885,10 @@
           "asOf": "2026-Q3"
         },
         "loanYears": {
-          "name": "国别主流按揭期限（模型设定值，非统计发布）",
+          "name": "",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "模型设定值：国别主流按揭期限默认（非统计发布）；用于月供与总利息测算，非监管或统计口径发布值"
         },
         "pmiRate": {
           "name": "",
@@ -897,16 +897,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -988,10 +988,10 @@
           "note": "GPG 每平米均价（237 城，Q3 2026）× 该国典型面积折算；多城市多房型挂牌价汇总，仅作量级参考"
         },
         "loanYears": {
-          "name": "国别主流按揭期限（模型设定值，非统计发布）",
+          "name": "",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "模型设定值：国别主流按揭期限默认（非统计发布）；用于月供与总利息测算，非监管或统计口径发布值"
         },
         "pmiRate": {
           "name": "",
@@ -1000,16 +1000,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -1091,10 +1091,10 @@
           "asOf": "2026-Q3"
         },
         "loanYears": {
-          "name": "国别主流按揭期限（模型设定值，非统计发布）",
+          "name": "",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "模型设定值：国别主流按揭期限默认（非统计发布）；用于月供与总利息测算，非监管或统计口径发布值"
         },
         "pmiRate": {
           "name": "",
@@ -1103,16 +1103,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -1194,10 +1194,10 @@
           "asOf": "2026-Q3"
         },
         "loanYears": {
-          "name": "国别主流按揭期限（模型设定值，非统计发布）",
+          "name": "",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "模型设定值：国别主流按揭期限默认（非统计发布）；用于月供与总利息测算，非监管或统计口径发布值"
         },
         "pmiRate": {
           "name": "",
@@ -1206,16 +1206,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -1298,10 +1298,10 @@
           "asOf": "2026-Q3"
         },
         "loanYears": {
-          "name": "国别主流按揭期限（模型设定值，非统计发布）",
+          "name": "",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "模型设定值：国别主流按揭期限默认（非统计发布）；用于月供与总利息测算，非监管或统计口径发布值"
         },
         "pmiRate": {
           "name": "",
@@ -1310,16 +1310,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -1404,7 +1404,7 @@
           "name": "European Mortgage Federation / 国别主流期限默认",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "European Mortgage Federation 口径下的国别主流期限默认值；用于月供与总利息测算，非监管发布值"
         },
         "pmiRate": {
           "name": "",
@@ -1413,16 +1413,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -1504,10 +1504,10 @@
           "asOf": "2026-Q3"
         },
         "loanYears": {
-          "name": "国别主流按揭期限（模型设定值，非统计发布）",
+          "name": "",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "模型设定值：国别主流按揭期限默认（非统计发布）；用于月供与总利息测算，非监管或统计口径发布值"
         },
         "pmiRate": {
           "name": "",
@@ -1516,16 +1516,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -1610,7 +1610,7 @@
           "name": "European Mortgage Federation / 国别主流期限默认",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "European Mortgage Federation 口径下的国别主流期限默认值；用于月供与总利息测算，非监管发布值"
         },
         "pmiRate": {
           "name": "",
@@ -1619,16 +1619,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -1710,10 +1710,10 @@
           "asOf": "2026-Q3"
         },
         "loanYears": {
-          "name": "国别主流按揭期限（模型设定值，非统计发布）",
+          "name": "",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "模型设定值：国别主流按揭期限默认（非统计发布）；用于月供与总利息测算，非监管或统计口径发布值"
         },
         "pmiRate": {
           "name": "",
@@ -1722,16 +1722,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -1813,10 +1813,10 @@
           "asOf": "2026-Q3"
         },
         "loanYears": {
-          "name": "国别主流按揭期限（模型设定值，非统计发布）",
+          "name": "",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "模型设定值：国别主流按揭期限默认（非统计发布）；用于月供与总利息测算，非监管或统计口径发布值"
         },
         "pmiRate": {
           "name": "",
@@ -1825,16 +1825,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
@@ -1910,10 +1910,10 @@
           "asOf": "2026-Q3"
         },
         "loanYears": {
-          "name": "国别主流按揭期限（模型设定值，非统计发布）",
+          "name": "",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "模型设定值：国别主流按揭期限默认（非统计发布）；用于月供与总利息测算，非监管或统计口径发布值"
         },
         "pmiRate": {
           "name": "",
@@ -1922,16 +1922,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "印尼政府补贴 KPR 政策利率（非补贴商业 KPR 另计）",
@@ -2020,7 +2020,7 @@
           "name": "European Mortgage Federation / 国别主流期限默认",
           "asOf": "2026-05-31",
           "status": "assumption",
-          "note": "模型默认期限，用于月供与总利息测算，非监管或统计口径发布值"
+          "note": "European Mortgage Federation 口径下的国别主流期限默认值；用于月供与总利息测算，非监管发布值"
         },
         "pmiRate": {
           "name": "",
@@ -2029,16 +2029,16 @@
           "note": "不适用：该国模型未计入按揭保险费（PMI 口径）"
         },
         "maintenanceRate": {
-          "name": "模型经验假设：房价的 1%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "按房价比例设定的年度维护预算，未取自任何统计发布"
+          "note": "模型经验假设：房价的 1%/年（非统计数据）；按房价比例设定的年度维护预算，未取自任何统计发布"
         },
         "insuranceRate": {
-          "name": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）",
+          "name": "",
           "status": "assumption",
           "asOf": "2026-11-16",
-          "note": "房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
+          "note": "模型经验假设：房价的 0.3–0.5%/年（非统计数据）；房屋财产险年费率假设，未取自任何统计发布；美国取 0.5%，其余 0.3–0.4%"
         },
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
