@@ -184,7 +184,8 @@ def validate_observation(record: dict[str, Any], field: str, as_of: date) -> Non
         raise ValueError(f"{field} period {record['periodLabel']} is in the future")
     if observed < _subtract_months(as_of, 24):
         raise ValueError(f"{field} period {record['periodLabel']} is older than 24 months")
-    if not str(record.get("sourceUrl", "")).startswith("https://"):
+    source_url = str(record.get("sourceUrl") or "")
+    if source_url and not source_url.startswith("https://"):
         raise ValueError(f"{field} source URL must use https")
     if len(str(record.get("sourceName", ""))) < 2:
         raise ValueError(f"{field} source name is missing")
@@ -785,21 +786,23 @@ def validate_seed_rate(record: dict[str, Any], field: str) -> None:
 
 def observation_with_source(record: dict[str, Any], source: dict[str, Any]) -> dict[str, Any]:
     name = str(source.get("name", ""))
-    url = str(source.get("url", ""))
+    url = str(source.get("url") or "")
     # 源表统一用 asOf（时点或区间）；发布观测仍写入 periodLabel 字段。
     period = str(source.get("asOf") or source.get("periodLabel") or record.get("periodLabel") or "")
     if len(name) < 2:
         raise ValueError("observation source name is missing")
-    if not url.startswith("https://"):
+    if url and not url.startswith("https://"):
         raise ValueError(f"observation source URL must use https: {url}")
     if period_date(period) is None:
         raise ValueError(f"observation period {period!r} is not a date")
-    return {
+    observation = {
         "rate": float(record["rate"]),
         "periodLabel": period,
         "sourceName": name,
-        "sourceUrl": url,
     }
+    if url.startswith("https://"):
+        observation["sourceUrl"] = url
+    return observation
 
 
 def assemble_market_series(
@@ -826,16 +829,19 @@ def assemble_market_series(
                         raise ValueError(
                             f"{country}.{field} seed period {seed.get('periodLabel')!r} is not a date"
                         )
-                    if not str(seed.get("sourceUrl", "")).startswith("https://"):
-                        raise ValueError(f"{country}.{field} seed source URL must use https")
                     if len(str(seed.get("sourceName", ""))) < 2:
                         raise ValueError(f"{country}.{field} seed source name is missing")
-                    assembled[country][field] = {
+                    seed_url = str(seed.get("sourceUrl") or "")
+                    if seed_url and not seed_url.startswith("https://"):
+                        raise ValueError(f"{country}.{field} seed source URL must use https")
+                    assembled_observation = {
                         "rate": float(seed["rate"]),
                         "periodLabel": str(seed["periodLabel"]),
                         "sourceName": str(seed["sourceName"]),
-                        "sourceUrl": str(seed["sourceUrl"]),
                     }
+                    if seed_url.startswith("https://"):
+                        assembled_observation["sourceUrl"] = seed_url
+                    assembled[country][field] = assembled_observation
                     print(
                         f"warning: {country}.{field} using sources seed",
                         file=sys.stderr,

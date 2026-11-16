@@ -241,7 +241,7 @@
     "seriesObservation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["rate", "periodLabel", "sourceName", "sourceUrl"],
+      "required": ["rate", "periodLabel", "sourceName"],
       "properties": {
         "rate": {
           "type": "number"

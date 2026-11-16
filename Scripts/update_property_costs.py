@@ -250,10 +250,7 @@ def validate_sources(document: dict[str, Any]) -> None:
                     raise ValueError(
                         f"{country}.sourcesByField.{field} must include asOf for market series"
                     )
-                if url is None:
-                    raise ValueError(
-                        f"{country}.sourcesByField.{field} must include url for market seed provenance"
-                    )
+                # url 可选：有 name+asOf 即可作为手维种子；无 url 时不参与 --check-urls。
 
         for field in MARKET_FIELDS:
             observation = record.get(field)
@@ -413,11 +410,14 @@ def build_catalog(
         # 发布表里的 sourcesByField 与最终市场观测出处保持一致。
         by_field = countries[country]["sourcesByField"]
         for field, observation in blocks.items():
-            by_field[field] = {
+            entry = {
                 "name": observation["sourceName"],
-                "url": observation["sourceUrl"],
                 "asOf": observation["periodLabel"],
             }
+            url = observation.get("sourceUrl")
+            if isinstance(url, str) and url.startswith("https://"):
+                entry["url"] = url
+            by_field[field] = entry
         countries[country]["sources"] = sources_summary(by_field)
     material = {
         "methodology": sources["methodology"],

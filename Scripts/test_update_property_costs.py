@@ -182,26 +182,21 @@ class UpdatePropertyCostsTests(unittest.TestCase):
             self.assertIn(field, canada)
             self.assertIn("sourceName", canada[field])
 
-    def test_rejects_market_source_without_url(self) -> None:
+    def test_allows_market_source_without_url(self) -> None:
         source_data = json.loads(SOURCES.read_text(encoding="utf-8"))
-        del source_data["countries"]["india"]["sourcesByField"]["mortgageRate"]["url"]
-        with self.assertRaisesRegex(ValueError, "must include url for market seed"):
-            self.generator.validate_sources(source_data)
+        source_data["countries"]["india"]["sourcesByField"]["mortgageRate"].pop("url", None)
+        self.generator.validate_sources(source_data)
+        seeds = self.generator.market_seeds_from_sources(source_data)
+        self.assertNotIn("sourceUrl", seeds["india"]["mortgageRate"])
 
     def test_allows_empty_provenance_and_missing_market_seed(self) -> None:
         source_data = json.loads(SOURCES.read_text(encoding="utf-8"))
-        # 维护费率无法核验：出处为空仍可通过校验。
-        self.assertEqual(
-            source_data["countries"]["indonesia"]["sourcesByField"]["maintenanceRate"]["name"],
-            "",
-        )
         # 构造「有出处名但缺种子」应失败；缺种子且出处为空应通过。
         source_data["countries"]["indonesia"].pop("mortgageRate", None)
         source_data["countries"]["indonesia"]["sourcesByField"]["mortgageRate"] = {"name": ""}
         self.generator.validate_sources(source_data)
         source_data["countries"]["indonesia"]["sourcesByField"]["mortgageRate"] = {
             "name": "Named",
-            "url": "https://example.com/",
             "asOf": "2026-09",
         }
         with self.assertRaisesRegex(ValueError, "seed is required when provenance is set"):
