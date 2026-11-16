@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "methodology": "Owner-occupied baselines for the IMF 2025 top-20 economies by nominal GDP, curated in Data/property-cost-sources.json from the 2026-11-16 merged workbook （前二十大经济体_房产参数与市场动态_合并表）. Static transaction and tax figures primarily follow Global Property Guide (GPG) H2 2026 / 2026-09 releases, with PwC/OECD cross-checks for property tax; China price-to-rent uses China Index Academy 50-city rent-to-price (2026-04); South Korea uses Seoul jeonse-implied yield. Housing prices: UK HPI and US NAR/FRED official medians where available; other countries use GPG sqm × typical size estimates when agencies publish indexes only. Indonesia mortgage seed uses subsidized KPR policy rate 6% (2026-09); Indonesia rent growth is a reference estimate, not BPS official YoY. Market seeds store only rate here; periodLabel and provenance live in sourcesByField. Unverified parameters leave name empty. Publish merge for market fields remains live fetch → seed → previous catalog. url is optional provenance for humans and --check-urls, not an Action fetch target.",
+  "methodology": "Owner-occupied baselines for the IMF 2025 top-20 economies by nominal GDP, curated in Data/property-cost-sources.json from the 2026-11-16 merged workbook （前二十大经济体_房产参数与市场动态_合并表）. Static transaction and tax figures primarily follow Global Property Guide (GPG) H2 2026 / 2026-09 releases, with PwC/OECD cross-checks for property tax; China price-to-rent uses China Index Academy 50-city rent-to-price (2026-04); South Korea uses Seoul jeonse-implied yield. Housing prices: UK HPI and US NAR/FRED official medians where available; other countries use GPG sqm × typical size estimates when agencies publish indexes only. Indonesia mortgage seed uses subsidized KPR policy rate 6% (2026-09); Indonesia rent growth is a reference estimate, not BPS official YoY. Market seeds store only rate here; provenance lives in sourcesByField as {name, url?, asOf?}. asOf may be a point date (YYYY-MM-DD) or a period label (e.g. 2026-Q3, 2016-Q2–2026-Q2). Unverified parameters leave name empty. Publish merge for market fields remains live fetch → seed → previous catalog. url is optional provenance for humans and --check-urls, not an Action fetch target.",
   "countries": {
     "unitedStates": {
       "propertyTaxRate": 0.015,
@@ -72,17 +72,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "NAR 现有住宅中位价同比",
           "url": "https://www.nar.realtor/research-and-statistics",
-          "periodLabel": "2026-09"
+          "asOf": "2026-09"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -155,17 +155,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "国家统计局 CPI 租赁房房租",
           "url": "https://www.stats.gov.cn/",
-          "periodLabel": "2026-10"
+          "asOf": "2026-10"
         }
       }
     },
@@ -238,17 +238,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -321,17 +321,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -404,17 +404,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "MOSPI CPI 租金分项",
           "url": "https://www.mospi.gov.in/",
-          "periodLabel": "2026-09"
+          "asOf": "2026-09"
         }
       }
     },
@@ -488,17 +488,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "UK HPI 同比",
           "url": "https://www.gov.uk/government/collections/uk-house-price-index-reports",
-          "periodLabel": "2026-06"
+          "asOf": "2026-06"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -571,17 +571,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -654,17 +654,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -737,17 +737,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -821,17 +821,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -904,17 +904,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -987,17 +987,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -1070,17 +1070,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "统计厅租金 CPI",
           "url": "https://kostat.go.kr/",
-          "periodLabel": "2026-10"
+          "asOf": "2026-10"
         }
       }
     },
@@ -1153,17 +1153,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -1236,17 +1236,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -1319,17 +1319,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -1402,17 +1402,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -1485,17 +1485,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "CBRT 住宅价格指数 / GPG",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     },
@@ -1562,17 +1562,17 @@
         "mortgageRate": {
           "name": "印尼政府补贴 KPR 政策利率（非补贴商业 KPR 另计）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-09"
+          "asOf": "2026-09"
         },
         "appreciation": {
           "name": "BI RPPI / GPG",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "参考值：雅加达公寓挂牌租金年化推算（非 BPS 官方分项同比）",
           "url": "https://www.bps.go.id/",
-          "periodLabel": "2026-06"
+          "asOf": "2026-06"
         }
       },
       "mortgageRate": {
@@ -1651,17 +1651,17 @@
         "mortgageRate": {
           "name": "GPG - Global Property Guide 各国住宅按揭利率表",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q2"
+          "asOf": "2026-Q2"
         },
         "appreciation": {
           "name": "GPG - Global Property Guide 全球房价指数（名义同比）",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-Q3"
+          "asOf": "2026-Q3"
         },
         "rentGrowth": {
           "name": "GPG - Global Property Guide 城市挂牌中位租金 1 年变化",
           "url": "https://www.globalpropertyguide.com/",
-          "periodLabel": "2026-11"
+          "asOf": "2026-11"
         }
       }
     }

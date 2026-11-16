@@ -226,30 +226,29 @@ def validate_sources(document: dict[str, Any]) -> None:
             name = source.get("name")
             if not isinstance(name, str):
                 raise ValueError(f"{country}.sourcesByField.{field}.name must be a string")
-            # 空 name 表示无法确认出处（允许无 url / asOf / periodLabel）。
+            # 空 name 表示无法确认出处（允许无 url / asOf）。
+            if "periodLabel" in source:
+                raise ValueError(
+                    f"{country}.sourcesByField.{field} must use asOf (not periodLabel)"
+                )
             url = source.get("url")
             if url is not None:
                 if not isinstance(url, str) or not url.startswith("https://"):
                     raise ValueError(f"{country}.sourcesByField.{field} must use HTTPS: {url}")
             as_of = source.get("asOf")
             if as_of is not None:
-                if not isinstance(as_of, str):
-                    raise ValueError(f"{country}.sourcesByField.{field}.asOf must be a string")
-                date.fromisoformat(as_of)
-            period_label = source.get("periodLabel")
-            if period_label is not None:
-                if not isinstance(period_label, str) or not period_label:
+                if not isinstance(as_of, str) or not as_of:
                     raise ValueError(
-                        f"{country}.sourcesByField.{field}.periodLabel must be a non-empty string"
+                        f"{country}.sourcesByField.{field}.asOf must be a non-empty string"
                     )
-                if market_series.period_date(period_label) is None:
+                if market_series.period_date(as_of) is None:
                     raise ValueError(
-                        f"{country}.sourcesByField.{field}.periodLabel is not a date: {period_label}"
+                        f"{country}.sourcesByField.{field}.asOf is not a date/period: {as_of}"
                     )
             if field in MARKET_FIELDS and name:
-                if not period_label:
+                if not as_of:
                     raise ValueError(
-                        f"{country}.sourcesByField.{field} must include periodLabel for market series"
+                        f"{country}.sourcesByField.{field} must include asOf for market series"
                     )
                 if url is None:
                     raise ValueError(
@@ -283,7 +282,7 @@ def source_urls(document: dict[str, Any]) -> list[str]:
 
 
 def market_seeds_from_sources(document: dict[str, Any]) -> dict[str, dict[str, dict[str, Any]]]:
-    """把 rate 种子与 sourcesByField 的 name/url/periodLabel 合并成完整观测。"""
+    """把 rate 种子与 sourcesByField 的 name/url/asOf 合并成完整观测。"""
     seeds: dict[str, dict[str, dict[str, Any]]] = {}
     for country, record in document["countries"].items():
         by_field = record["sourcesByField"]
@@ -417,7 +416,7 @@ def build_catalog(
             by_field[field] = {
                 "name": observation["sourceName"],
                 "url": observation["sourceUrl"],
-                "periodLabel": observation["periodLabel"],
+                "asOf": observation["periodLabel"],
             }
         countries[country]["sources"] = sources_summary(by_field)
     material = {
@@ -464,8 +463,6 @@ def public_countries(countries: dict[str, Any]) -> dict[str, Any]:
                 entry["url"] = source["url"]
             if source.get("asOf"):
                 entry["asOf"] = source["asOf"]
-            if source.get("periodLabel"):
-                entry["periodLabel"] = source["periodLabel"]
             sources_by_field[field] = entry
         result[country] = {
             "propertyTaxRate": record["propertyTaxRate"],

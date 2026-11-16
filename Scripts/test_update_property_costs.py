@@ -176,6 +176,8 @@ class UpdatePropertyCostsTests(unittest.TestCase):
         self.assertNotIn("url", canada["sourcesByField"]["propertyTaxRate"])
         self.assertEqual(canada["sourcesByField"]["mortgageRate"]["name"], "Mortgage")
         self.assertIn("url", canada["sourcesByField"]["mortgageRate"])
+        self.assertEqual(canada["sourcesByField"]["mortgageRate"]["asOf"], "2026-06")
+        self.assertNotIn("periodLabel", canada["sourcesByField"]["mortgageRate"])
         for field in ("mortgageRate", "rentGrowth", "appreciation"):
             self.assertIn(field, canada)
             self.assertIn("sourceName", canada[field])
@@ -200,7 +202,7 @@ class UpdatePropertyCostsTests(unittest.TestCase):
         source_data["countries"]["indonesia"]["sourcesByField"]["mortgageRate"] = {
             "name": "Named",
             "url": "https://example.com/",
-            "periodLabel": "2026-09",
+            "asOf": "2026-09",
         }
         with self.assertRaisesRegex(ValueError, "seed is required when provenance is set"):
             self.generator.validate_sources(source_data)

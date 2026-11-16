@@ -786,7 +786,8 @@ def validate_seed_rate(record: dict[str, Any], field: str) -> None:
 def observation_with_source(record: dict[str, Any], source: dict[str, Any]) -> dict[str, Any]:
     name = str(source.get("name", ""))
     url = str(source.get("url", ""))
-    period = str(source.get("periodLabel") or record.get("periodLabel") or "")
+    # 源表统一用 asOf（时点或区间）；发布观测仍写入 periodLabel 字段。
+    period = str(source.get("asOf") or source.get("periodLabel") or record.get("periodLabel") or "")
     if len(name) < 2:
         raise ValueError("observation source name is missing")
     if not url.startswith("https://"):
